@@ -36,4 +36,22 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function roles()
+    {
+        return $this->belongsToMany('App\Role', 'role_user');
+    }
+
+    public function hasRole($name)
+    {
+        // Roles loaded once in PHP process lifecycle
+        return $this->roles->first(function($role) use ($name) {
+            return $role->name === $name;
+        }) !== null;
+    }
+
+    public function isAdmin()
+    {
+        return $this->hasRole(Role::ADMIN);
+    }
 }
