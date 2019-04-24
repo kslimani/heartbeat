@@ -15,30 +15,10 @@ class AdminOnly
      */
     public function handle($request, Closure $next)
     {
-        if (self::isAdminOrFail()) {
-            return $next($request);
+        if (! $request->user() || ! $request->user()->isAdmin()) {
+            abort(403);
         }
 
-        abort(403);
-    }
-
-    /**
-     * Ensure current user has admin role, otherwise logout user.
-     *
-     * @return bool
-     */
-    public static function isAdminOrFail()
-    {
-        if (! $user = auth()->user()) {
-            return false;
-        }
-
-        if ($user->isAdmin()) {
-            return true;
-        }
-
-        auth()->guard()->logout();
-
-        return false;
+        return $next($request);
     }
 }
