@@ -28,7 +28,7 @@
                 <a class="navbar-brand" href="{{ Auth::check() ? route('home') : url('/') }}">
                     {{ config('app.name', 'Laravel') }}
                 </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('app.toggle_nav') }}">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('app.nav_toggle') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>
 
@@ -56,6 +56,7 @@
                                         @if (Route::has('register'))
                                         <a class="dropdown-item" href="{{ route('register') }}">{{ __('app.register') }}</a>
                                         @endif
+                                        <a class="dropdown-item" href="{{ route('users.index') }}">{{ __('app.users') }}</a>
                                     @endif
 
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('app.logout') }}</a>

@@ -15,8 +15,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes(['verify' => true]);
+Auth::routes(['verify' => true, 'register' => false]);
 
-Route::group(['middleware' => ['verified']], function () {
+// Authenticated user (with verified email) routes
+Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/home', 'HomeController@index')->name('home');
+});
+
+// Admin user only routes
+Route::group(['middleware' => ['auth', 'verified', 'admin']], function () {
+    Route::resource('users', 'UserController', ['except' => ['show']]);
 });
