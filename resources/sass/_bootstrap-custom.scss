@@ -1,7 +1,7 @@
 
 // Custom theme colors
 $theme-colors: (
-  "primary": #343a40,
+  "primary": $indigo,
 );
 
 // Material Design icon Bootstrap v4 Tweaks
@@ -10,7 +10,7 @@ $theme-colors: (
   margin: 0 3px 0 -3px;
 }
 
-.btn.mdi:not(:empty)::before{
+.btn.mdi::before {
   margin: 0 3px 0 -3px;
   line-height: 1;
 }
