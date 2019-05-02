@@ -59,8 +59,12 @@
 
         <div class="form-group row mb-0">
             <div class="col-md-6 offset-md-4">
-                <a href="{{ route('users.index') }}" class="btn btn-secondary mdi mdi-arrow-left-bold"> {{ __('app.back') }}</a>
-                <button type="submit" class="btn btn-primary mdi mdi-check-bold"> {{ __('app.save') }}</button>
+                <a href="{{ route('users.index') }}" class="btn btn-secondary">
+                    <span class="mdi mdi-arrow-left-bold" aria-hidden="true"> {{ __('app.back') }}
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <span class="mdi mdi-check-bold" aria-hidden="true"> {{ __('app.save') }}
+                </button>
             </div>
         </div>
     </form>

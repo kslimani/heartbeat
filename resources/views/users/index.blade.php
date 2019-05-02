@@ -40,7 +40,9 @@
     </div>
 
     <div class="form-group">
-        <a class="btn btn-primary mdi mdi-account-plus" href="{{ route('users.create') }}" role="button">{{ __('app.create') }}</a>
+        <a class="btn btn-primary" href="{{ route('users.create') }}" role="button">
+            <span class="mdi mdi-account-plus" aria-hidden="true"></span> {{ __('app.create') }}
+        </a>
     </div>
 
     {{ $users->links() }}
