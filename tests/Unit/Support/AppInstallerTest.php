@@ -41,6 +41,14 @@ class AppInstallerTest extends TestCase
         $this->assertTrue($admin->isAdmin());
         $this->assertFalse($admin->hasRole('unknown'));
         $this->assertNotNull($admin->email_verified_at);
+
+        $installer->install($email, 'secret123');
+
+        $this->assertTrue(
+            $admin->roles()
+                ->where('name', Role::ADMIN)
+                ->count() === 1
+        );
     }
 
     public function testItThrowExceptionIfBadUserPassword()
