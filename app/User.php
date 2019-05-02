@@ -55,4 +55,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasRole(Role::ADMIN);
     }
+
+    public function authorizedKeys()
+    {
+        return $this->hasMany('App\AuthorizedKey');
+    }
 }
