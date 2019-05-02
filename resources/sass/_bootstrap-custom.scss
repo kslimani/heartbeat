@@ -1,5 +1,22 @@
 
-// Custom theme colors
+/* Custom theme colors */
 $theme-colors: (
   "primary": $indigo,
 );
+
+/* Material Design icon right space */
+span.mdi::before {
+  padding-right: 0.5rem;
+  line-height: 1;
+}
+
+/* Material Design table icon button */
+.td-btn {
+  width: 1%;
+  padding: 0px !important;
+  vertical-align: middle !important;
+
+  span.mdi::before {
+    padding-right: 0;
+  }
+}
