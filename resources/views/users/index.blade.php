@@ -12,6 +12,7 @@
                     <th scope="col">{{ __('app.email') }}</th>
                     <th scope="col"></th>
                     <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -22,6 +23,11 @@
                     <td class="td-btn">
                         <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="btn btn-link">
                             <span class="mdi mdi-18px mdi-square-edit-outline" aria-hidden="true"></span>
+                        </a>
+                    </td>
+                    <td class="td-btn">
+                        <a href="{{ route('user-roles.index', ['user' => $user->id]) }}" class="btn btn-link">
+                            <span class="mdi mdi-18px mdi-account-multiple" aria-hidden="true"></span>
                         </a>
                     </td>
                     <td class="td-btn">
@@ -41,7 +47,7 @@
 
     <div class="form-group">
         <a class="btn btn-primary" href="{{ route('users.create') }}" role="button">
-            <span class="mdi mdi-account-plus" aria-hidden="true"></span> {{ __('app.create') }}
+            <span class="mdi mdi-account-plus" aria-hidden="true"></span>{{ __('app.create') }}
         </a>
     </div>
 

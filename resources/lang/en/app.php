@@ -21,6 +21,7 @@ return [
 
     'back' => 'Back',
     'close' => 'Close',
+    'add' => 'Add',
     'create' => 'Create',
     'edit' => 'Edit',
     'save' => 'Save',
@@ -32,6 +33,8 @@ return [
     'users_created' => 'User :name successfully created',
     'users_updated' => 'User :name successfully updated',
     'users_deleted' => 'User :name successfully deleted',
+
+    'roles' => 'Roles',
 
     'name' => 'Name',
     'email' => 'Email',
