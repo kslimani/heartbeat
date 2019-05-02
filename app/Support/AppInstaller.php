@@ -71,7 +71,7 @@ class AppInstaller
 
         $this->createUser($name, $email, $password, $verified)
             ->roles()
-            ->attach($adminRole->id);
+            ->syncWithoutDetaching([$adminRole->id]);
 
         return $this;
     }
