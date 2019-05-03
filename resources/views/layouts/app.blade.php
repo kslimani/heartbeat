@@ -54,12 +54,18 @@
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                                     @if (Auth::user()->isAdmin())
                                         @if (Route::has('register'))
-                                        <a class="dropdown-item" href="{{ route('register') }}">{{ __('app.register') }}</a>
+                                        <a class="dropdown-item" href="{{ route('register') }}">
+                                            <span class="mdi mdi-account-plus" aria-hidden="true"></span>{{ __('app.register') }}
+                                        </a>
                                         @endif
-                                        <a class="dropdown-item" href="{{ route('users.index') }}">{{ __('app.users') }}</a>
+                                        <a class="dropdown-item" href="{{ route('users.index') }}">
+                                            <span class="mdi mdi-account-group" aria-hidden="true"></span>{{ __('app.users') }}
+                                        </a>
                                     @endif
 
-                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('app.logout') }}</a>
+                                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                        <span class="mdi mdi-logout" aria-hidden="true"></span>{{ __('app.logout') }}
+                                    </a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
