@@ -13,6 +13,7 @@
                     <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -23,6 +24,11 @@
                     <td class="td-btn">
                         <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="btn btn-link">
                             <span class="mdi mdi-18px mdi-square-edit-outline" aria-hidden="true"></span>
+                        </a>
+                    </td>
+                    <td class="td-btn">
+                        <a href="{{ route('user-keys.index', ['user' => $user->id]) }}" class="btn btn-link">
+                            <span class="mdi mdi-18px mdi-account-key" aria-hidden="true"></span>
                         </a>
                     </td>
                     <td class="td-btn">

@@ -26,6 +26,7 @@ return [
     'edit' => 'Edit',
     'save' => 'Save',
     'delete' => 'Delete',
+    'generate' => 'Generate',
 
     'users' => 'Users',
     'users_create' => 'Create user',
@@ -36,9 +37,12 @@ return [
 
     'roles' => 'Roles',
 
+    'authorized_keys' => 'Authorized keys',
+
     'name' => 'Name',
     'email' => 'Email',
     'password' => 'Password',
     'password_confirm' => 'Confirm password',
+    'key' => 'Key',
 
 ];
