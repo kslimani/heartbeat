@@ -14,9 +14,14 @@ class KeyGeneratorTest extends TestCase
 
     public function testItGenerate()
     {
-        $key = KeyGenerator::generate();
+        $keys = [];
 
-        $this->assertTrue(mb_strlen($key) === 39);
+        for ($i = 0; $i < 10; $i++) {
+            $keys[$i] = KeyGenerator::generate();
+            $this->assertTrue(mb_strlen($keys[$i]) === 39);
+        }
+
+        $this->assertSame($keys, array_unique($keys));
     }
 
     public function testItMake()
@@ -31,6 +36,7 @@ class KeyGeneratorTest extends TestCase
 
         $this->assertInstanceOf(AuthorizedKey::class, $authorizedKey);
         $this->assertDatabaseHas('authorized_keys', [
+            'id' => $authorizedKey->id,
             'user_id' => $user->id,
         ]);
     }
