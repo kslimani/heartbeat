@@ -130,7 +130,7 @@ return [
     |
     */
 
-    'pagination_limit' => env('PAGINATE_LIMIT', 20),
+    'pagination_limit' => env('PAGINATE_LIMIT', 10),
 
     /*
     |--------------------------------------------------------------------------
