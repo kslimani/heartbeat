@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\AuthorizedKey;
 use App\Support\Status\StatusException;
@@ -40,12 +41,14 @@ class StatusController extends Controller
         ]);
 
         try {
-            $handler = new StatusHandler($user);
-            $handler->handleByNames(
-                $inputs['device'],
-                $inputs['service'],
-                $inputs['status']
-            );
+            DB::transaction(function () use ($user, $inputs) {
+                $handler = new StatusHandler($user);
+                $handler->handleByNames(
+                    $inputs['device'],
+                    $inputs['service'],
+                    $inputs['status']
+                );
+            });
         } catch (StatusException $e) {
 
             return response()->json(
@@ -56,7 +59,7 @@ class StatusController extends Controller
 
             return response()->json(
                 ['error' => __('app.status_update_failed')],
-                400
+                500
             );
         }
 
