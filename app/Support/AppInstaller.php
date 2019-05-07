@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use App\Role;
+use App\Status;
 use App\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
@@ -14,6 +15,7 @@ class AppInstaller
         $this
             ->createRoles()
             ->createAdminUser('Admin', $email, $password)
+            ->createStatuses()
         ;
     }
 
@@ -67,11 +69,24 @@ class AppInstaller
 
     public function createAdminUser($name, $email, $password, $verified = true)
     {
-        $adminRole = Role::where('name', Role::ADMIN)->firstOrFail();
+        $adminRole = Role::admin();
 
         $this->createUser($name, $email, $password, $verified)
             ->roles()
             ->syncWithoutDetaching([$adminRole->id]);
+
+        return $this;
+    }
+
+    public function createStatuses()
+    {
+        collect([
+            Status::INACTIVE,
+            'UP',
+            'DOWN',
+        ])->each(function($name) {
+            Status::firstOrCreate(['name' => $name]);
+        });
 
         return $this;
     }
