@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
 use App\AuthorizedKey;
+use App\Exceptions\ApiExceptionRenderer;
 use Validator;
 
 trait Authorizable
@@ -32,6 +33,24 @@ trait Authorizable
 
     public function notAuthorized()
     {
-        return response('', 403);
+        return ApiExceptionRenderer::errorResponse(403);
+    }
+
+    public function authorizedUserByKey($keyData)
+    {
+        $key = AuthorizedKey::with('user')
+            ->where('data', $keyData)
+            ->first();
+
+        return $key ? $key->user : null;
+    }
+
+    public function authorizedUser(Request $request, $inputName = 'key')
+    {
+        if ($this->authorizedKeyValidator($request, $inputName)->fails()) {
+            return null;
+        }
+
+        return $this->authorizedUserByKey($request->input($inputName));
     }
 }
