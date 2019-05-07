@@ -60,4 +60,9 @@ class User extends Authenticatable implements MustVerifyEmail
     {
         return $this->hasMany('App\AuthorizedKey');
     }
+
+    public function devices()
+    {
+        return $this->belongsToMany('App\Device', 'device_user', 'user_id', 'device_id');
+    }
 }
