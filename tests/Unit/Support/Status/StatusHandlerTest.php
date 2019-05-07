@@ -171,17 +171,14 @@ class StatusHandlerTest extends TestCase
         $fakeNow = Carbon::create(2019, 5, 21);
         Carbon::setTestNow($fakeNow);
 
-        $this->assertDatabaseMissing('device_service_status', [
-            'device_id' => $device->id,
-        ]);
-
         $this->assertDatabaseMissing('service_status', [
+            'device_id' => $device->id,
             'service_id' => $service->id,
             'status_id' => $status->id,
         ]);
 
-        $this->assertDatabaseMissing('device_events', [
-            'device_id' => $device->id,
+        $this->assertDatabaseMissing('service_events', [
+            'status_id' => $status->id,
         ]);
 
         $serviceStatus = $handler->handle($device, $service, $status);
@@ -190,20 +187,15 @@ class StatusHandlerTest extends TestCase
         $this->assertSame($user->id, $serviceStatus->updated_by);
         $this->assertTrue($fakeNow->eq($serviceStatus->updated_at));
 
-        $this->assertDatabaseHas('device_service_status', [
-            'device_id' => $device->id,
-            'service_status_id' => $serviceStatus->id,
-        ]);
-
         $this->assertDatabaseHas('service_status', [
             'id' => $serviceStatus->id,
+            'device_id' => $device->id,
             'service_id' => $service->id,
             'status_id' => $status->id,
         ]);
 
-        $this->assertDatabaseHas('device_events', [
-            'device_id' => $device->id,
-            'service_id' => $service->id,
+        $this->assertDatabaseHas('service_events', [
+            'service_status_id' => $serviceStatus->id,
             'status_id' => $status->id,
             'elapsed' => null,
             'updated_at' => $fakeNow->toDateTimeString(),
@@ -219,9 +211,8 @@ class StatusHandlerTest extends TestCase
         $this->assertTrue($fakeNow->eq($again->updated_at));
         $this->assertSame($serviceStatus->id, $again->id);
 
-        $this->assertDatabaseHas('device_events', [
-            'device_id' => $device->id,
-            'service_id' => $service->id,
+        $this->assertDatabaseHas('service_events', [
+            'service_status_id' => $again->id,
             'status_id' => $status->id,
             'elapsed' => null, // Not updated because status has not changed
         ]);
@@ -242,18 +233,16 @@ class StatusHandlerTest extends TestCase
         $twoDaysInSeconds = 172800;
 
         // Latest event elapsed duration has been updated
-        $this->assertDatabaseHas('device_events', [
-            'device_id' => $device->id,
-            'service_id' => $service->id,
+        $this->assertDatabaseHas('service_events', [
+            'service_status_id' => $again->id,
             'status_id' => $status->id,
             'elapsed' => $twoDaysInSeconds,
             'updated_by' => $user->id,
         ]);
 
         // New device event created with "down" status
-        $this->assertDatabaseHas('device_events', [
-            'device_id' => $device->id,
-            'service_id' => $service->id,
+        $this->assertDatabaseHas('service_events', [
+            'service_status_id' => $finally->id,
             'status_id' => $down->id,
             'elapsed' => null,
         ]);
