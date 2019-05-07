@@ -21,4 +21,9 @@ class Role extends Model
     {
         return $this->belongsToMany('App\User', 'role_user');
     }
+
+    public static function admin()
+    {
+        return Role::where('name', self::ADMIN)->firstOrFail();
+    }
 }
