@@ -4,26 +4,20 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class DeviceEvent extends Model
+class ServiceEvent extends Model
 {
-    protected $table = 'device_events';
+    protected $table = 'service_events';
 
     protected $fillable = [
-        'device_id',
-        'service_id',
+        'service_status_id',
         'status_id',
         'elapsed',    // Duration in seconds, NULL by default
         'updated_by', // user id or NULL
     ];
 
-    public function device()
+    public function serviceStatus()
     {
-        return $this->belongsTo('App\Device', 'device_id');
-    }
-
-    public function service()
-    {
-        return $this->hasOne('App\Service', 'service_id');
+        return $this->belongsTo('App\serviceStatus', 'service_status_id');
     }
 
     public function status()

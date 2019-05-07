@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDeviceServiceStatusTable extends Migration
+class CreateServiceEventsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,13 @@ class CreateDeviceServiceStatusTable extends Migration
      */
     public function up()
     {
-        Schema::create('device_service_status', function (Blueprint $table) {
-            $table->bigInteger('device_id');
+        Schema::create('service_events', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->bigInteger('service_status_id');
-
-            $table->unique(['device_id', 'service_status_id']);
+            $table->bigInteger('status_id');
+            $table->integer('elapsed')->nullable();
+            $table->bigInteger('updated_by')->nullable();
+            $table->timestamps();
         });
     }
 
@@ -28,6 +30,6 @@ class CreateDeviceServiceStatusTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('device_service_status');
+        Schema::dropIfExists('service_events');
     }
 }

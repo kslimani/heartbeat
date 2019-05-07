@@ -35,4 +35,9 @@ class ServiceStatus extends Model
     {
         return $this->hasOne('App\Status', 'status_id');
     }
+
+    public function events()
+    {
+        return $this->hasMany('App\ServiceEvent');
+    }
 }

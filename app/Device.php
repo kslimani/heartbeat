@@ -12,18 +12,13 @@ class Device extends Model
         'name',
     ];
 
-    public function servicesStatus()
+    public function serviceStatuses()
     {
-        return $this->belongsToMany('App\ServiceStatus', 'device_service_status', 'device_id', 'service_status_id');
+        return $this->hasMany('App\ServiceStatus');
     }
 
     public function users()
     {
         return $this->belongsToMany('App\User');
-    }
-
-    public function events()
-    {
-        return $this->hasMany('App\DeviceEvent');
     }
 }

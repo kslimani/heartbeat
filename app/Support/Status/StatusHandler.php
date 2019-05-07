@@ -6,6 +6,7 @@ use Illuminate\Support\Carbon;
 use App\Device;
 use App\Role;
 use App\Service;
+use App\ServiceStatus;
 use App\Status;
 use App\User;
 
@@ -194,7 +195,7 @@ class StatusHandler
     public function handle(Device $device, Service $service, Status $status)
     {
         $now = Carbon::now();
-        $withDeviceEvent = false;
+        $statusHasChanged = false;
 
         // Ensure user is allowed to update device services
         if (! $this->userHasDevice($device)) {
@@ -202,13 +203,13 @@ class StatusHandler
         }
 
         // Attempt to retrieve device service status
-        $serviceStatus = $device->servicesStatus()->where('service_id', $service->id)->first();
+        $serviceStatus = $device->serviceStatuses()->where('service_id', $service->id)->first();
 
         if ($serviceStatus) {
             // Check if existing device service status has changed
             if ($serviceStatus->status_id !== $status->id) {
                 $serviceStatus->status_id = $status->id;
-                $withDeviceEvent = true;
+                $statusHasChanged = true;
             }
 
             // Update "last check" date and user
@@ -217,18 +218,18 @@ class StatusHandler
             $serviceStatus->save();
         } else {
             // Create device service status
-            $serviceStatus = $device->servicesStatus()->create([
+            $serviceStatus = $device->serviceStatuses()->create([
                 'service_id' => $service->id,
                 'status_id' => $status->id,
                 'updated_by' => $this->user->id,
                 'updated_at' => $now,
             ]);
 
-            $withDeviceEvent = true;
+            $statusHasChanged = true;
         }
 
-        if ($withDeviceEvent) {
-            $this->deviceEvent($device, $service, $status);
+        if ($statusHasChanged) {
+            $this->serviceStatusEvent($serviceStatus);
         }
 
         return $serviceStatus;
@@ -248,36 +249,39 @@ class StatusHandler
     }
 
     /**
-     * Handle device event for service
+     * Handle device service status event
      *
-     * @param  \App\Device  $device
-     * @param  \App\Service  $service
-     * @param  \App\Status  $status
-     * @return \App\DeviceEvent
+     * @param  \App\ServiceStatus  $serviceStatus
+     * @return \App\ServiceEvent
      */
-    protected function deviceEvent(Device $device, Service $service, Status $status)
+    protected function serviceStatusEvent(ServiceStatus $serviceStatus)
     {
-        // Attempt to retrieve latest device service event
-        $latest = $device->events()
-            ->where('service_id', $service->id)
+        // Attempt to retrieve latest service status event
+        $latest = $serviceStatus->events()
             ->latest()
             ->first();
 
         if ($latest) {
             // Expects service status has changed
-            if ($latest->status_id === $status->id) {
-                return $latest;
+            $hasChanged = $latest->status_id !== $serviceStatus->status_id;
+
+            // Set elapsed duration only if status has changed
+            if ($hasChanged) {
+                $latest->elapsed = $this->elapsed($latest->created_at);
             }
 
-            $latest->elapsed = $this->elapsed($latest->created_at);
             $latest->updated_by = $this->user->id;
             $latest->save();
+
+            // Return latest event if status has not changed
+            if (! $hasChanged) {
+                return $latest;
+            }
         }
 
         // Create new device event
-        $event = $device->events()->create([
-            'service_id' => $service->id,
-            'status_id' => $status->id,
+        $event = $serviceStatus->events()->create([
+            'status_id' => $serviceStatus->status_id,
             'updated_by' => $this->user->id,
         ]);
 
