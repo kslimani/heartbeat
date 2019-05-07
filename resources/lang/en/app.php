@@ -14,6 +14,9 @@ return [
     'nav_toggle' => 'Toggle navigation',
     'msg_confirm' => 'Do you wish to continue ?',
     'not_permitted' => 'Operation not permitted',
+    'unknown_status' => 'Unknown status',
+    'status_update_failed' => 'Failed to update device service status',
+    'unauthorized_device' => 'Unauthorized device',
 
     'login' => 'Login',
     'register' => 'Register',
