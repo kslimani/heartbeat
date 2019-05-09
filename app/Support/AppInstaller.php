@@ -3,8 +3,10 @@
 namespace App\Support;
 
 use App\Role;
+use App\ServiceEvent;
 use App\Status;
 use App\User;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
@@ -16,6 +18,7 @@ class AppInstaller
             ->createRoles()
             ->createAdminUser('Admin', $email, $password)
             ->createStatuses()
+            ->persistLatestServiceEvent()
         ;
     }
 
@@ -87,6 +90,17 @@ class AppInstaller
         ])->each(function($name) {
             Status::firstOrCreate(['name' => $name]);
         });
+
+        return $this;
+    }
+
+    public function persistLatestServiceEvent()
+    {
+        // Put current date if missing
+        $latest = AppStore::store()
+            ->rememberForever(ServiceEvent::LATEST, function () {
+                return Carbon::now();
+            });
 
         return $this;
     }
