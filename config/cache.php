@@ -84,6 +84,14 @@ return [
             'table' => env('DYNAMODB_CACHE_TABLE', 'cache'),
         ],
 
+        // Application persistent storage uses existing
+        // cache mechanisms for the sake of simplicity
+        'appstore' => [
+            'driver' => env('APP_STORE_DRIVER', 'database'),
+            'table' => 'appstore',
+            'connection' => null,
+        ],
+
     ],
 
     /*
