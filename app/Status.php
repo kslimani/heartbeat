@@ -8,7 +8,7 @@ class Status extends Model
 {
     const INACTIVE = 'INACTIVE';
 
-    protected $table = 'status';
+    protected $table = 'statuses';
 
     protected $fillable = [
         'name',
