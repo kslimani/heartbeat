@@ -171,7 +171,7 @@ class StatusHandlerTest extends TestCase
         $fakeNow = Carbon::create(2019, 5, 21);
         Carbon::setTestNow($fakeNow);
 
-        $this->assertDatabaseMissing('service_status', [
+        $this->assertDatabaseMissing('service_statuses', [
             'device_id' => $device->id,
             'service_id' => $service->id,
             'status_id' => $status->id,
@@ -187,7 +187,7 @@ class StatusHandlerTest extends TestCase
         $this->assertSame($user->id, $serviceStatus->updated_by);
         $this->assertTrue($fakeNow->eq($serviceStatus->updated_at));
 
-        $this->assertDatabaseHas('service_status', [
+        $this->assertDatabaseHas('service_statuses', [
             'id' => $serviceStatus->id,
             'device_id' => $device->id,
             'service_id' => $service->id,
