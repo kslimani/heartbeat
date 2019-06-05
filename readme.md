@@ -1,7 +1,5 @@
-## Status
+## Heartbeat
 
-A simple devices services status application.
+A simple "heartbeat" back-end application to keep track of any device service statuses.
 
-## License
-
-This project is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project is made with [Laravel](https://laravel.com/) PHP framework.
