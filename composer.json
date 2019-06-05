@@ -1,10 +1,11 @@
 {
-    "name": "laravel/laravel",
+    "name": "kslimani/heartbeat",
     "type": "project",
-    "description": "The Laravel Framework.",
+    "description": "A simple heartbeat back-end application.",
     "keywords": [
-        "framework",
-        "laravel"
+        "heartbeat",
+        "service",
+        "status"
     ],
     "license": "MIT",
     "require": {
