@@ -4,6 +4,7 @@ namespace Tests;
 
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 use App\Support\AppInstaller;
+use App\Support\LogSql;
 use App\Role;
 use App\User;
 
@@ -23,5 +24,10 @@ abstract class TestCase extends BaseTestCase
         Role::admin()->users()->attach([$user->id]);
 
         return $user;
+    }
+
+    public function debugSql()
+    {
+        LogSql::debug();
     }
 }
