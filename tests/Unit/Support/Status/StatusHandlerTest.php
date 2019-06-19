@@ -6,6 +6,7 @@ use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use App\User;
+use App\Status;
 use App\Support\Status\StatusHandler;
 use App\Support\Status\StatusException;
 
@@ -167,6 +168,7 @@ class StatusHandlerTest extends TestCase
         $device = $handler->device('my.device');
         $service = $handler->service('acme-srv');
         $status = $handler->status('UP');
+        $inactive = Status::inactive();
 
         $fakeNow = Carbon::create(2019, 5, 21);
         Carbon::setTestNow($fakeNow);
@@ -178,7 +180,7 @@ class StatusHandlerTest extends TestCase
         ]);
 
         $this->assertDatabaseMissing('service_events', [
-            'status_id' => $status->id,
+            'to_status_id' => $status->id,
         ]);
 
         $serviceStatus = $handler->handle($device, $service, $status);
@@ -196,7 +198,8 @@ class StatusHandlerTest extends TestCase
 
         $this->assertDatabaseHas('service_events', [
             'service_status_id' => $serviceStatus->id,
-            'status_id' => $status->id,
+            'from_status_id' => $inactive->id,
+            'to_status_id' => $status->id,
             'elapsed' => null,
             'updated_at' => $fakeNow->toDateTimeString(),
         ]);
@@ -213,7 +216,7 @@ class StatusHandlerTest extends TestCase
 
         $this->assertDatabaseHas('service_events', [
             'service_status_id' => $again->id,
-            'status_id' => $status->id,
+            'to_status_id' => $status->id,
             'elapsed' => null, // Not updated because status has not changed
         ]);
 
@@ -235,7 +238,8 @@ class StatusHandlerTest extends TestCase
         // Latest event elapsed duration has been updated
         $this->assertDatabaseHas('service_events', [
             'service_status_id' => $again->id,
-            'status_id' => $status->id,
+            'from_status_id' => $inactive->id,
+            'to_status_id' => $status->id,
             'elapsed' => $twoDaysInSeconds,
             'updated_by' => $user->id,
         ]);
@@ -243,7 +247,8 @@ class StatusHandlerTest extends TestCase
         // New device event created with "down" status
         $this->assertDatabaseHas('service_events', [
             'service_status_id' => $finally->id,
-            'status_id' => $down->id,
+            'from_status_id' => $status->id,
+            'to_status_id' => $down->id,
             'elapsed' => null,
         ]);
 
