@@ -28,12 +28,12 @@ class ServiceStatus extends Model
 
     public function service()
     {
-        return $this->hasOne('App\Service', 'service_id');
+        return $this->belongsTo('App\Service', 'service_id');
     }
 
     public function status()
     {
-        return $this->hasOne('App\Status', 'status_id');
+        return $this->belongsTo('App\Status', 'status_id');
     }
 
     public function events()

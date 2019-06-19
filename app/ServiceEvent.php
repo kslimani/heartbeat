@@ -12,7 +12,8 @@ class ServiceEvent extends Model
 
     protected $fillable = [
         'service_status_id',
-        'status_id',
+        'from_status_id',
+        'to_status_id',
         'elapsed',    // Duration in seconds, NULL by default
         'updated_by', // user id or NULL
     ];
@@ -22,8 +23,13 @@ class ServiceEvent extends Model
         return $this->belongsTo('App\serviceStatus', 'service_status_id');
     }
 
-    public function status()
+    public function fromStatus()
     {
-        return $this->hasOne('App\Status', 'status_id');
+        return $this->belongsTo('App\Status', 'from_status_id');
+    }
+
+    public function toStatus()
+    {
+        return $this->belongsTo('App\Status', 'to_status_id');
     }
 }

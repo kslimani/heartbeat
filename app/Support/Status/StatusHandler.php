@@ -263,7 +263,7 @@ class StatusHandler
 
         if ($latest) {
             // Expects service status has changed
-            $hasChanged = $latest->status_id !== $serviceStatus->status_id;
+            $hasChanged = $latest->to_status_id !== $serviceStatus->status_id;
 
             // Set elapsed duration only if status has changed
             if ($hasChanged) {
@@ -279,9 +279,10 @@ class StatusHandler
             }
         }
 
-        // Create new device event
+        // Create new device service event
         $event = $serviceStatus->events()->create([
-            'status_id' => $serviceStatus->status_id,
+            'from_status_id' => $latest ? $latest->to_status_id : Status::inactive()->id,
+            'to_status_id' => $serviceStatus->status_id,
             'updated_by' => $this->user->id,
         ]);
 

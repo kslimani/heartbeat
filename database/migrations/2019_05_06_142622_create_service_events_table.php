@@ -16,7 +16,8 @@ class CreateServiceEventsTable extends Migration
         Schema::create('service_events', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->bigInteger('service_status_id');
-            $table->bigInteger('status_id');
+            $table->bigInteger('from_status_id');
+            $table->bigInteger('to_status_id');
             $table->integer('elapsed')->nullable();
             $table->bigInteger('updated_by')->nullable();
             $table->timestamps();
