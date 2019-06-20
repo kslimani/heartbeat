@@ -15,7 +15,6 @@ class ServiceEvent extends Model
         'from_status_id',
         'to_status_id',
         'elapsed',    // Duration in seconds, NULL by default
-        'updated_by', // user id or NULL
     ];
 
     public function serviceStatus()

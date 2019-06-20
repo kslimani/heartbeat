@@ -19,7 +19,6 @@ class CreateServiceEventsTable extends Migration
             $table->bigInteger('from_status_id');
             $table->bigInteger('to_status_id');
             $table->integer('elapsed')->nullable();
-            $table->bigInteger('updated_by')->nullable();
             $table->timestamps();
         });
     }

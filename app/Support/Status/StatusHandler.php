@@ -229,63 +229,9 @@ class StatusHandler
         }
 
         if ($statusHasChanged) {
-            $this->serviceStatusEvent($serviceStatus);
+            StatusEvent::dispatch($serviceStatus);
         }
 
         return $serviceStatus;
-    }
-
-    /**
-     * Get elapsed duration in seconds
-     *
-     * @param  \Illuminate\Support\Carbon  $date
-     * @return int
-     */
-    public function elapsed(Carbon $date)
-    {
-        $elapsed = Carbon::now()->timestamp - $date->timestamp;
-
-        return $elapsed > 0 ? $elapsed : 0;
-    }
-
-    /**
-     * Handle device service status event
-     *
-     * @param  \App\ServiceStatus  $serviceStatus
-     * @return \App\ServiceEvent
-     */
-    protected function serviceStatusEvent(ServiceStatus $serviceStatus)
-    {
-        // Attempt to retrieve latest service status event
-        $latest = $serviceStatus->events()
-            ->latest()
-            ->first();
-
-        if ($latest) {
-            // Expects service status has changed
-            $hasChanged = $latest->to_status_id !== $serviceStatus->status_id;
-
-            // Set elapsed duration only if status has changed
-            if ($hasChanged) {
-                $latest->elapsed = $this->elapsed($latest->created_at);
-            }
-
-            $latest->updated_by = $this->user->id;
-            $latest->save();
-
-            // Return latest event if status has not changed
-            if (! $hasChanged) {
-                return $latest;
-            }
-        }
-
-        // Create new device service event
-        $event = $serviceStatus->events()->create([
-            'from_status_id' => $latest ? $latest->to_status_id : Status::inactive()->id,
-            'to_status_id' => $serviceStatus->status_id,
-            'updated_by' => $this->user->id,
-        ]);
-
-        return $event;
     }
 }
