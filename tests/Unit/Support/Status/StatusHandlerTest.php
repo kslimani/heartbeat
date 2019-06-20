@@ -14,12 +14,10 @@ class StatusHandlerTest extends TestCase
 {
     use RefreshDatabase;
 
-    public $adminEmail = 'admin@test.com';
-
     protected function setUp(): void
     {
         parent::setUp();
-        $this->installApplication($this->adminEmail, 'secret123');
+        $this->setupApp();
     }
 
     public function testItThrowStatusException()

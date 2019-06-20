@@ -12,6 +12,9 @@ abstract class TestCase extends BaseTestCase
 {
     use CreatesApplication;
 
+    public $adminEmail = 'admin@test.com';
+    public $adminSecret = 'secret123';
+
     public function installApplication($email, $password)
     {
         (new AppInstaller)->install($email, $password);
@@ -24,6 +27,14 @@ abstract class TestCase extends BaseTestCase
         Role::admin()->users()->attach([$user->id]);
 
         return $user;
+    }
+
+    public function setupApp()
+    {
+        $this->installApplication(
+            $this->adminEmail,
+            $this->adminSecret
+        );
     }
 
     public function debugSql()
