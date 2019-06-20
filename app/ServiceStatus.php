@@ -11,15 +11,8 @@ class ServiceStatus extends Model
     protected $fillable = [
         'service_id',
         'status_id',
-        'updated_by', // user id or NULL
-        'updated_at',
+        'updated_by', // User id or NULL if scheduled task
     ];
-
-    protected $dates = [
-        'updated_at',
-    ];
-
-    public $timestamps = false;
 
     public function device()
     {

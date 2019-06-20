@@ -19,7 +19,7 @@ class CreateServiceStatusesTable extends Migration
             $table->bigInteger('service_id');
             $table->bigInteger('status_id');
             $table->bigInteger('updated_by')->nullable();
-            $table->timestamp('updated_at')->nullable();
+            $table->timestamps();
 
             $table->unique(['device_id', 'service_id']);
         });

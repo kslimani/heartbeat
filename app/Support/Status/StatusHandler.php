@@ -2,7 +2,6 @@
 
 namespace App\Support\Status;
 
-use Illuminate\Support\Carbon;
 use App\Device;
 use App\Role;
 use App\Service;
@@ -194,7 +193,6 @@ class StatusHandler
      */
     public function handle(Device $device, Service $service, Status $status)
     {
-        $now = Carbon::now();
         $statusHasChanged = false;
 
         // Ensure user is allowed to update device services
@@ -212,17 +210,15 @@ class StatusHandler
                 $statusHasChanged = true;
             }
 
-            // Update "last check" date and user
+            // Update service status
             $serviceStatus->updated_by = $this->user->id;
-            $serviceStatus->updated_at = $now;
-            $serviceStatus->save();
+            $serviceStatus->touch();
         } else {
             // Create device service status
             $serviceStatus = $device->serviceStatuses()->create([
                 'service_id' => $service->id,
                 'status_id' => $status->id,
                 'updated_by' => $this->user->id,
-                'updated_at' => $now,
             ]);
 
             $statusHasChanged = true;
