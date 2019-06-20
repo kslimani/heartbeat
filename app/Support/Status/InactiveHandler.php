@@ -11,7 +11,7 @@ class InactiveHandler
     /**
      * Handle inactive device service status
      *
-     * @throws \App\Status\StatusException
+     * @return void
      */
     public static function handle()
     {
