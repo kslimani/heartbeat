@@ -241,7 +241,6 @@ class StatusHandlerTest extends TestCase
             'from_status_id' => $inactive->id,
             'to_status_id' => $status->id,
             'elapsed' => $twoDaysInSeconds,
-            'updated_by' => $user->id,
         ]);
 
         // New device event created with "down" status
