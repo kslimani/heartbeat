@@ -59,30 +59,12 @@ class StatusHandlerTest extends TestCase
 
     public function testItGetDevice()
     {
-        $admin = User::where('email', $this->adminEmail)->first();
-        $adminUser = $this->createAdminUser();
         $user = factory(User::class)->create();
         $handler = new StatusHandler($user);
         $name = 'my.device';
 
-        $this->assertTrue($admin->isAdmin());
-        $this->assertTrue($adminUser->isAdmin());
-        $this->assertFalse($user->isAdmin());
-
         $this->assertDatabaseMissing('devices', [
             'name' => $name,
-        ]);
-
-        $this->assertDatabaseMissing('device_user', [
-            'user_id' => $user->id,
-        ]);
-
-        $this->assertDatabaseMissing('device_user', [
-            'user_id' => $admin->id,
-        ]);
-
-        $this->assertDatabaseMissing('device_user', [
-            'user_id' => $adminUser->id,
         ]);
 
         $device = $handler->device($name);
@@ -92,23 +74,6 @@ class StatusHandlerTest extends TestCase
         // Device has been created
         $this->assertDatabaseHas('devices', [
             'name' => $name,
-        ]);
-
-        // Authorized user has been granted to device
-        $this->assertDatabaseHas('device_user', [
-            'user_id' => $user->id,
-            'device_id' => $device->id,
-        ]);
-
-        // Admin users has been granted to device
-        $this->assertDatabaseHas('device_user', [
-            'user_id' => $admin->id,
-            'device_id' => $device->id,
-        ]);
-
-        $this->assertDatabaseHas('device_user', [
-            'user_id' => $adminUser->id,
-            'device_id' => $device->id,
         ]);
 
         $again = $handler->device($name);
@@ -161,6 +126,7 @@ class StatusHandlerTest extends TestCase
 
     public function testItHandle()
     {
+        $admin = User::where('email', $this->adminEmail)->first();
         $user = factory(User::class)->create();
         $handler = new StatusHandler($user);
         $device = $handler->device('my.device');
@@ -179,6 +145,14 @@ class StatusHandlerTest extends TestCase
 
         $this->assertDatabaseMissing('service_events', [
             'to_status_id' => $status->id,
+        ]);
+
+        $this->assertDatabaseMissing('service_status_user', [
+            'user_id' => $admin->id,
+        ]);
+
+        $this->assertDatabaseMissing('service_status_user', [
+            'user_id' => $user->id,
         ]);
 
         $serviceStatus = $handler->handle($device, $service, $status);
@@ -200,6 +174,16 @@ class StatusHandlerTest extends TestCase
             'to_status_id' => $status->id,
             'elapsed' => null,
             'updated_at' => $fakeNow->toDateTimeString(),
+        ]);
+
+        $this->assertDatabaseHas('service_status_user', [
+            'user_id' => $admin->id,
+            'service_status_id' => $serviceStatus->id,
+        ]);
+
+        $this->assertDatabaseHas('service_status_user', [
+            'user_id' => $user->id,
+            'service_status_id' => $serviceStatus->id,
         ]);
 
         $fakeNow = Carbon::create(2019, 5, 22);
@@ -251,7 +235,7 @@ class StatusHandlerTest extends TestCase
 
         Carbon::setTestNow(); // Clear mock
 
-        // It throw a status exception if user has no device relation
+        // It throw a status exception if user is not permitted
         $unauthorizedUser = factory(User::class)->create();
         $handler = new StatusHandler($unauthorizedUser);
 
