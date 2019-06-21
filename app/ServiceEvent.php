@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class ServiceEvent extends Model
 {
-    const LATEST = 'latest_service_event';
+    const LATEST = '_latest_service_event';
 
     protected $table = 'service_events';
 
