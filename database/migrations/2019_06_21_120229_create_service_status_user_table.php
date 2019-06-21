@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateDeviceUserTable extends Migration
+class CreateServiceStatusUserTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,12 @@ class CreateDeviceUserTable extends Migration
      */
     public function up()
     {
-        Schema::create('device_user', function (Blueprint $table) {
+        Schema::create('service_status_user', function (Blueprint $table) {
             $table->bigInteger('user_id');
-            $table->bigInteger('device_id');
+            $table->bigInteger('service_status_id');
+            $table->boolean('is_mute')->default(false);
 
-            $table->unique(['user_id', 'device_id']);
+            $table->unique(['user_id', 'service_status_id']);
         });
     }
 
@@ -28,6 +29,6 @@ class CreateDeviceUserTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('device_user');
+        Schema::dropIfExists('service_status_user');
     }
 }

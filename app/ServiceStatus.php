@@ -33,4 +33,9 @@ class ServiceStatus extends Model
     {
         return $this->hasMany('App\ServiceEvent');
     }
+
+    public function users()
+    {
+        return $this->belongsToMany('App\User');
+    }
 }

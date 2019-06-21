@@ -16,9 +16,4 @@ class Device extends Model
     {
         return $this->hasMany('App\ServiceStatus');
     }
-
-    public function users()
-    {
-        return $this->belongsToMany('App\User');
-    }
 }

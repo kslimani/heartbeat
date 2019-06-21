@@ -16,7 +16,7 @@ return [
     'not_permitted' => 'Operation not permitted',
     'unknown_status' => 'Unknown status',
     'status_update_failed' => 'Failed to update device service status',
-    'unauthorized_device' => 'Unauthorized device',
+    'unauthorized_service' => 'Unauthorized device service',
 
     'login' => 'Login',
     'register' => 'Register',

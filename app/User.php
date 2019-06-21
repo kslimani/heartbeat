@@ -61,8 +61,13 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->hasMany('App\AuthorizedKey');
     }
 
-    public function devices()
+    public function serviceStatuses()
     {
-        return $this->belongsToMany('App\Device', 'device_user', 'user_id', 'device_id');
+        return $this->belongsToMany(
+            'App\ServiceStatus',
+            'service_status_user',
+            'user_id',
+            'service_status_id'
+        )->withPivot('is_mute');
     }
 }

@@ -57,15 +57,8 @@ class StatusHandler
     public function device($name)
     {
         $name = $this->normalizeDevice($name);
-        $device = Device::where(['name' => $name])->first();
 
-        // Create device if missing
-        if (! $device) {
-            $device  = Device::create(['name' => $name]);
-            $this->setDefaultDeviceRelations($device);
-        }
-
-        return $device;
+        return Device::firstOrCreate(['name' => $name]);
     }
 
     /**
@@ -134,19 +127,19 @@ class StatusHandler
     }
 
     /**
-     * Setup default users relations for newly created device
+     * Setup default permissions for device service
      *
-     * @param  \App\Device
+     * @param  \App\ServiceStatus
      * @return void
      */
-    public function setDefaultDeviceRelations(Device $device)
+    public function setDefaultPermissions(ServiceStatus $serviceStatus)
     {
-        // Attach user to device
-        $device->users()->syncWithoutDetaching([$this->user->id]);
+        // Allow current user to update device service status
+        $serviceStatus->users()->syncWithoutDetaching([$this->user->id]);
 
-        // Attach "admin" users to device
-        Role::admin()->users()->chunk(10, function($users) use ($device) {
-            $device->users()->syncWithoutDetaching($users->pluck('id'));
+        // Allow "admin" users
+        Role::admin()->users()->chunk(20, function($users) use ($serviceStatus) {
+            $serviceStatus->users()->syncWithoutDetaching($users->pluck('id'));
         });
     }
 
@@ -169,16 +162,16 @@ class StatusHandler
     }
 
     /**
-     * Check if user has device relation
+     * Check if user can update device service status
      *
-     * @param  \App\Device  $device
+     * @param  \App\ServiceStatus  $serviceStatus
      * @return bool
      */
-    public function userHasDevice(Device $device)
+    public function canUpdateStatus(ServiceStatus $serviceStatus)
     {
         return $this->user
-            ->devices()
-            ->where('id', $device->id)
+            ->serviceStatuses()
+            ->where('id', $serviceStatus->id)
             ->exists();
     }
 
@@ -195,15 +188,15 @@ class StatusHandler
     {
         $statusHasChanged = false;
 
-        // Ensure user is allowed to update device services
-        if (! $this->userHasDevice($device)) {
-            $this->forbidden(__('app.unauthorized_device'));
-        }
-
         // Attempt to retrieve device service status
         $serviceStatus = $device->serviceStatuses()->where('service_id', $service->id)->first();
 
         if ($serviceStatus) {
+            // Ensure user is allowed to update device service status
+            if (! $this->canUpdateStatus($serviceStatus)) {
+                $this->forbidden(__('app.unauthorized_service'));
+            }
+
             // Check if existing device service status has changed
             if ($serviceStatus->status_id !== $status->id) {
                 $serviceStatus->status_id = $status->id;
@@ -220,6 +213,8 @@ class StatusHandler
                 'status_id' => $status->id,
                 'updated_by' => $this->user->id,
             ]);
+
+            $this->setDefaultPermissions($serviceStatus);
 
             $statusHasChanged = true;
         }
