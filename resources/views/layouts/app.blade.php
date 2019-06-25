@@ -25,8 +25,11 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
+                <a class="navbar-logo" href="{{ Auth::check() ? route('home') : url('/') }}">
+                    <!-- Logo -->
+                </a>
                 <a class="navbar-brand" href="{{ Auth::check() ? route('home') : url('/') }}">
-                    {{ config('app.name', 'Laravel') }}
+                    {{ config('app.name', 'Heartbeat') }}
                 </a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('app.nav_toggle') }}">
                     <span class="navbar-toggler-icon"></span>
