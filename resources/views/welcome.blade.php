@@ -7,9 +7,11 @@
             }
 
             .title {
-                font-size: 44px;
+                font-size: 150%;
                 color: #636b6f;
                 margin-bottom: 30px;
+                margin-left: 30px;
+                margin-right: 30px;
             }
         </style>
 @endsection
@@ -19,9 +21,17 @@
     <div class="row justify-content-center">
         <div class="content">
             <div class="title">
-                Simple services status application.
+                Heartbeat is a simple back-end application to keep track of service statuses.
             </div>
         </div>
     </div>
 </div>
+@endsection
+
+@section('footer')
+<footer class="footer">
+    <div class="container">
+        <div class="text-center text-muted">Project source code is available at <a href="https://github.com/kslimani/heartbeat">Github</a>.</div>
+    </div>
+</footer>
 @endsection
