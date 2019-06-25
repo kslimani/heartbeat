@@ -1,6 +1,23 @@
-## Heartbeat
+# Heartbeat
 
-A simple "heartbeat" back-end application to keep track of any device service statuses.
+__DISCLAIMER: This project is a work in progress.__
+
+A simple "heartbeat" back-end application to keep track of services statuses.
+
+## Configuration
+
+See Laravel configuration [documentation](https://laravel.com/docs/5.8/configuration).
+
+After configuration run database migrations and application installation artisan commands :
+
+```shell
+php artisan migrate
+php artisan app:install
+```
+
+Configure the [task scheduler](https://laravel.com/docs/5.8/scheduling#introduction).
+
+## Credits
 
 This project is made with [Laravel](https://laravel.com/) PHP framework.
 
