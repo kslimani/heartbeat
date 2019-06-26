@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('throttle:60,1')->namespace('Api')->group(function () {
+Route::middleware('throttle:'.config('app.api_throttle'))->namespace('Api')->group(function () {
     Route::post('/status/check', 'StatusController@check');
     Route::post('/status', 'StatusController@index');
 });
