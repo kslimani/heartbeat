@@ -12,14 +12,11 @@ use Illuminate\Support\Facades\Validator;
 
 class AppInstaller
 {
-    public function install($email, $password)
+    public function install()
     {
-        $this
-            ->createRoles()
-            ->createAdminUser('Admin', $email, $password)
+        return $this->createRoles()
             ->createStatuses()
-            ->persistLatestServiceEvent()
-        ;
+            ->persistLatestServiceEvent();
     }
 
     public function createRoles()
@@ -74,11 +71,10 @@ class AppInstaller
     {
         $adminRole = Role::admin();
 
-        $this->createUser($name, $email, $password, $verified)
-            ->roles()
-            ->syncWithoutDetaching([$adminRole->id]);
+        $user = $this->createUser($name, $email, $password, $verified);
+        $user->roles()->syncWithoutDetaching([$adminRole->id]);
 
-        return $this;
+        return $user;
     }
 
     public function createStatuses()
