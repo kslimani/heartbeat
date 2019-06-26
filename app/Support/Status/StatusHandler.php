@@ -127,19 +127,32 @@ class StatusHandler
     }
 
     /**
-     * Setup default permissions for device service
+     * Set default associations to service status
      *
      * @param  \App\ServiceStatus
      * @return void
      */
-    public function setDefaultPermissions(ServiceStatus $serviceStatus)
+    public function setDefaultAssociations(ServiceStatus $serviceStatus)
     {
-        // Allow current user to update device service status
-        $serviceStatus->users()->syncWithoutDetaching([$this->user->id]);
+        $settings = [
+            'is_updatable' => true,
+            'is_mute' => false,
+        ];
 
-        // Allow "admin" users
-        Role::admin()->users()->chunk(20, function($users) use ($serviceStatus) {
-            $serviceStatus->users()->syncWithoutDetaching($users->pluck('id'));
+        // Attach current user
+        $serviceStatus->users()->syncWithoutDetaching([
+            $this->user->id => $settings,
+        ]);
+
+        // Attach "admin" users
+        Role::admin()->users()->chunk(20, function($users) use ($settings, $serviceStatus) {
+            $associations = [];
+
+            foreach ($users as $user) {
+                $associations[$user->id] = $settings;
+            }
+
+            $serviceStatus->users()->syncWithoutDetaching($associations);
         });
     }
 
@@ -169,10 +182,14 @@ class StatusHandler
      */
     public function canUpdateStatus(ServiceStatus $serviceStatus)
     {
-        return $this->user
+        $first = $this->user
             ->serviceStatuses()
             ->where('id', $serviceStatus->id)
-            ->exists();
+            ->first();
+
+        return $first
+            ? (bool) $first->pivot->is_updatable
+            : false;
     }
 
     /**
@@ -214,7 +231,7 @@ class StatusHandler
                 'updated_by' => $this->user->id,
             ]);
 
-            $this->setDefaultPermissions($serviceStatus);
+            $this->setDefaultAssociations($serviceStatus);
 
             $statusHasChanged = true;
         }

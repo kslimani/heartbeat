@@ -16,6 +16,7 @@ class CreateServiceStatusUserTable extends Migration
         Schema::create('service_status_user', function (Blueprint $table) {
             $table->bigInteger('user_id');
             $table->bigInteger('service_status_id');
+            $table->boolean('is_updatable')->default(false);
             $table->boolean('is_mute')->default(false);
 
             $table->unique(['user_id', 'service_status_id']);

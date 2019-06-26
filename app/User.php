@@ -68,6 +68,6 @@ class User extends Authenticatable implements MustVerifyEmail
             'service_status_user',
             'user_id',
             'service_status_id'
-        )->withPivot('is_mute');
+        )->withPivot('is_updatable', 'is_mute');
     }
 }
