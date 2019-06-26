@@ -179,11 +179,15 @@ class StatusHandlerTest extends TestCase
         $this->assertDatabaseHas('service_status_user', [
             'user_id' => $admin->id,
             'service_status_id' => $serviceStatus->id,
+            'is_updatable' => true,
+            'is_mute' => false,
         ]);
 
         $this->assertDatabaseHas('service_status_user', [
             'user_id' => $user->id,
             'service_status_id' => $serviceStatus->id,
+            'is_updatable' => true,
+            'is_mute' => false,
         ]);
 
         $fakeNow = Carbon::create(2019, 5, 22);
