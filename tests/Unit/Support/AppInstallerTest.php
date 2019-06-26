@@ -19,8 +19,6 @@ class AppInstallerTest extends TestCase
     {
         $installer = new AppInstaller;
 
-        $email = 'admin@acme.org';
-
         $fakeNow = Carbon::create(2019, 5, 21);
         Carbon::setTestNow($fakeNow);
 
@@ -28,27 +26,13 @@ class AppInstallerTest extends TestCase
             'name' => Role::ADMIN,
         ]);
 
-        $this->assertDatabaseMissing('users', [
-            'email' => $email,
-        ]);
-
         $this->assertNull(AppStore::get(ServiceEvent::LATEST));
 
-        $installer->install($email, 'secret123');
+        $installer->install();
 
         $this->assertDatabaseHas('roles', [
             'name' => Role::ADMIN,
         ]);
-
-        $this->assertDatabaseHas('users', [
-            'email' => $email,
-        ]);
-
-        $admin = User::where('email', $email)->firstOrFail();
-
-        $this->assertTrue($admin->isAdmin());
-        $this->assertFalse($admin->hasRole('unknown'));
-        $this->assertNotNull($admin->email_verified_at);
 
         $latest = AppStore::get(ServiceEvent::LATEST);
 
@@ -58,13 +42,7 @@ class AppInstallerTest extends TestCase
         $nextYear = Carbon::create(2020, 5, 21);
         Carbon::setTestNow($nextYear);
 
-        $installer->install($email, 'secret123');
-
-        $this->assertTrue(
-            $admin->roles()
-                ->where('name', Role::ADMIN)
-                ->count() === 1
-        );
+        $installer->install();
 
         $latest = AppStore::get(ServiceEvent::LATEST);
 
@@ -75,13 +53,47 @@ class AppInstallerTest extends TestCase
         Carbon::setTestNow(); // Clear mock
     }
 
+    public function testItCreateAdminUser()
+    {
+        $installer = new AppInstaller;
+        $installer->install();
+
+        $name = 'Admin';
+        $email = 'admin@acme.org';
+
+        $this->assertDatabaseMissing('users', [
+            'name' => $name,
+            'email' => $email,
+        ]);
+
+        $admin = $installer->createAdminUser($name, $email, 'secret123');
+
+        $this->assertDatabaseHas('users', [
+            'name' => $name,
+            'email' => $email,
+        ]);
+
+        $this->assertTrue($admin->isAdmin());
+        $this->assertFalse($admin->hasRole('unknown'));
+        $this->assertNotNull($admin->email_verified_at);
+
+        $againWithSameEmail = $installer->createAdminUser('AnotherName', $email, 'secret123');
+
+        $this->assertSame($admin->id, $againWithSameEmail->id);
+        $this->assertTrue(
+            $admin->roles()
+                ->where('name', Role::ADMIN)
+                ->count() === 1
+        );
+    }
+
     public function testItThrowExceptionIfBadUserPassword()
     {
         $installer = new AppInstaller;
 
         $this->expectException(\Exception::class);
 
-        $installer->install('good@email.com', 'short');
+        $installer->createAdminUser('Admin', 'good@email.com', 'short');
     }
 
     public function testItThrowExceptionIfBadUserEmail()
@@ -90,6 +102,6 @@ class AppInstallerTest extends TestCase
 
         $this->expectException(\Exception::class);
 
-        $installer->install('bad.email', 'secret123');
+        $installer->createAdminUser('Admin', 'bad.email', 'secret123');
     }
 }

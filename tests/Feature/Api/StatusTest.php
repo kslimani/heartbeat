@@ -14,7 +14,7 @@ class StatusTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->installApplication('admin@test.com', 'secret123');
+        $this->setupApp();
     }
 
     public function testItCheck()
