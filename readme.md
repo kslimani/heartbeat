@@ -8,11 +8,12 @@ A simple "heartbeat" back-end application to keep track of services statuses.
 
 See Laravel configuration [documentation](https://laravel.com/docs/5.8/configuration).
 
-After configuration run database migrations and application installation artisan commands :
+After configuration run database migrations, application installation and create new user with "admin" role :
 
 ```shell
 php artisan migrate
-php artisan app:install --email <ADMIN_EMAIL> --password <ADMIN_PASSWORD>
+php artisan app:install
+php artisan app:create-admin-user --name <ADMIN_NAME> --email <ADMIN_EMAIL> --password <ADMIN_PASSWORD>
 ```
 
 Configure the [task scheduler](https://laravel.com/docs/5.8/scheduling#introduction).
