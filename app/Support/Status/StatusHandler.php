@@ -57,8 +57,16 @@ class StatusHandler
     public function device($name)
     {
         $name = $this->normalizeDevice($name);
+        $device = Device::where(['name' => $name])->first();
 
-        return Device::firstOrCreate(['name' => $name]);
+        if (! $device) {
+            $device = Device::create([
+                'name' => $name,
+                'label' => $name,
+            ]);
+        }
+
+        return $device;
     }
 
     /**
@@ -70,8 +78,16 @@ class StatusHandler
     public function service($name)
     {
         $name = $this->normalizeService($name);
+        $service = Service::where(['name' => $name])->first();
 
-        return Service::firstOrCreate(['name' => $name]);
+        if (! $service) {
+            $service = Service::create([
+                'name' => $name,
+                'label' => $name,
+            ]);
+        }
+
+        return $service;
     }
 
     /**

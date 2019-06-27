@@ -10,6 +10,7 @@ class Device extends Model
 
     protected $fillable = [
         'name',
+        'label',
     ];
 
     public function serviceStatuses()
