@@ -19,7 +19,7 @@ class ServiceEvent extends Model
 
     public function serviceStatus()
     {
-        return $this->belongsTo('App\serviceStatus', 'service_status_id');
+        return $this->belongsTo('App\ServiceStatus', 'service_status_id');
     }
 
     public function fromStatus()
