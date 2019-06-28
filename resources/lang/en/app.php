@@ -48,4 +48,10 @@ return [
     'password_confirm' => 'Confirm password',
     'key' => 'Key',
 
+    'services_statuses' => 'Services statuses',
+    'services_events' => 'Service event history',
+    'past_events' => 'Past events',
+    'status_from' => 'Status changed from',
+    'status_to' => 'to',
+
 ];

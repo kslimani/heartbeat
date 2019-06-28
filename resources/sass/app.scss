@@ -11,6 +11,12 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
+// Material Design Icons
+@import '~@mdi/font/scss/materialdesignicons';
+
+// Past events timeline
+@import 'timeline';
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
