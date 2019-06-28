@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use Illuminate\Support\Carbon;
+use Carbon\CarbonInterval;
 
 class Utils
 {
@@ -19,6 +20,31 @@ class Utils
         $elapsed = Carbon::now()->timestamp - $date->timestamp;
 
         return $elapsed > 0 ? $elapsed : 0;
+    }
+
+    /**
+     * Format datetime to human readable
+     *
+     * @param  \Illuminate\Support\Carbon  $date
+     * @return string
+     */
+    public static function humanDatetime(Carbon $date)
+    {
+        // https://carbon.nesbot.com/docs/#iso-format-available-replacements
+        return ucfirst($date->isoFormat(
+            Locale::isoFormat(Locale::TYPE_DATETIME)
+        ));
+    }
+
+    /**
+     * Format duration in seconds to human readable
+     *
+     * @param  int  $seconds
+     * @return string
+     */
+    public static function humanDuration($seconds)
+    {
+        return CarbonInterval::seconds($seconds)->cascade()->forHumans();
     }
 
     /**
