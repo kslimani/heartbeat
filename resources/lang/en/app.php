@@ -42,11 +42,16 @@ return [
 
     'authorized_keys' => 'Authorized keys',
 
+    'devices' => 'Devices',
+    'devices_edit' => 'Edit device',
+    'devices_updated' => 'Device :name successfully updated',
+
     'name' => 'Name',
     'email' => 'Email',
     'password' => 'Password',
     'password_confirm' => 'Confirm password',
     'key' => 'Key',
+    'label' => 'Label',
 
     'services_statuses' => 'Services statuses',
     'services_events' => 'Event history',
