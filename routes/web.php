@@ -39,4 +39,7 @@ Route::group(['middleware' => ['auth', 'verified', 'admin']], function () {
 
     Route::resource('devices', 'DeviceController')->only(['index', 'edit', 'update']);
     Route::resource('services', 'ServiceController')->only(['index', 'edit', 'update']);
+
+    Route::get('/maintenance', 'MaintenanceController@show')->name('maintenance.show');
+    Route::post('/maintenance', 'MaintenanceController@update')->name('maintenance.update');
 });

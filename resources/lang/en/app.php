@@ -71,4 +71,8 @@ return [
     'enable' => 'Enable',
     'disable' => 'Disable',
 
+    'maintenance' => 'Maintenance',
+    'all_notifications_enabled' => 'All notifications enabled',
+    'all_notifications_disabled' => 'All notifications disabled',
+
 ];
