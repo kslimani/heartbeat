@@ -20,7 +20,9 @@ Auth::routes(['verify' => true, 'register' => false]);
 // Authenticated user (with verified email) routes
 Route::group(['middleware' => ['auth', 'verified']], function () {
     Route::get('/home', 'HomeController@index')->name('home');
-    Route::get('/services/events', 'ServiceEventController@index')->name('service-events.index');
+    Route::get('/service-events', 'ServiceEventController@index')->name('service-events.index');
+    Route::get('/service-statuses/{id}/show', 'ServiceStatusController@show')->name('service-events.show');
+    Route::post('/service-statuses/{id}/show', 'ServiceStatusController@update')->name('service-events.update');
 });
 
 // Admin user only routes

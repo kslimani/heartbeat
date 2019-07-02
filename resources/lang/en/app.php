@@ -49,9 +49,17 @@ return [
     'key' => 'Key',
 
     'services_statuses' => 'Services statuses',
-    'services_events' => 'Service event history',
+    'services_events' => 'Event history',
     'past_events' => 'Past events',
     'status_from' => 'Status changed from',
     'status_to' => 'to',
+    'updated_on' => 'Updated on',
+
+    'service_status' => 'Service status',
+    'notifications' => 'Notifications',
+    'enabled' => 'enabled',
+    'disabled' => 'disabled',
+    'enable' => 'Enable',
+    'disable' => 'Disable',
 
 ];
