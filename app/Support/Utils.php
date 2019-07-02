@@ -28,8 +28,12 @@ class Utils
      * @param  \Illuminate\Support\Carbon  $date
      * @return string
      */
-    public static function humanDatetime(Carbon $date)
+    public static function humanDatetime(Carbon $date = null)
     {
+        if (is_null($date)) {
+            $date = Carbon::now();
+        }
+
         // https://carbon.nesbot.com/docs/#iso-format-available-replacements
         return ucfirst($date->isoFormat(
             Locale::isoFormat(Locale::TYPE_DATETIME)
