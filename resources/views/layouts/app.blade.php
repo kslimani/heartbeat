@@ -66,6 +66,9 @@
                                         <a class="dropdown-item" href="{{ route('devices.index') }}">
                                             <span class="mdi mdi-server-network" aria-hidden="true"></span>{{ __('app.devices') }}
                                         </a>
+                                        <a class="dropdown-item" href="{{ route('services.index') }}">
+                                            <span class="mdi mdi-network-outline" aria-hidden="true"></span>{{ __('app.services') }}
+                                        </a>
                                     @endif
 
                                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">

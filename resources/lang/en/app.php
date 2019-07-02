@@ -46,6 +46,10 @@ return [
     'devices_edit' => 'Edit device',
     'devices_updated' => 'Device :name successfully updated',
 
+    'services' => 'Services',
+    'services_edit' => 'Edit service',
+    'services_updated' => 'Service :name successfully updated',
+
     'name' => 'Name',
     'email' => 'Email',
     'password' => 'Password',

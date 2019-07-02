@@ -38,4 +38,5 @@ Route::group(['middleware' => ['auth', 'verified', 'admin']], function () {
     Route::delete('/users/{user}/keys/{key}', 'UserKeyController@destroy')->name('user-keys.destroy');
 
     Route::resource('devices', 'DeviceController')->only(['index', 'edit', 'update']);
+    Route::resource('services', 'ServiceController')->only(['index', 'edit', 'update']);
 });
