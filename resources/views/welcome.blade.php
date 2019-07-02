@@ -13,6 +13,10 @@
                 margin-left: 30px;
                 margin-right: 30px;
             }
+
+            .btn-login {
+                margin-top: 1rem;
+            }
         </style>
 @endsection
 
@@ -25,6 +29,11 @@
             </div>
         </div>
     </div>
+    @guest
+    <div class="row justify-content-center">
+        <a class="btn btn-primary btn-lg btn-login" href="{{ route('login') }}">{{ __('Login') }}</a>
+    </div>
+    @endguest
 </div>
 @endsection
 
