@@ -58,7 +58,7 @@
             <div>{{ $serviceStatuses->first()->device->label }}</div>
             <div>
                 @foreach ($serviceStatuses as $serviceStatus)
-                <a href="{{ route('service-events.show', ['id' => $serviceStatus->id]) }}" class="badge {{ $serviceStatus->status->name === 'UP' ? 'badge-success' : 'badge-danger' }}"
+                <a href="{{ route('service-statuses.show', ['id' => $serviceStatus->id]) }}" class="badge {{ $serviceStatus->status->name === 'UP' ? 'badge-success' : 'badge-danger' }}"
                     data-toggle="tooltip" data-placement="top" title="{{ $serviceStatus->label_tooltip }}">{{ $serviceStatus->service->label }}</a>
                 @endforeach
             </div>

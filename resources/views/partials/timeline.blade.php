@@ -6,7 +6,7 @@
                 <div class="col">
                     <div class="timeline-date">{{ $event->label_date }}</div>
                     @unless (isset($withoutDeviceLine))
-                    <div><a href="{{ route('service-events.show', ['id' => $event->serviceStatus->id]) }}">{{ $event->serviceStatus->service->label }}</a> @ {{ $event->serviceStatus->device->label }}</div>
+                    <div><a href="{{ route('service-statuses.show', ['id' => $event->serviceStatus->id]) }}">{{ $event->serviceStatus->service->label }}</a> @ {{ $event->serviceStatus->device->label }}</div>
                     @endunless
                     <div>
                         {{ __('app.status_from') }}<span class="badge">{{ $event->fromStatus->name }}</span>{{ __('app.status_to') }}<span class="badge">{{ $event->toStatus->name }}</span>

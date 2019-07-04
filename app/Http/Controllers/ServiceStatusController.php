@@ -61,8 +61,7 @@ class ServiceStatusController extends Controller
                 'is_mute' => $isMute,
             ]);
 
-        return redirect()
-            ->route('service-events.show', ['id' => $serviceStatusId])
+        return back()
             ->with('alert.info', sprintf(
                 '%s %s',
                 __('app.notifications'),
