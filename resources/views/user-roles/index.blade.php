@@ -5,8 +5,9 @@
     <div class="mb-3"><h3>{{ __('app.roles') }}<small class="text-muted"> :: {{ $user->name }}</small></h3></div>
 
     <div class="pb-3">
-        <form method="POST" action="{{ route('user-roles.add', ['user' => $user->id]) }}">
+        <form method="POST" action="{{ route('user-roles.attach', ['user' => $user->id]) }}">
             {{ csrf_field() }}
+            {{ method_field('PUT') }}
             <div class="input-group">
                 <select name="role" class="custom-select" aria-label="{{ __('app.roles') }}" required>
                     <option></option>
@@ -36,7 +37,7 @@
                 <tr>
                     <td>{{ $userRole->name }}</td>
                     <td class="td-btn">
-                        <form method="POST" action="{{ route('user-roles.remove', ['user' => $user->id, 'role' => $userRole->id]) }}">
+                        <form method="POST" action="{{ route('user-roles.detach', ['user' => $user->id, 'role' => $userRole->id]) }}">
                             {{ csrf_field() }}
                             {{ method_field('DELETE') }}
                             <button class="btn btn-link" type="submit" onclick="return confirm('{{ __('app.msg_confirm') }}')">

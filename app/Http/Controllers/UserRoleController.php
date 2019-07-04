@@ -25,7 +25,7 @@ class UserRoleController extends Controller
         ]);
     }
 
-    public function add(Request $request, $userId)
+    public function attach(Request $request, $userId)
     {
         $request->validate([
             'role' => ['required', 'integer', 'min:1'],
@@ -41,7 +41,7 @@ class UserRoleController extends Controller
         return redirect()->route('user-roles.index', ['user' => $user->id]);
     }
 
-    public function remove(Request $request, $userId, $roleId)
+    public function detach(Request $request, $userId, $roleId)
     {
         $user = User::findOrFail($userId);
         $role = Role::findOrFail($roleId);
