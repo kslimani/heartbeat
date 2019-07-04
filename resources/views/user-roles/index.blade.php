@@ -7,7 +7,6 @@
     <div class="pb-3">
         <form method="POST" action="{{ route('user-roles.attach', ['user' => $user->id]) }}">
             {{ csrf_field() }}
-            {{ method_field('PUT') }}
             <div class="input-group">
                 <select name="role" class="custom-select" aria-label="{{ __('app.roles') }}" required>
                     <option></option>

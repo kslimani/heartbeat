@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth', 'verified', 'admin']], function () {
     Route::resource('users', 'UserController')->except(['show']);
 
     Route::get('/users/{user}/roles', 'UserRoleController@index')->name('user-roles.index');
-    Route::put('/users/{user}/roles/attach', 'UserRoleController@attach')->name('user-roles.attach');
+    Route::post('/users/{user}/roles/attach', 'UserRoleController@attach')->name('user-roles.attach');
     Route::delete('/users/{user}/roles/{role}/detach', 'UserRoleController@detach')->name('user-roles.detach');
 
     Route::get('/users/{user}/keys', 'UserKeyController@index')->name('user-keys.index');
