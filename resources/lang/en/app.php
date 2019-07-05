@@ -17,6 +17,7 @@ return [
     'unknown_status' => 'Unknown status',
     'status_update_failed' => 'Failed to update device service status',
     'unauthorized_service' => 'Unauthorized device service',
+    'detach_service_confirm' => 'Detach service ?',
 
     'login' => 'Login',
     'register' => 'Register',
@@ -50,6 +51,10 @@ return [
     'services_edit' => 'Edit service',
     'services_updated' => 'Service :name successfully updated',
 
+    'service_status_detached' => ':label successfully detached',
+    'service_status_attached' => ':label successfully attached',
+    'no_results' => 'No results',
+
     'name' => 'Name',
     'email' => 'Email',
     'password' => 'Password',
@@ -70,6 +75,9 @@ return [
     'disabled' => 'disabled',
     'enable' => 'Enable',
     'disable' => 'Disable',
+    'service' => 'Service',
+    'device' => 'Device',
+    'can_update' => 'Can update',
 
     'maintenance' => 'Maintenance',
     'all_notifications_enabled' => 'All notifications enabled',

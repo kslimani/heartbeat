@@ -12,6 +12,8 @@ use App\User;
 
 class ServiceHelper
 {
+    const DEFAULT_WITH = ['device', 'service', 'status'];
+
     public static function serviceStatusIdList(User $user)
     {
         return DB::table('service_status_user')
@@ -56,11 +58,27 @@ class ServiceHelper
 
     public static function statusesFromIdList(Collection $serviceStatusIdList)
     {
-        return ServiceStatus::with([
-                'device',
-                'service',
-                'status',
-            ])
+        return ServiceStatus::with(self::DEFAULT_WITH)
             ->whereIn('id', $serviceStatusIdList);
+    }
+
+    public static function sortableStatuses($query)
+    {
+        // FIXME: find a better way to sort by relations ?
+        return $query->leftJoin('devices', 'service_statuses.device_id', '=', 'devices.id')
+            ->leftJoin('services', 'service_statuses.service_id', '=', 'services.id')
+            ->select('service_statuses.*')
+            ->addSelect('devices.id as device_id')
+            ->addSelect('services.id as service_id');
+    }
+
+    public static function userStatuses(User $user, array $with = self::DEFAULT_WITH)
+    {
+        return self::sortableStatuses($user->serviceStatuses()->with($with));
+    }
+
+    public static function statuses(array $with = self::DEFAULT_WITH)
+    {
+        return self::sortableStatuses(ServiceStatus::with($with));
     }
 }

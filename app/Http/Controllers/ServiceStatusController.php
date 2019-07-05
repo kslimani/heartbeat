@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Support\ServiceHelper;
 use App\Support\Utils;
+use App\ServiceStatus;
 
 class ServiceStatusController extends Controller
 {
@@ -67,5 +68,40 @@ class ServiceStatusController extends Controller
                 __('app.notifications'),
                 $isMute ? __('app.disabled') : __('app.enabled')
             ));
+    }
+
+    public function search(Request $request)
+    {
+        $request->validate([
+            'q' => ['required', 'string', 'max:30'],
+        ]);
+
+        $like = $request->input('q');
+
+        $serviceStatuses = ServiceHelper::statuses([
+                'device',
+                'service',
+            ])
+            ->orWhere('services.label', 'like', $like.'%')
+            ->orWhere('devices.label', 'like', $like.'%')
+            ->orWhere('services.name', 'like', $like.'%')
+            ->orWhere('devices.name', 'like', $like.'%')
+            ->orderBy('devices.label')
+            ->orderBy('services.label')
+            ->limit(config('app.search_limit'))
+            ->get()
+            ->transform(function($serviceStatus) {
+                // Autocomplete jQuery plugin expected format
+                return [
+                    'id' => $serviceStatus->id,
+                    'text' => sprintf(
+                        '%s @ %s',
+                        $serviceStatus->service->label,
+                        $serviceStatus->device->label
+                    ),
+                ];
+            });
+
+        return response()->json($serviceStatuses);
     }
 }

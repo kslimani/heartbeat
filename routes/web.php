@@ -37,6 +37,13 @@ Route::group(['middleware' => ['auth', 'verified', 'admin']], function () {
     Route::post('/users/{user}/keys', 'UserKeyController@generate')->name('user-keys.generate');
     Route::delete('/users/{user}/keys/{key}', 'UserKeyController@destroy')->name('user-keys.destroy');
 
+    Route::get('/service-statuses/search', 'ServiceStatusController@search')->name('service-statuses.search');
+
+    Route::get('/users/{user}/service-statuses', 'UserServiceStatusController@index')->name('user-service-statuses.index');
+    Route::post('/users/{user}/service-statuses/attach', 'UserServiceStatusController@attach')->name('user-service-statuses.attach');
+    Route::put('/users/{user}/service-statuses/{id}', 'UserServiceStatusController@update')->name('user-service-statuses.update');
+    Route::delete('/users/{user}/service-statuses/{id}/detach', 'UserServiceStatusController@detach')->name('user-service-statuses.detach');
+
     Route::resource('devices', 'DeviceController')->only(['index', 'edit', 'update']);
     Route::resource('services', 'ServiceController')->only(['index', 'edit', 'update']);
 

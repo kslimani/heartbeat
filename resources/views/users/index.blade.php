@@ -14,6 +14,7 @@
                     <th scope="col"></th>
                     <th scope="col"></th>
                     <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -34,6 +35,11 @@
                     <td class="td-btn">
                         <a href="{{ route('user-roles.index', ['user' => $user->id]) }}" class="btn btn-link">
                             <span class="mdi mdi-18px mdi-account-multiple" aria-hidden="true"></span>
+                        </a>
+                    </td>
+                    <td class="td-btn">
+                        <a href="{{ route('user-service-statuses.index', ['user' => $user->id]) }}" class="btn btn-link">
+                            <span class="mdi mdi-18px mdi-lock-pattern" aria-hidden="true"></span>
                         </a>
                     </td>
                     <td class="td-btn">
