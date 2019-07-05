@@ -24,7 +24,7 @@
             <input class="js-Form-IsUpdatable" type="hidden" name="is_updatable" value="">
             <input class="js-Form-IsMute" type="hidden" name="is_mute" value="">
             <div class="input-group">
-                <input class="js-Form-Search form-control" type="text" required>
+                <input class="js-Form-Search form-control" type="text" autocomplete="off" required>
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <label class="mdi mdi-check-network-outline" for="updatableCb"></label>
@@ -127,14 +127,10 @@
             $('.js-Form-IsMute').val($('.js-Form-Cb-Mute').prop('checked') ? '0' : '1');
 
             if (id && id.length > 0) {
-                // Handle browser "Back button"
-                $('.js-Form-Search').val(null);
-
                 return true;
             }
 
             evt && $('.js-Form-Search').focus();
-
             return false;
         };
 
@@ -143,8 +139,10 @@
         $('.js-Form-Search').typeahead({
             delay: 800,
             minLength: 3,
+            items: 'all',
             source:  function (term, process) {
                 return $.get(searchUrl, {term: term}, function (data) {
+                    // FIXME: no suggestion if single result
                     return process(data);
                 });
             },
