@@ -18,11 +18,6 @@
         margin: 0 0 10px;
     }
 
-    .status-updated {
-        margin-top: 1rem;
-        font-size: 90%;
-    }
-
     .tooltip-inner {
         max-width: none;
     }
@@ -73,7 +68,7 @@
 
     <a href="{{ route('service-events.index') }}"><div class="mdi mdi-chevron-left">{{ __('app.services_events') }}</div></a>
 
-    <p class="status-updated text-muted text-center">{{ __('app.updated_on') }} {{ $updatedLabel }}</p>
+    @include('partials.updated-on')
 @endsection
 
 @section('footer')

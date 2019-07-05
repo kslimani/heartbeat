@@ -59,6 +59,7 @@
 
     {{ $events->links() }}
 
+    @include('partials.updated-on')
 @endsection
 
 @section('footer')
