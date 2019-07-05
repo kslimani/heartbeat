@@ -1,7 +1,6 @@
 @extends('layouts.menu')
 
 @section('head')
-<script src="https://cdn.jsdelivr.net/gh/xcash/bootstrap-autocomplete@v2.2.2/dist/latest/bootstrap-autocomplete.min.js"></script>
 <style>
     .td-lbl {
         line-height: 1;
@@ -140,16 +139,19 @@
         };
 
         // Initialize autocomplete text input
-        $('.js-Form-Search')
-            .on('autocomplete.select', function(evt, item) {
+        var searchUrl = '{{ route('service-statuses.search') }}';
+        $('.js-Form-Search').typeahead({
+            delay: 800,
+            minLength: 3,
+            source:  function (term, process) {
+                return $.get(searchUrl, {term: term}, function (data) {
+                    return process(data);
+                });
+            },
+            afterSelect: function(item) {
                 $('.js-Form-Id').val(item.id);
-            })
-            .autoComplete({
-                resolverSettings: {
-                    url: '{{ route('service-statuses.search') }}',
-                },
-                noResultsText: '{{ __('app.no_results') }}',
-            });
+            },
+        });
 
         // Handle form submit event
         $('.js-Form').submit(updateForm);

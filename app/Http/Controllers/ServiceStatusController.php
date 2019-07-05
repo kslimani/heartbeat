@@ -71,13 +71,13 @@ class ServiceStatusController extends Controller
             ));
     }
 
-    public function search(Request $request)
+    public function search(Request $request, $param = 'term')
     {
         $request->validate([
-            'q' => ['required', 'string', 'max:30'],
+            $param => ['required', 'string', 'max:50'],
         ]);
 
-        $like = $request->input('q');
+        $like = $request->input($param);
 
         $serviceStatuses = ServiceHelper::statuses([
                 'device',
@@ -92,10 +92,10 @@ class ServiceStatusController extends Controller
             ->limit(config('app.search_limit'))
             ->get()
             ->transform(function($serviceStatus) {
-                // Autocomplete jQuery plugin expected format
+                // Typeahead javascript plugin expected format
                 return [
                     'id' => $serviceStatus->id,
-                    'text' => sprintf(
+                    'name' => sprintf(
                         '%s @ %s',
                         $serviceStatus->service->label,
                         $serviceStatus->device->label
