@@ -43,6 +43,7 @@
                         <a href="javascript:" class="js-Btn btn btn-primary">
                             <span class="mdi mdi-18px {{ $isMute ? 'mdi-bell-outline' : 'mdi-bell-off-outline' }}"></span>{{ __($isMute ? 'app.enable' : 'app.disable') }}</a>
                         <form class="js-Form" method="POST" action="{{ route('service-statuses.update', ['id' => $serviceStatus->id]) }}">
+                            @method('PUT')
                             @csrf
                             <input type="hidden" name="is_mute" value="{{ $isMute ? '0' : '1' }}">
                         </form>
