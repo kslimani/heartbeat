@@ -70,4 +70,9 @@ class User extends Authenticatable implements MustVerifyEmail
             'service_status_id'
         )->withPivot('is_updatable', 'is_mute');
     }
+
+    public function settings()
+    {
+        return $this->hasOne('App\UserSettings');
+    }
 }
