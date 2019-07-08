@@ -26,7 +26,40 @@ class SettingsTest extends TestCase
         }
     }
 
-    public function testItGetAndSet()
+    public function testItGet()
+    {
+        $user = factory(User::class)->create();
+
+        $this->assertDatabaseMissing('user_settings', [
+            'user_id' => $user->id,
+        ]);
+
+        $settings = Settings::get($user);
+
+        $this->assertHasDefaultKeys($settings);
+        $this->assertDatabaseMissing('user_settings', [
+            'user_id' => $user->id,
+        ]);
+    }
+
+    public function testItSet()
+    {
+        $user = factory(User::class)->create();
+
+        $this->assertDatabaseMissing('user_settings', [
+            'user_id' => $user->id,
+        ]);
+
+        $settings = Settings::set($user, ['foo' => 'bar']);
+
+        $this->assertHasDefaultKeys($settings);
+        $this->assertArrayHasKey('foo', $settings);
+        $this->assertDatabaseHas('user_settings', [
+            'user_id' => $user->id,
+        ]);
+    }
+
+    public function testItGetAuth()
     {
         $user = factory(User::class)->create();
         $this->actingAs($user);
@@ -35,16 +68,10 @@ class SettingsTest extends TestCase
             'user_id' => $user->id,
         ]);
 
-        $settings = Settings::get();
+        $settings = Settings::getAuth();
 
         $this->assertHasDefaultKeys($settings);
-
-        $settings = Settings::set(['foo' => 'bar']);
-
-        $this->assertHasDefaultKeys($settings);
-        $this->assertArrayHasKey('foo', $settings);
-
-        $this->assertDatabaseHas('user_settings', [
+        $this->assertDatabaseMissing('user_settings', [
             'user_id' => $user->id,
         ]);
     }
