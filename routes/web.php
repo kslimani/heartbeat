@@ -18,17 +18,20 @@ Route::get('/', function () {
 Auth::routes(['verify' => true, 'register' => false]);
 
 // Authenticated user (with verified email) routes
-Route::group(['middleware' => ['auth', 'verified']], function () {
+Route::group(['middleware' => ['auth', 'verified', 'locale']], function () {
     Route::get('/home', 'HomeController@index')->name('home');
 
     Route::get('/service-events', 'ServiceEventController@index')->name('service-events.index');
 
     Route::get('/service-statuses/{id}/show', 'ServiceStatusController@show')->name('service-statuses.show');
     Route::put('/service-statuses/{id}/show', 'ServiceStatusController@update')->name('service-statuses.update');
+
+    Route::get('/account/settings', 'Account\SettingsController@edit')->name('account-settings.edit');
+    Route::put('/account/settings', 'Account\SettingsController@update')->name('account-settings.update');
 });
 
 // Admin user only routes
-Route::group(['middleware' => ['auth', 'verified', 'admin']], function () {
+Route::group(['middleware' => ['auth', 'verified', 'admin', 'locale']], function () {
     Route::resource('users', 'UserController')->except(['show']);
 
     Route::get('/users/{user}/roles', 'UserRoleController@index')->name('user-roles.index');

@@ -54,6 +54,10 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="{{ route('account-settings.edit') }}">
+                                        <span class="mdi mdi-settings" aria-hidden="true"></span>{{ __('app.settings') }}
+                                    </a>
+
                                     @if (Auth::user()->isAdmin())
                                         @if (Route::has('register'))
                                         <a class="dropdown-item" href="{{ route('register') }}">
