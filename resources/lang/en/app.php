@@ -15,8 +15,8 @@ return [
     'msg_confirm' => 'Do you wish to continue ?',
     'not_permitted' => 'Operation not permitted',
     'unknown_status' => 'Unknown status',
-    'status_update_failed' => 'Failed to update device service status',
-    'unauthorized_service' => 'Unauthorized device service',
+    'status_update_failed' => 'Failed to update service status',
+    'unauthorized_service' => 'Unauthorized service',
     'detach_service_confirm' => 'Detach service ?',
 
     'login' => 'Login',
@@ -35,9 +35,9 @@ return [
     'users' => 'Users',
     'users_create' => 'Create user',
     'users_edit' => 'Edit user',
-    'users_created' => 'User :name successfully created',
-    'users_updated' => 'User :name successfully updated',
-    'users_deleted' => 'User :name successfully deleted',
+    'users_created' => 'User :name created',
+    'users_updated' => 'User :name updated',
+    'users_deleted' => 'User :name deleted',
 
     'roles' => 'Roles',
 
@@ -45,15 +45,17 @@ return [
 
     'devices' => 'Devices',
     'devices_edit' => 'Edit device',
-    'devices_updated' => 'Device :name successfully updated',
+    'devices_updated' => 'Device :name updated',
 
     'services' => 'Services',
     'services_edit' => 'Edit service',
-    'services_updated' => 'Service :name successfully updated',
+    'services_updated' => 'Service :name updated',
 
-    'service_status_detached' => ':label successfully detached',
-    'service_status_attached' => ':label successfully attached',
-    'no_results' => 'No results',
+    'service_status_detached' => ':label detached',
+    'service_status_attached' => ':label attached',
+
+    'settings' => 'Settings',
+    'settings_updated' => 'Settings updated',
 
     'name' => 'Name',
     'email' => 'Email',
@@ -77,10 +79,14 @@ return [
     'disable' => 'Disable',
     'service' => 'Service',
     'device' => 'Device',
-    'can_update' => 'Can update',
+    'can_update' => 'Authorize update',
 
     'maintenance' => 'Maintenance',
-    'all_notifications_enabled' => 'All notifications enabled',
-    'all_notifications_disabled' => 'All notifications disabled',
+    'all_notifications_enabled' => 'All notifications are enabled',
+    'all_notifications_disabled' => 'All notifications are disabled',
+
+    'language' => 'Language',
+    'english' => 'English',
+    'french' => 'French',
 
 ];
