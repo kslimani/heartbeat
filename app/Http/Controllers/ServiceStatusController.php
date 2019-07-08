@@ -37,7 +37,7 @@ class ServiceStatusController extends Controller
         ServiceHelper::formatEvents($events);
 
         return view('service-statuses/show', [
-            'updatedOn' => Utils::humanDatetime(),
+            'updatedOn' => Utils::humanDatetime(null, config('app.user_tz')),
             'serviceStatus' => $serviceStatus,
             'isMute' => (bool) $serviceStatus->pivot->is_mute,
             'events' => $events,

@@ -3,32 +3,28 @@
 namespace App\Support;
 
 use Illuminate\Support\Facades\Auth;
+use App\User;
 use App\UserSettings;
 
 class Settings
 {
     const SESSION_KEY = '__settings';
 
-    public static function get()
+    public static function getAuth()
     {
         $settings = session(self::SESSION_KEY);
 
         if (! $settings) {
-            $settings = self::mergeWithDefault(self::userSettings()->settings);
+            $settings = self::get(Auth::user());
             session([self::SESSION_KEY => $settings]);
         }
 
         return $settings;
     }
 
-    public static function set(array $settings)
+    public static function setAuth(array $settings)
     {
-        $settings = self::mergeWithDefault($settings);
-
-        $userSettings = self::userSettings();
-        $userSettings->settings = $settings;
-        $userSettings->save();
-
+        $settings = self::set(Auth::User(), $settings);
         session([self::SESSION_KEY => $settings]);
 
         if (isset($settings['locale'])) {
@@ -38,24 +34,32 @@ class Settings
         return $settings;
     }
 
-    protected static function userSettings()
+    public static function get(User $user)
     {
-        $user = Auth::user();
-
-        if (! $user) {
-            throw new \LogicException('User not authenticated');
-        }
-
         $userSettings = $user->settings;
 
         if (! $userSettings) {
+            return self::default();
+        }
+
+        return self::mergeWithDefault($userSettings->settings);
+    }
+
+    public static function set(User $user, array $settings)
+    {
+        $userSettings = $user->settings;
+        $settings = self::mergeWithDefault($settings);
+
+        if (! $user->settings) {
             $userSettings = new UserSettings([
                 'user_id' => $user->id,
-                'settings' => self::default(),
             ]);
         }
 
-        return $userSettings;
+        $userSettings->settings = $settings;
+        $userSettings->save();
+
+        return $settings;
     }
 
     public static function default()

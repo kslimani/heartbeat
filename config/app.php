@@ -186,6 +186,7 @@ return [
 
     'user_settings' => [
         'locale' => 'en',
+        'tz' => 'UTC',
     ],
 
     /*

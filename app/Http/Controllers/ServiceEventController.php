@@ -23,7 +23,7 @@ class ServiceEventController extends Controller
         ServiceHelper::formatEvents($events);
 
         return view('service-events/index', [
-            'updatedOn' => Utils::humanDatetime(),
+            'updatedOn' => Utils::humanDatetime(null, config('app.user_tz')),
             'events' => $events,
         ]);
     }

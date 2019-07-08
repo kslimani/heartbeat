@@ -7,7 +7,7 @@ use App\Support\Locale;
 use App\Support\Settings;
 use Illuminate\Support\Facades\Auth;
 
-class SetupLocale
+class UserSettings
 {
     /**
      * Handle an incoming request.
@@ -19,9 +19,13 @@ class SetupLocale
     public function handle($request, Closure $next)
     {
         try {
-            if (Auth::check() && $settings = Settings::get()) {
+            if (Auth::check() && $settings = Settings::getAuth()) {
                 if (isset($settings['locale'])) {
                     Locale::set($settings['locale']);
+                }
+                if (isset($settings['tz'])) {
+                    // Store user timezone in app config to ease re-use
+                    config(['app.user_tz' => $settings['tz']]);
                 }
             }
         } catch (\Exception $e) {

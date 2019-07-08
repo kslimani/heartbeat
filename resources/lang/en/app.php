@@ -88,5 +88,6 @@ return [
     'language' => 'Language',
     'english' => 'English',
     'french' => 'French',
+    'timezone' => 'Time zone',
 
 ];

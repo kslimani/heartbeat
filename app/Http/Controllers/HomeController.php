@@ -57,7 +57,7 @@ class HomeController extends Controller
         ServiceHelper::formatEvents($events);
 
         return view('home', [
-            'updatedOn' => Utils::humanDatetime(),
+            'updatedOn' => Utils::humanDatetime(null, config('app.user_tz')),
             'statuses' => $statuses,
             'byDevices' => $serviceStatuses->groupBy('device.id'), // Grouped by devices
             'events' => $events,

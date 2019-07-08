@@ -28,10 +28,14 @@ class Utils
      * @param  \Illuminate\Support\Carbon  $date
      * @return string
      */
-    public static function humanDatetime(Carbon $date = null)
+    public static function humanDatetime(Carbon $date = null, $tz = null)
     {
         if (is_null($date)) {
             $date = Carbon::now();
+        }
+
+        if (! is_null($tz)) {
+            $date->tz = $tz;
         }
 
         // https://carbon.nesbot.com/docs/#iso-format-available-replacements

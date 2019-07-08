@@ -24,6 +24,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->setupTimezone();
+
         Locale::boot([
             'aliases' => [
                 'en' => 'en_US.utf8',
@@ -38,5 +40,18 @@ class AppServiceProvider extends ServiceProvider
                 ],
             ],
         ]);
+    }
+
+    /**
+     * Setup application timezone
+     *
+     * @param  string  $tz
+     * @return void
+     */
+    public function setupTimezone($tz = 'UTC')
+    {
+        if (date_default_timezone_get() !== $tz) {
+           date_default_timezone_set($tz);
+        }
     }
 }
