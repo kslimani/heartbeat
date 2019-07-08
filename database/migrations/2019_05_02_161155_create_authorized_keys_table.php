@@ -15,7 +15,7 @@ class CreateAuthorizedKeysTable extends Migration
     {
         Schema::create('authorized_keys', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('user_id');
+            $table->unsignedBigInteger('user_id');
             $table->string('data', 39)->unique();
             $table->timestamps();
             $table->softDeletes();

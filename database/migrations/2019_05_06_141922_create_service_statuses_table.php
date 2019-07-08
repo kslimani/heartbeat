@@ -15,10 +15,10 @@ class CreateServiceStatusesTable extends Migration
     {
         Schema::create('service_statuses', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->bigInteger('device_id');
-            $table->bigInteger('service_id');
-            $table->bigInteger('status_id');
-            $table->bigInteger('updated_by')->nullable();
+            $table->unsignedBigInteger('device_id');
+            $table->unsignedBigInteger('service_id');
+            $table->unsignedBigInteger('status_id');
+            $table->unsignedBigInteger('updated_by')->nullable();
             $table->timestamps();
 
             $table->unique(['device_id', 'service_id']);
