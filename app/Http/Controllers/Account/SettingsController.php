@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Account;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Support\Locale;
 use App\Support\Settings;
 use Carbon\CarbonTimeZone;
 use DateTimeZone;
@@ -36,6 +37,7 @@ class SettingsController extends Controller
         ]);
 
         Settings::setAuth($settings);
+        Locale::set($settings['locale']);
 
         return back()
             ->with('alert.success', __('app.settings_updated'));
