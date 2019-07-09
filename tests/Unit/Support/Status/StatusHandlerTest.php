@@ -5,8 +5,9 @@ namespace Tests\Unit\Support\Status;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
-use App\User;
+use App\Role;
 use App\Status;
+use App\User;
 use App\Support\Status\StatusHandler;
 use App\Support\Status\StatusException;
 
@@ -128,6 +129,8 @@ class StatusHandlerTest extends TestCase
     {
         $admin = User::where('email', $this->adminEmail)->first();
         $user = factory(User::class)->create();
+        $overseer = factory(User::class)->create();
+        $overseer->roles()->syncWithoutDetaching([Role::byName(Role::OVERSEER)->id]);
         $handler = new StatusHandler($user);
         $device = $handler->device('my.device');
         $service = $handler->service('acme-srv');
@@ -153,6 +156,10 @@ class StatusHandlerTest extends TestCase
 
         $this->assertDatabaseMissing('service_status_user', [
             'user_id' => $user->id,
+        ]);
+
+        $this->assertDatabaseMissing('service_status_user', [
+            'user_id' => $overseer->id,
         ]);
 
         $serviceStatus = $handler->handle($device, $service, $status);
@@ -187,6 +194,13 @@ class StatusHandlerTest extends TestCase
             'user_id' => $user->id,
             'service_status_id' => $serviceStatus->id,
             'is_updatable' => true,
+            'is_mute' => false,
+        ]);
+
+        $this->assertDatabaseHas('service_status_user', [
+            'user_id' => $overseer->id,
+            'service_status_id' => $serviceStatus->id,
+            'is_updatable' => false,
             'is_mute' => false,
         ]);
 
