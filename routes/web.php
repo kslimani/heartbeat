@@ -26,8 +26,12 @@ Route::group(['middleware' => ['auth', 'verified', 'settings']], function () {
     Route::get('/service-statuses/{id}/show', 'ServiceStatusController@show')->name('service-statuses.show');
     Route::put('/service-statuses/{id}/show', 'ServiceStatusController@update')->name('service-statuses.update');
 
-    Route::get('/account/settings', 'Account\SettingsController@edit')->name('account-settings.edit');
-    Route::put('/account/settings', 'Account\SettingsController@update')->name('account-settings.update');
+    Route::get('/account/settings', 'AccountController@settings')->name('account-settings');
+    Route::get('/account/profile', 'AccountController@profile')->name('account-profile');
+    Route::get('/account/security', 'AccountController@security')->name('account-security');
+    Route::put('/account/settings', 'AccountController@updateSettings')->name('account-settings.update');
+    Route::put('/account/profile', 'AccountController@updateProfile')->name('account-profile.update');
+    Route::put('/account/password', 'AccountController@updatePassword')->name('account-password.update');
 });
 
 // Admin user only routes

@@ -55,9 +55,6 @@ return [
     'service_status_attached' => ':label attaché',
     'all_services_attached' => 'Tous les services attachés',
 
-    'settings' => 'Paramètres',
-    'settings_updated' => 'Paramètres mis à jour',
-
     'name' => 'Nom',
     'email' => 'Email',
     'password' => 'Mot de passe',
@@ -87,9 +84,16 @@ return [
     'all_notifications_enabled' => 'Toutes les notifications sont activées',
     'all_notifications_disabled' => 'Toutes les notifications sont désactivées',
 
+    'settings_updated' => 'Paramètres mis à jour',
+    'profile_updated' => 'Profil mis à jour',
+    'password_updated' => 'Mot de passe mis à jour',
+
+    'settings' => 'Paramètres',
     'language' => 'Langue',
     'english' => 'Anglais',
     'french' => 'Français',
     'timezone' => 'Fuseau horaire',
+    'profile' => 'Profil',
+    'security' => 'Sécurité',
 
 ];

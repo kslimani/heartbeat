@@ -55,9 +55,6 @@ return [
     'service_status_attached' => ':label attached',
     'all_services_attached' => 'All services attached',
 
-    'settings' => 'Settings',
-    'settings_updated' => 'Settings updated',
-
     'name' => 'Name',
     'email' => 'Email',
     'password' => 'Password',
@@ -87,9 +84,16 @@ return [
     'all_notifications_enabled' => 'All notifications are enabled',
     'all_notifications_disabled' => 'All notifications are disabled',
 
+    'settings_updated' => 'Settings updated',
+    'profile_updated' => 'Profile updated',
+    'password_updated' => 'Password updated',
+
+    'settings' => 'Settings',
     'language' => 'Language',
     'english' => 'English',
     'french' => 'French',
     'timezone' => 'Time zone',
+    'profile' => 'Profile',
+    'security' => 'Security',
 
 ];

@@ -54,7 +54,7 @@
                                 </a>
 
                                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                    <a class="dropdown-item" href="{{ route('account-settings.edit') }}">
+                                    <a class="dropdown-item" href="{{ route('account-settings') }}">
                                         <span class="mdi mdi-settings" aria-hidden="true"></span>{{ __('app.settings') }}
                                     </a>
 
