@@ -7,6 +7,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Notification;
 use App\Notifications\StatusHasChanged;
+use App\Role;
 use App\User;
 use App\ServiceEvent;
 use App\Support\Status\StatusHandler;
@@ -27,6 +28,8 @@ class ReporterTest extends TestCase
     public function testItReport()
     {
         $admin = User::where('email', $this->adminEmail)->first();
+        $overseer = factory(User::class)->create();
+        $overseer->roles()->syncWithoutDetaching([Role::byName(Role::OVERSEER)->id]);
         $user1 = factory(User::class)->create();
         $user2 = factory(User::class)->create();
         $handler1 = new StatusHandler($user1);
@@ -49,8 +52,8 @@ class ReporterTest extends TestCase
 
         $report = Reporter::report();
 
-        // All user notified
-        Notification::assertSentTo([$admin, $user1, $user2], StatusHasChanged::class, function ($notification) {
+        // All users notified
+        Notification::assertSentTo([$admin, $overseer, $user1, $user2], StatusHasChanged::class, function ($notification) {
             return $notification->report->changes()->count() === 3;
         });
 
@@ -81,8 +84,8 @@ class ReporterTest extends TestCase
 
         $report = Reporter::report();
 
-        // Admin and user2 notified
-        Notification::assertSentTo([$admin, $user2], StatusHasChanged::class, function ($notification) {
+        // Admin, Overseer and user2 notified
+        Notification::assertSentTo([$admin, $overseer, $user2], StatusHasChanged::class, function ($notification) {
             return $notification->report->changes()->count() === 1;
         });
 
