@@ -30,9 +30,14 @@ class AppInstallerTest extends TestCase
 
         $installer->install();
 
-        $this->assertDatabaseHas('roles', [
-            'name' => Role::ADMIN,
-        ]);
+        foreach ([
+            Role::ADMIN,
+            Role::OVERSEER,
+        ] as $role) {
+            $this->assertDatabaseHas('roles', [
+                'name' => $role,
+            ]);
+        }
 
         $latest = AppStore::get(ServiceEvent::LATEST);
 
