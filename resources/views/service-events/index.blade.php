@@ -1,5 +1,9 @@
 @extends('layouts.menu')
 
+@section('head')
+<meta http-equiv="refresh" content="{{ config('app.status_change_interval') * 60 }}">
+@endsection
+
 @section('main')
 
     <div class="mb-3"><h3>{{ __('app.services_events') }}</h3></div>

@@ -1,6 +1,7 @@
 @extends('layouts.menu')
 
 @section('head')
+<meta http-equiv="refresh" content="{{ config('app.status_change_interval') * 60 }}">
 <style>
     .status {
         padding-bottom: 5px;
