@@ -161,15 +161,32 @@ class StatusHandler
         ]);
 
         // Attach "admin" users
-        Role::admin()->users()->chunk(20, function($users) use ($settings, $serviceStatus) {
-            $associations = [];
+        Role::byName(Role::ADMIN)
+            ->users()
+            ->chunk(20, function($users) use ($settings, $serviceStatus) {
+                $associations = [];
 
-            foreach ($users as $user) {
-                $associations[$user->id] = $settings;
-            }
+                foreach ($users as $user) {
+                    $associations[$user->id] = $settings;
+                }
 
-            $serviceStatus->users()->syncWithoutDetaching($associations);
-        });
+                $serviceStatus->users()->syncWithoutDetaching($associations);
+            });
+
+        $settings['is_updatable'] = false;
+
+        // Attach "overseer" users
+        Role::byName(Role::OVERSEER)
+            ->users()
+            ->chunk(20, function($users) use ($settings, $serviceStatus) {
+                $associations = [];
+
+                foreach ($users as $user) {
+                    $associations[$user->id] = $settings;
+                }
+
+                $serviceStatus->users()->syncWithoutDetaching($associations);
+            });
     }
 
     /**

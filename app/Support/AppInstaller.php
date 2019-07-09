@@ -70,7 +70,7 @@ class AppInstaller
 
     public function createAdminUser($name, $email, $password, $verified = true)
     {
-        $adminRole = Role::admin();
+        $adminRole = Role::byName(Role::ADMIN);
 
         $user = $this->createUser($name, $email, $password, $verified);
         $user->roles()->syncWithoutDetaching([$adminRole->id]);

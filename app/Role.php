@@ -23,8 +23,8 @@ class Role extends Model
         return $this->belongsToMany('App\User', 'role_user');
     }
 
-    public static function admin()
+    public static function byName($name)
     {
-        return Role::where('name', self::ADMIN)->firstOrFail();
+        return Role::where('name', $name)->firstOrFail();
     }
 }
