@@ -93,6 +93,13 @@
         </table>
     </div>
 
+    <div class="text-right">
+        <form method="POST" action="{{ route('user-service-statuses.attachall', ['user' => $user->id]) }}">
+            {{ csrf_field() }}
+            <button type="submit" class="btn btn-sm btn-outline-primary" onclick="return confirm('{{ __('app.msg_confirm') }}')">{{ __('app.add_all_services') }}</button>
+        </form>
+    </div>
+
     <div class="form-group">
         <a href="{{ route('users.index') }}" class="btn btn-secondary" role="button">
             <span class="mdi mdi-arrow-left-bold" aria-hidden="true"></span>{{ __('app.back') }}
@@ -108,17 +115,6 @@
     $(function () {
         // Initialize tooltips
         $('[data-toggle="tooltip"]').tooltip();
-
-
-        // Set "is_updatable" checkbox value on change event
-        $(".js-Form-Cb-Updatable").change(function() {
-            $(this).val(this.checked ? 1 : 0);
-        });
-
-        // Set "is_mute" checkbox value on change event
-        $(".js-Form-Cb-Mute").change(function() {
-            $(this).val(this.checked ? 0 : 1);
-        });
 
         // Form input values handler
         var updateForm = function(evt) {

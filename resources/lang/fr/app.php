@@ -53,6 +53,7 @@ return [
 
     'service_status_detached' => ':label détaché',
     'service_status_attached' => ':label attaché',
+    'all_services_attached' => 'Tous les services attachés',
 
     'settings' => 'Paramètres',
     'settings_updated' => 'Paramètres mis à jour',
@@ -80,6 +81,7 @@ return [
     'service' => 'Service',
     'device' => 'Appareil',
     'can_update' => 'Autoriser la mise à jour',
+    'add_all_services' => 'Ajouter tous les services',
 
     'maintenance' => 'Maintenance',
     'all_notifications_enabled' => 'Toutes les notifications sont activées',

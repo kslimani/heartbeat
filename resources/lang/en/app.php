@@ -53,6 +53,7 @@ return [
 
     'service_status_detached' => ':label detached',
     'service_status_attached' => ':label attached',
+    'all_services_attached' => 'All services attached',
 
     'settings' => 'Settings',
     'settings_updated' => 'Settings updated',
@@ -80,6 +81,7 @@ return [
     'service' => 'Service',
     'device' => 'Device',
     'can_update' => 'Authorize update',
+    'add_all_services' => 'Add all services',
 
     'maintenance' => 'Maintenance',
     'all_notifications_enabled' => 'All notifications are enabled',

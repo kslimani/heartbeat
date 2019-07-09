@@ -46,6 +46,7 @@ Route::group(['middleware' => ['auth', 'verified', 'admin', 'settings']], functi
 
     Route::get('/users/{user}/service-statuses', 'UserServiceStatusController@index')->name('user-service-statuses.index');
     Route::post('/users/{user}/service-statuses/attach', 'UserServiceStatusController@attach')->name('user-service-statuses.attach');
+    Route::post('/users/{user}/service-statuses/attachall', 'UserServiceStatusController@attachAll')->name('user-service-statuses.attachall');
     Route::put('/users/{user}/service-statuses/{id}', 'UserServiceStatusController@update')->name('user-service-statuses.update');
     Route::delete('/users/{user}/service-statuses/{id}/detach', 'UserServiceStatusController@detach')->name('user-service-statuses.detach');
 

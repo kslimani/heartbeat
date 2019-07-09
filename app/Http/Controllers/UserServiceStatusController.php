@@ -84,6 +84,31 @@ class UserServiceStatusController extends Controller
             ]));
     }
 
+    public function attachAll($userId)
+    {
+        $user = User::with(['roles'])->findOrFail($userId);
+
+        // Note: all pivots will be reset to default
+        $pivots = [
+            'is_updatable' => $user->isAdmin(),
+            'is_mute' => false,
+        ];
+
+        $relations = [];
+
+        ServiceStatus::pluck('id')
+            ->each(function($serviceStatusId) use (&$relations, $pivots) {
+                $relations[$serviceStatusId] = $pivots;
+            });
+
+        $user->serviceStatuses()
+            ->syncWithoutDetaching($relations);
+
+        return redirect()
+            ->route('user-service-statuses.index', ['user' => $user->id])
+            ->with('alert.success', __('app.all_services_attached'));
+    }
+
     public function detach($userId, $serviceStatusId)
     {
         $user = User::findOrFail($userId);
