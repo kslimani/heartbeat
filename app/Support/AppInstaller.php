@@ -23,6 +23,7 @@ class AppInstaller
     {
         collect([
             Role::ADMIN,
+            Role::OVERSEER,
         ])->each(function($name) {
             Role::firstOrCreate(['name' => $name]);
         });
