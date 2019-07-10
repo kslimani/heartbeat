@@ -10,6 +10,7 @@ class Locale
 {
     const TYPE_DATE = 'date';
     const TYPE_DATETIME = 'datetime';
+    const TYPE_DATETIME_SHORT = 'datetime_short';
     const TYPE_TIME = 'time';
 
     protected static $app;
@@ -186,6 +187,9 @@ class Locale
             case self::TYPE_TIME :
                 return 'LTS';
 
+            case self::TYPE_DATETIME_SHORT :
+                return 'll LT';
+
             // Defaults to DATETIME
             default:
                 return 'LLLL';
@@ -224,17 +228,18 @@ class Locale
      * Format datetime to human readable
      *
      * @param  \Illuminate\Support\Carbon  $date
+     * @param  string  $type
      * @param  string  $tz
      * @return string
      */
-    public static function humanDatetime(Carbon $date = null, $tz = null)
+    public static function humanDatetime(Carbon $date = null, $type = self::TYPE_DATETIME, $tz = null)
     {
         $fmtDate = is_null($date) ? Carbon::now() : $date->copy();
         $fmtDate->tz = is_null($tz) ? self::tz() : $tz;
 
         // https://carbon.nesbot.com/docs/#iso-format-available-replacements
         return ucfirst($fmtDate->isoFormat(
-            self::isoFormat(self::TYPE_DATETIME)
+            self::isoFormat($type)
         ));
     }
 
