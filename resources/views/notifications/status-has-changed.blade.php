@@ -1,0 +1,21 @@
+@component('mail::message')
+
+# @lang('app.services_statuses')
+
+* {{ trans_choice('app.new_events', $changes->count(), ['value' => $changes->count()]) }}
+
+{{-- Service events table --}}
+@component('mail::table')
+| @lang('app.date') | @lang('app.service') @ @lang('app.device') | @lang('app.from')  | @lang('app.status_to') |
+|:------------------|:------------------------------------------:|:------------------:|:----------------------:|
+@foreach ($changes as $change)
+| {{ $change->date }} | [{{ $change->service->name }}]({{ route('service-statuses.show', ['id' => $change->id]) }}) @ {{ $change->device->name }} | {{ $change->from->name }} | @component('mail::text', ['color' => $change->to->name === 'UP' ? 'success' : 'error']) {{ $change->to->name }} @endcomponent |
+@endforeach
+@endcomponent
+
+{{-- Button --}}
+@component('mail::button', ['url' => route('home')])
+@lang('app.services_statuses')
+@endcomponent
+
+@endcomponent

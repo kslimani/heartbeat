@@ -7,10 +7,11 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Support\Status\Report\Latest\Report;
+use App\Support\Locale;
 
 class StatusHasChanged extends Notification
 {
-    use Queueable;
+    use Queueable, Customizable;
 
     public $report;
 
@@ -44,27 +45,28 @@ class StatusHasChanged extends Notification
      */
     public function toMail($notifiable)
     {
-        // TODO: blade template with formatted message, button link to user status page, etc...
-        // return (new MailMessage)->view('emails.status-has-changed', [
-        //     'changes' => $this->report->userChanges($notifiable),
-        // ]);
+        $this->customize($notifiable);
 
-        $message = (new MailMessage)
-            ->subject('[Heartbeat] service status has changed');
+        $changes = $this->report->userChanges($notifiable)
+            ->map(function($change) {
+                $fmtChange = clone $change;
+                $fmtChange->date = Locale::humanDatetime(
+                    $fmtChange->date,
+                    Locale::TYPE_DATETIME_SHORT
+                );
 
-        $this->report
-            ->userChanges($notifiable)
-            ->each(function($change) use ($message) {
-                $message->line(sprintf(
-                    'Device "%s" service "%s" status has changed from "%s" to "%s"',
-                    $change->device->name,
-                    $change->service->name,
-                    $change->from->name,
-                    $change->to->name
-                ));
+                return $fmtChange;
             });
 
-        return $message;
+        return (new MailMessage)
+            ->subject(sprintf(
+                '[%s] %s',
+                config('app.name', 'Heartbeat'),
+                __('app.services_statuses')
+            ))
+            ->markdown('notifications.status-has-changed', [
+                'changes' => $changes,
+            ]);
     }
 
     /**

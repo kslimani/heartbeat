@@ -68,6 +68,9 @@ return [
     'status_from' => 'Statut changé de',
     'status_to' => 'à',
     'updated_on' => 'Mis à jour le',
+    'from' => 'de',
+    'date' => 'Date',
+    'new_events' => '{1} :value nouvel événement|[2,*] :value nouveaux événements',
 
     'service_status' => 'État du service',
     'notifications' => 'Notifications',

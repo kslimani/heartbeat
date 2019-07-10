@@ -68,6 +68,9 @@ return [
     'status_from' => 'Status changed from',
     'status_to' => 'to',
     'updated_on' => 'Updated on',
+    'from' => 'from',
+    'date' => 'Date',
+    'new_events' => '{1} :value new event|[2,*] :value new events',
 
     'service_status' => 'Service status',
     'notifications' => 'Notifications',
