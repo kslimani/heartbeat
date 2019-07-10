@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Support\ServiceHelper;
-use App\Support\Utils;
+use App\Support\Locale;
 
 class ServiceEventController extends Controller
 {
@@ -23,7 +23,7 @@ class ServiceEventController extends Controller
         ServiceHelper::formatEvents($events);
 
         return view('service-events/index', [
-            'updatedOn' => Utils::humanDatetime(null, config('app.user_tz')),
+            'updatedOn' => Locale::humanDatetime(),
             'events' => $events,
         ]);
     }

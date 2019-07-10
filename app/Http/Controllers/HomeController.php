@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Support\ServiceHelper;
+use App\Support\Locale;
 use App\Support\Utils;
 
 class HomeController extends Controller
@@ -30,7 +31,7 @@ class HomeController extends Controller
                 $item->label_tooltip = sprintf(
                     '%s - %s',
                     $item->status->name,
-                    Utils::humanDuration(Utils::elapsed($item->updated_at))
+                    Locale::humanDuration(Utils::elapsed($item->updated_at))
                 );
 
                 switch ($item->status->name) {
@@ -57,7 +58,7 @@ class HomeController extends Controller
         ServiceHelper::formatEvents($events);
 
         return view('home', [
-            'updatedOn' => Utils::humanDatetime(null, config('app.user_tz')),
+            'updatedOn' => Locale::humanDatetime(),
             'statuses' => $statuses,
             'byDevices' => $serviceStatuses->groupBy('device.id'), // Grouped by devices
             'events' => $events,

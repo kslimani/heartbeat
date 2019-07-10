@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use IteratorAggregate;
 use App\ServiceEvent;
 use App\ServiceStatus;
+use App\Support\Locale;
 use App\Support\Utils;
 use App\User;
 
@@ -49,8 +50,8 @@ class ServiceHelper
     public static function formatEvents(IteratorAggregate $events)
     {
         $events->each(function($event) {
-            $event->label_date = Utils::humanDatetime($event->created_at, config('app.user_tz'));
-            $event->label_duration = Utils::humanDuration(
+            $event->label_date = Locale::humanDatetime($event->created_at);
+            $event->label_duration = Locale::humanDuration(
                 $event->elapsed ?: Utils::elapsed($event->created_at)
             );
         });

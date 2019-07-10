@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Support\ServiceHelper;
+use App\Support\Locale;
 use App\Support\Utils;
 use App\ServiceStatus;
 
@@ -26,7 +27,7 @@ class ServiceStatusController extends Controller
         $serviceStatus->label_status = sprintf(
             '%s - %s',
             $serviceStatus->status->name,
-            Utils::humanDuration(Utils::elapsed($serviceStatus->updated_at))
+            Locale::humanDuration(Utils::elapsed($serviceStatus->updated_at))
         );
 
         // Get service events
@@ -37,7 +38,7 @@ class ServiceStatusController extends Controller
         ServiceHelper::formatEvents($events);
 
         return view('service-statuses/show', [
-            'updatedOn' => Utils::humanDatetime(null, config('app.user_tz')),
+            'updatedOn' => Locale::humanDatetime(),
             'serviceStatus' => $serviceStatus,
             'isMute' => (bool) $serviceStatus->pivot->is_mute,
             'events' => $events,

@@ -20,13 +20,8 @@ class UserSettings
     {
         try {
             if (Auth::check() && $settings = Settings::getAuth()) {
-                if (isset($settings['locale'])) {
-                    Locale::set($settings['locale']);
-                }
-                if (isset($settings['tz'])) {
-                    // Store user timezone in app config to ease re-use
-                    config(['app.user_tz' => $settings['tz']]);
-                }
+                Locale::set($settings['locale']);
+                Locale::setTz($settings['tz']);
             }
         } catch (\Exception $e) {
             // Silently fails
