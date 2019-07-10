@@ -57,7 +57,12 @@ class Reporter
 
                 // Check if service status is different from latest date
                 if ($first->from_status_id !== $last->to_status_id) {
-                    $report->statusHasChanged($first->serviceStatus, $first->fromStatus, $last->toStatus);
+                    $report->statusHasChanged(
+                        $first->serviceStatus,
+                        $first->fromStatus,
+                        $last->toStatus,
+                        $last->created_at
+                    );
                 }
             });
 
@@ -73,7 +78,8 @@ class Reporter
         }
 
         // Notify changes to users
-        User::whereHas('serviceStatuses', function ($query) use ($report) {
+        User::with(['settings'])
+            ->whereHas('serviceStatuses', function ($query) use ($report) {
                 $query->where('is_mute', false)->whereIn('id', $report->changesById()->keys());
             })
             ->chunk(50, function($users) use ($report) {

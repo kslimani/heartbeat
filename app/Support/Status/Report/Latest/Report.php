@@ -5,6 +5,7 @@ namespace App\Support\Status\Report\Latest;
 use App\ServiceStatus;
 use App\Status;
 use App\User;
+use Illuminate\Support\Carbon;
 
 class Report
 {
@@ -15,9 +16,9 @@ class Report
         $this->changes = collect();
     }
 
-    public function statusHasChanged(ServiceStatus $serviceStatus, Status $from, Status $to)
+    public function statusHasChanged(ServiceStatus $serviceStatus, Status $from, Status $to, Carbon $date)
     {
-        $this->changes->push(new Change($serviceStatus, $from, $to));
+        $this->changes->push(new Change($serviceStatus, $from, $to, $date));
     }
 
     public function changes()
