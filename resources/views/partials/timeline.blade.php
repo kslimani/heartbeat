@@ -9,7 +9,7 @@
                     <div><a href="{{ route('service-statuses.show', ['id' => $event->serviceStatus->id]) }}">{{ $event->serviceStatus->service->label }}</a> @ {{ $event->serviceStatus->device->label }}</div>
                     @endunless
                     <div>
-                        {{ __('app.status_from') }}<span class="badge">{{ $event->fromStatus->name }}</span>{{ __('app.status_to') }}<span class="badge">{{ $event->toStatus->name }}</span>
+                        {{ __('app.status_changed') }} {{ __('app.from') }}<span class="badge">{{ $event->fromStatus->name }}</span>{{ __('app.to') }}<span class="badge">{{ $event->toStatus->name }}</span>
                     </div>
                     <span class="mdi mdi-timer-sand-empty"></span><span class="timeline-duration badge">{{ $event->label_duration }}</span>
                 </div>

@@ -6,8 +6,8 @@
 
 {{-- Service events table --}}
 @component('mail::table')
-| @lang('app.date') | @lang('app.service') @ @lang('app.device') | @lang('app.from')  | @lang('app.status_to') |
-|:------------------|:------------------------------------------:|:------------------:|:----------------------:|
+| @lang('app.date') | @lang('app.status_changed') | @lang('app.from')  | @lang('app.to') |
+|:------------------|:---------------------------:|:------------------:|:---------------:|
 @foreach ($changes as $change)
 | {{ $change->date }} | [{{ $change->service->name }}]({{ route('service-statuses.show', ['id' => $change->id]) }}) @ {{ $change->device->name }} | {{ $change->from->name }} | @component('mail::text', ['color' => $change->to->name === 'UP' ? 'success' : 'error']) {{ $change->to->name }} @endcomponent |
 @endforeach

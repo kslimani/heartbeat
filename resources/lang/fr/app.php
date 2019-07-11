@@ -65,10 +65,10 @@ return [
     'services_statuses' => 'État des services',
     'services_events' => 'Historique des évenements',
     'past_events' => 'Événements passés',
-    'status_from' => 'Statut changé de',
-    'status_to' => 'à',
     'updated_on' => 'Mis à jour le',
+    'status_changed' => 'Statut changé',
     'from' => 'de',
+    'to' => 'à',
     'date' => 'Date',
     'new_events' => '{1} :value nouvel événement|[2,*] :value nouveaux événements',
 
