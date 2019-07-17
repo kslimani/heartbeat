@@ -166,6 +166,7 @@ class StatusHandlerTest extends TestCase
 
         $this->assertInstanceOf(\App\ServiceStatus::class, $serviceStatus);
         $this->assertSame($user->id, $serviceStatus->updated_by);
+        $this->assertTrue($fakeNow->eq($serviceStatus->changed_at));
         $this->assertTrue($fakeNow->eq($serviceStatus->updated_at));
 
         $this->assertDatabaseHas('service_statuses', [
@@ -211,6 +212,7 @@ class StatusHandlerTest extends TestCase
 
         $this->assertInstanceOf(\App\ServiceStatus::class, $again);
         $this->assertSame($user->id, $again->updated_by);
+        $this->assertFalse($fakeNow->eq($serviceStatus->changed_at)); // status has not changed
         $this->assertTrue($fakeNow->eq($again->updated_at));
         $this->assertSame($serviceStatus->id, $again->id);
 
@@ -229,6 +231,7 @@ class StatusHandlerTest extends TestCase
         $this->assertInstanceOf(\App\ServiceStatus::class, $finally);
         $this->assertSame($user->id, $finally->updated_by);
         $this->assertTrue($fakeNow->eq($finally->updated_at));
+        $this->assertTrue($fakeNow->eq($finally->changed_at)); // status has changed
         $this->assertSame($serviceStatus->id, $finally->id);
         $this->assertSame($down->id, $finally->status_id);
 
