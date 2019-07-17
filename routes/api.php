@@ -13,9 +13,7 @@ use Illuminate\Http\Request;
 |
 */
 
-// FIXME: find a way set throttle using configuration
-
-Route::middleware('throttle:500,1')->namespace('Api')->group(function () {
+Route::middleware('throttle:'.config('app.api_throttle'))->namespace('Api')->group(function () {
     Route::post('/status/check', 'StatusController@check');
     Route::post('/status', 'StatusController@index');
 });
