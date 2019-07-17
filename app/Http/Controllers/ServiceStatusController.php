@@ -27,7 +27,7 @@ class ServiceStatusController extends Controller
         $serviceStatus->label_status = sprintf(
             '%s - %s',
             $serviceStatus->status->name,
-            Locale::humanDuration(Utils::elapsed($serviceStatus->updated_at))
+            Locale::humanDuration(Utils::elapsed($serviceStatus->changed_at))
         );
 
         // Get service events

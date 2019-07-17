@@ -8,6 +8,7 @@ use App\Service;
 use App\ServiceStatus;
 use App\Status;
 use App\User;
+use Illuminate\Support\Carbon;
 
 class StatusHandler
 {
@@ -250,6 +251,7 @@ class StatusHandler
             // Check if existing device service status has changed
             if ($serviceStatus->status_id !== $status->id) {
                 $serviceStatus->status_id = $status->id;
+                $serviceStatus->changed_at = Carbon::now();
                 $statusHasChanged = true;
             }
 
@@ -262,6 +264,7 @@ class StatusHandler
                 'service_id' => $service->id,
                 'status_id' => $status->id,
                 'updated_by' => $this->user->id,
+                'changed_at' => Carbon::now(),
             ]);
 
             $this->setDefaultAssociations($serviceStatus);

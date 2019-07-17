@@ -12,6 +12,11 @@ class ServiceStatus extends Model
         'service_id',
         'status_id',
         'updated_by', // User id or NULL if scheduled task
+        'changed_at',
+    ];
+
+    protected $dates = [
+        'changed_at',
     ];
 
     public function device()

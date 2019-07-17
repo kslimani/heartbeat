@@ -31,7 +31,7 @@ class HomeController extends Controller
                 $item->label_tooltip = sprintf(
                     '%s - %s',
                     $item->status->name,
-                    Locale::humanDuration(Utils::elapsed($item->updated_at))
+                    Locale::humanDuration(Utils::elapsed($item->changed_at))
                 );
 
                 switch ($item->status->name) {
