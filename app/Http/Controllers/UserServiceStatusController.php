@@ -109,6 +109,39 @@ class UserServiceStatusController extends Controller
             ->with('alert.success', __('app.all_services_attached'));
     }
 
+    public function syncWith(Request $request, $userId)
+    {
+        $user = User::with(['roles'])->findOrFail($userId);
+
+        $request->validate([
+            'with_user' => ['required', 'integer'],
+        ]);
+
+        $withUser = User::findOrFail($request->input('with_user'));
+
+        if ($user->id !== $withUser->id) {
+            // Note: all pivots will be reset to default
+            $pivots = [
+                'is_updatable' => $user->isAdmin(),
+                'is_mute' => false,
+            ];
+
+            $relations = [];
+
+            $withUser->serviceStatuses()
+                ->pluck('id')
+                ->each(function($serviceStatusId) use (&$relations, $pivots) {
+                    $relations[$serviceStatusId] = $pivots;
+                });
+
+            $user->serviceStatuses()->sync($relations);
+        }
+
+        return redirect()
+            ->route('user-service-statuses.index', ['user' => $user->id])
+            ->with('alert.success', __('app.all_services_sync'));
+    }
+
     public function detach($userId, $serviceStatusId)
     {
         $user = User::findOrFail($userId);

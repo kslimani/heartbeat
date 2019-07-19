@@ -54,6 +54,8 @@ return [
     'service_status_detached' => ':label détaché',
     'service_status_attached' => ':label attaché',
     'all_services_attached' => 'Tous les services attachés',
+    'all_services_sync' => 'Tous les services synchronisés avec l\'utilisateur',
+    'sync_with_user' => 'Synchroniser avec l\'utilisateur',
 
     'name' => 'Nom',
     'email' => 'Email',

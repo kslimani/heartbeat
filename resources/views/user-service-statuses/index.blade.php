@@ -18,21 +18,22 @@
     <div class="mb-3"><h3>{{ __('app.services_statuses') }}<small class="text-muted"> :: {{ $user->name }}</small></h3></div>
 
     <div class="pb-3">
-        <form class="js-Form" method="POST" action="{{ route('user-service-statuses.attach', ['user' => $user->id]) }}">
+        <!-- Attach service form -->
+        <form class="js-Attach" method="POST" action="{{ route('user-service-statuses.attach', ['user' => $user->id]) }}">
             {{ csrf_field() }}
-            <input class="js-Form-Id" type="hidden" name="service_status_id" value="">
-            <input class="js-Form-IsUpdatable" type="hidden" name="is_updatable" value="">
-            <input class="js-Form-IsMute" type="hidden" name="is_mute" value="">
+            <input class="js-Attach-Id" type="hidden" name="service_status_id" value="">
+            <input class="js-Attach-IsUpdatable" type="hidden" name="is_updatable" value="">
+            <input class="js-Attach-IsMute" type="hidden" name="is_mute" value="">
             <div class="input-group">
-                <input class="js-Form-Search form-control" type="text" autocomplete="off" required>
+                <input class="js-Attach-Search form-control" type="text" autocomplete="off" required>
                 <div class="input-group-append">
                     <div class="input-group-text">
                         <label class="mdi mdi-check-network-outline" for="updatableCb"></label>
-                        <input class="js-Form-Cb-Updatable" type="checkbox" id="updatableCb">
+                        <input class="js-Attach-Cb-Updatable" type="checkbox" id="updatableCb">
                     </div>
                     <div class="input-group-text">
                         <label class="mdi mdi-bell-outline" for="muteCb"></label>
-                        <input class="js-Form-Cb-Mute" type="checkbox" id="muteCb" checked>
+                        <input class="js-Attach-Cb-Mute" type="checkbox" id="muteCb" checked>
                     </div>
                     <button class="btn btn-primary" type="submit">
                         {{ __('app.add') }}
@@ -94,7 +95,22 @@
     </div>
 
     <div class="text-right">
-        <form method="POST" action="{{ route('user-service-statuses.attachall', ['user' => $user->id]) }}">
+        <!-- Synchronize with user form -->
+        <form class="js-Sync" method="POST" action="{{ route('user-service-statuses.sync', ['user' => $user->id]) }}">
+            {{ csrf_field() }}
+            <input class="js-Sync-UserId" type="hidden" name="with_user" value="">
+            <div class="input-group">
+                <input class="js-Sync-Search form-control form-control-sm" type="text" autocomplete="off" required>
+                <div class="input-group-append">
+                    <button class="btn btn-sm btn-outline-primary" type="submit">
+                        {{ __('app.sync_with_user') }}
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Attach all services form -->
+        <form class="mt-1" method="POST" action="{{ route('user-service-statuses.attachall', ['user' => $user->id]) }}">
             {{ csrf_field() }}
             <button type="submit" class="btn btn-sm btn-outline-primary" onclick="return confirm('{{ __('app.msg_confirm') }}')">{{ __('app.add_all_services') }}</button>
         </form>
@@ -116,23 +132,23 @@
         // Initialize tooltips
         $('[data-toggle="tooltip"]').tooltip();
 
-        // Form input values handler
-        var updateForm = function(evt) {
-            var id = $('.js-Form-Id').val();
-            $('.js-Form-IsUpdatable').val($('.js-Form-Cb-Updatable').prop('checked') ? '1' : '0');
-            $('.js-Form-IsMute').val($('.js-Form-Cb-Mute').prop('checked') ? '0' : '1');
+        // Attach form input values handler
+        var updateAttach = function(evt) {
+            var id = $('.js-Attach-Id').val();
+            $('.js-Attach-IsUpdatable').val($('.js-Attach-Cb-Updatable').prop('checked') ? '1' : '0');
+            $('.js-Attach-IsMute').val($('.js-Attach-Cb-Mute').prop('checked') ? '0' : '1');
 
             if (id && id.length > 0) {
                 return true;
             }
 
-            evt && $('.js-Form-Search').focus();
+            evt && $('.js-Attach-Search').focus();
             return false;
         };
 
         // Initialize autocomplete text input
         var searchUrl = '{{ route('service-statuses.search') }}';
-        $('.js-Form-Search').typeahead({
+        $('.js-Attach-Search').typeahead({
             delay: 800,
             minLength: 3,
             items: 'all',
@@ -143,15 +159,46 @@
                 });
             },
             afterSelect: function(item) {
-                $('.js-Form-Id').val(item.id);
+                $('.js-Attach-Id').val(item.id);
             },
         });
 
-        // Handle form submit event
-        $('.js-Form').submit(updateForm);
+        // Sync form input values handler
+        var updateSync = function(evt) {
+            var id = $('.js-Sync-UserId').val();
 
-        // Initialize form input values
-        updateForm();
+            if (id && id.length > 0) {
+                return true;
+            }
+
+            evt && $('.js-Sync-Search').focus();
+            return false;
+        };
+
+        // Initialize autocomplete text input (user)
+        var userSearchUrl = '{{ route('users.search') }}';
+        $('.js-Sync-Search').typeahead({
+            delay: 800,
+            minLength: 3,
+            items: 'all',
+            source:  function (term, process) {
+                return $.get(userSearchUrl, {term: term}, function (data) {
+                    // FIXME: no suggestion if single result
+                    return process(data);
+                });
+            },
+            afterSelect: function(item) {
+                $('.js-Sync-UserId').val(item.id);
+            },
+        });
+
+        // Handle form submit events
+        $('.js-Attach').submit(updateAttach);
+        $('.js-Sync').submit(updateSync);
+
+        // Initialize forms
+        updateAttach();
+        updateSync();
     });
 </script>
 @endsection

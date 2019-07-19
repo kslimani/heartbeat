@@ -101,4 +101,32 @@ class UserController extends Controller
                 'name' => $user->name,
             ]));
     }
+
+    public function search(Request $request, $param = 'term')
+    {
+        $request->validate([
+            $param => ['required', 'string', 'max:50'],
+        ]);
+
+        $like = $request->input($param);
+
+        $users = User::where('name', 'like', $like.'%')
+            ->orWhere('email', 'like', '%'.$like.'%')
+            ->orderBy('name')
+            ->limit(config('app.search_limit'))
+            ->get()
+            ->transform(function($user) {
+                // Typeahead javascript plugin expected format
+                return [
+                    'id' => $user->id,
+                    'name' => sprintf(
+                        '%s - (%s)',
+                        $user->name,
+                        $user->email
+                    ),
+                ];
+            });
+
+        return response()->json($users);
+    }
 }

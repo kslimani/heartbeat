@@ -37,6 +37,7 @@ Route::group(['middleware' => ['auth', 'verified', 'settings']], function () {
 // Admin user only routes
 Route::group(['middleware' => ['auth', 'verified', 'admin', 'settings']], function () {
     Route::resource('users', 'UserController')->except(['show']);
+    Route::get('/users/search', 'UserController@search')->name('users.search');
 
     Route::get('/users/{user}/roles', 'UserRoleController@index')->name('user-roles.index');
     Route::post('/users/{user}/roles/attach', 'UserRoleController@attach')->name('user-roles.attach');
@@ -52,6 +53,7 @@ Route::group(['middleware' => ['auth', 'verified', 'admin', 'settings']], functi
     Route::post('/users/{user}/service-statuses/attach', 'UserServiceStatusController@attach')->name('user-service-statuses.attach');
     Route::post('/users/{user}/service-statuses/attachall', 'UserServiceStatusController@attachAll')->name('user-service-statuses.attachall');
     Route::put('/users/{user}/service-statuses/{id}', 'UserServiceStatusController@update')->name('user-service-statuses.update');
+    Route::post('/users/{user}/service-statuses/sync', 'UserServiceStatusController@syncWith')->name('user-service-statuses.sync');
     Route::delete('/users/{user}/service-statuses/{id}/detach', 'UserServiceStatusController@detach')->name('user-service-statuses.detach');
 
     Route::resource('devices', 'DeviceController')->only(['index', 'edit', 'update']);
