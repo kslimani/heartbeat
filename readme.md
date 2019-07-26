@@ -1,7 +1,5 @@
 # Heartbeat
 
-__DISCLAIMER: This project is a work in progress.__
-
 A simple "heartbeat" back-end application to keep track of services statuses.
 
 ## Configuration
