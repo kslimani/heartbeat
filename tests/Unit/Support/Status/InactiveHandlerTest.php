@@ -5,10 +5,8 @@ namespace Tests\Unit\Support\Status;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
-use App\ServiceEvent;
 use App\Status;
 use App\User;
-use App\Support\AppStore;
 use App\Support\Status\InactiveHandler;
 use App\Support\Status\StatusHandler;
 
@@ -31,13 +29,9 @@ class InactiveHandlerTest extends TestCase
         $up = $handler->status('UP');
         $inactive = Status::inactive();
 
-        // 13h00 : mock latest service event
+        // 13h00 : update device service status (UP)
         $fakeNow = Carbon::create(2019, 5, 21, 13, 0, 0);
         Carbon::setTestNow($fakeNow);
-        AppStore::put(ServiceEvent::LATEST, $fakeNow);
-
-        // 13h01 : update device service status (UP)
-        Carbon::setTestNow($fakeNow->addMinute());
         $serviceStatus = $handler->handle($device, $service, $up);
 
         $this->assertDatabaseHas('service_statuses', [
@@ -74,8 +68,7 @@ class InactiveHandlerTest extends TestCase
             'from_status_id' => $up->id,
             'to_status_id' => $inactive->id,
             'elapsed' => null,
+            'is_handled' => false,
         ]);
-
-        Carbon::setTestNow(); // Clear mock
     }
 }
