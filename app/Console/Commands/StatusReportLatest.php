@@ -14,7 +14,7 @@ class StatusReportLatest extends Command
      *
      * @var string
      */
-    protected $signature = 'status:report-latest';
+    protected $signature = 'hb:report-status-change';
 
     /**
      * The console command description.
