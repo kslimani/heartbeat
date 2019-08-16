@@ -15,18 +15,15 @@ class Reporter
 
     public static function report()
     {
-        // Check if all devices are muted
-        if (Utils::allDeviceMuted()) {
-            return;
-        }
-
         self::$handled = collect();
 
         // Make report
         $report = self::make();
 
-        // Notify report to users
-        self::notify($report);
+        // Notify users (unless all devices are muted)
+        if (! Utils::allDeviceMuted()) {
+            self::notify($report);
+        }
 
         // Set all marked events has handled
         self::setEventsAsHandled();
