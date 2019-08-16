@@ -17,7 +17,7 @@ class CreateAdminUser extends Command
      *
      * @var string
      */
-    protected $signature = 'app:create-admin-user
+    protected $signature = 'hb:create-admin-user
         {--name= : The name of admin user}
         {--email= : The email address of admin user}
         {--password= : The clear text password of admin user}

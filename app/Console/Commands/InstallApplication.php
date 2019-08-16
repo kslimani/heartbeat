@@ -13,7 +13,7 @@ class InstallApplication extends Command
      *
      * @var string
      */
-    protected $signature = 'app:install';
+    protected $signature = 'hb:install';
 
     /**
      * The console command description.

@@ -25,7 +25,7 @@ class Kernel extends ConsoleKernel
     protected function schedule(Schedule $schedule)
     {
         // Check services statuses changes
-        $schedule->command('status:report-latest')
+        $schedule->command('hb:report-status-change')
             ->everyMinute()
             ->withoutOverlapping();
     }
