@@ -16,15 +16,6 @@ class Kernel extends ConsoleKernel
         //
     ];
 
-    protected function statusChangesCron()
-    {
-        $each = config('app.status_change_interval');
-
-        return (int) $each > 1
-            ? sprintf('*/%u * * * *', $each)
-            : '* * * * *';
-    }
-
     /**
      * Define the application's command schedule.
      *
@@ -35,7 +26,7 @@ class Kernel extends ConsoleKernel
     {
         // Check services statuses changes
         $schedule->command('status:report-latest')
-            ->cron($this->statusChangesCron())
+            ->everyMinute()
             ->withoutOverlapping();
     }
 
