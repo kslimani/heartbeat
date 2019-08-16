@@ -1,7 +1,7 @@
 @extends('layouts.menu')
 
 @section('head')
-<meta http-equiv="refresh" content="{{ config('app.status_change_interval') * 60 }}">
+<meta http-equiv="refresh" content="{{ config('app.page_refresh_interval', 60) }}">
 <style>
     .card-header-service {
         font-size: 140%;

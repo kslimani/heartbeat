@@ -3,7 +3,6 @@
 namespace App\Support;
 
 use App\Role;
-use App\ServiceEvent;
 use App\Status;
 use App\User;
 use Illuminate\Support\Carbon;
@@ -15,8 +14,7 @@ class AppInstaller
     public function install()
     {
         return $this->createRoles()
-            ->createStatuses()
-            ->persistLatestServiceEvent();
+            ->createStatuses();
     }
 
     public function createRoles()
@@ -87,17 +85,6 @@ class AppInstaller
         ])->each(function($name) {
             Status::firstOrCreate(['name' => $name]);
         });
-
-        return $this;
-    }
-
-    public function persistLatestServiceEvent()
-    {
-        // Put current date if missing
-        $latest = AppStore::store()
-            ->rememberForever(ServiceEvent::LATEST, function () {
-                return Carbon::now();
-            });
 
         return $this;
     }

@@ -161,12 +161,23 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Service status changes report interval in minutes
+    | Page refresh interval in seconds
     |--------------------------------------------------------------------------
     |
     */
 
-    'status_change_interval' => env('STATUS_CHANGE_INTERVAL', 1),
+    'page_refresh_interval' => env('PAGE_REFRESH_INTERVAL', 60),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Minimum delay in seconds before service status change is reported.
+    | Service status change is not reported if service is back to previous
+    | status in the meantime.
+    |--------------------------------------------------------------------------
+    |
+    */
+
+    'report_tolerance_delay' => env('REPORT_TOLERANCE_DELAY', 60),
 
     /*
     |--------------------------------------------------------------------------

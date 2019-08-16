@@ -39,6 +39,7 @@ class StatusEvent
         $event = $serviceStatus->events()->create([
             'from_status_id' => $latest ? $latest->to_status_id : Status::inactive()->id,
             'to_status_id' => $serviceStatus->status_id,
+            'is_handled' => false,
         ]);
 
         return $event;
