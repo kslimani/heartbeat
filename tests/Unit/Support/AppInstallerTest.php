@@ -4,12 +4,9 @@ namespace Tests\Unit\Support;
 
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Carbon;
 use App\Role;
-use App\ServiceEvent;
 use App\User;
 use App\Support\AppInstaller;
-use App\Support\AppStore;
 
 class AppInstallerTest extends TestCase
 {
@@ -19,14 +16,9 @@ class AppInstallerTest extends TestCase
     {
         $installer = new AppInstaller;
 
-        $fakeNow = Carbon::create(2019, 5, 21);
-        Carbon::setTestNow($fakeNow);
-
         $this->assertDatabaseMissing('roles', [
             'name' => Role::ADMIN,
         ]);
-
-        $this->assertNull(AppStore::get(ServiceEvent::LATEST));
 
         $installer->install();
 
@@ -38,24 +30,6 @@ class AppInstallerTest extends TestCase
                 'name' => $role,
             ]);
         }
-
-        $latest = AppStore::get(ServiceEvent::LATEST);
-
-        $this->assertInstanceOf(Carbon::class, $latest);
-        $this->assertTrue($fakeNow->eq($latest));
-
-        $nextYear = Carbon::create(2020, 5, 21);
-        Carbon::setTestNow($nextYear);
-
-        $installer->install();
-
-        $latest = AppStore::get(ServiceEvent::LATEST);
-
-        $this->assertInstanceOf(Carbon::class, $latest);
-        $this->assertTrue($fakeNow->eq($latest));
-        $this->assertFalse($nextYear->eq($latest));
-
-        Carbon::setTestNow(); // Clear mock
     }
 
     public function testItCreateAdminUser()
