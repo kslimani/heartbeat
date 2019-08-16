@@ -6,13 +6,13 @@ use App\Notifications\StatusHasChanged;
 use App\ServiceEvent;
 use App\ServiceStatus;
 use App\Status;
-use App\Support\AppStore;
 use App\Support\Utils;
 use App\User;
-use Illuminate\Support\Carbon;
 
 class Reporter
 {
+    protected static $handled;
+
     public static function report()
     {
         // Check if all devices are muted
@@ -20,53 +20,94 @@ class Reporter
             return;
         }
 
-        $now = Carbon::now();
-        $latest = AppStore::get(ServiceEvent::LATEST);
+        self::$handled = collect();
 
-        // Murphy's law
-        if (! $latest) {
-            throw new \LogicException('Failed to get latest service event date');
-        }
+        // Make report
+        $report = self::make();
 
-        // Make report and notify to users
-        self::notify(self::make($latest));
+        // Notify report to users
+        self::notify($report);
 
-        // Update latest date
-        AppStore::put(ServiceEvent::LATEST, $now);
+        // Set all marked events has handled
+        self::setEventsAsHandled();
     }
 
-    public static function make(Carbon $latest)
+    public static function make()
     {
         $report = new Report;
 
-        // Get devices services events since latest date
+        // Get report tolerance delay in seconds
+        $toleranceDelay = config('app.report_tolerance_delay');
+
+        // Get unhandled devices services events
         ServiceEvent::with([
                 'fromStatus',
                 'toStatus',
                 'serviceStatus.device',
                 'serviceStatus.service',
             ])
-            ->where('created_at', '>', $latest)
+            ->where('is_handled', '=', false)
             ->orderby('created_at', 'asc')
             ->get()
             ->groupBy('service_status_id')
-            ->each(function($serviceStatusHistory) use ($report) {
+            ->each(function($serviceStatusHistory) use ($report, $toleranceDelay) {
                 // Get first and last event from history
                 $first = $serviceStatusHistory->first();
                 $last = $serviceStatusHistory->last();
 
-                // Check if service status is different from latest date
-                if ($first->from_status_id !== $last->to_status_id) {
-                    $report->statusHasChanged(
-                        $first->serviceStatus,
-                        $first->fromStatus,
-                        $last->toStatus,
-                        $last->created_at
-                    );
+                // Get all event id
+                $eventIds = $serviceStatusHistory->pluck('id');
+
+                // Check if service status has not changed
+                if ($first->from_status_id === $last->to_status_id) {
+                    // Mark all events has "handled"
+                    self::markAsHandled($eventIds);
+
+                    // No changes to report
+                    return;
                 }
+
+                // Get elapsed duration of last event
+                $elapsed = $last->elapsed ? $last->elapsed : Utils::elapsed($last->created_at);
+
+                // Check if elapsed duration is under tolerance delay
+                if ($elapsed < $toleranceDelay) {
+                    // Mark all events has "handled" except first and last event
+                    $eventIds->shift();
+                    $eventIds->pop();
+                    self::markAsHandled($eventIds);
+
+                    // Do not report changes yet
+                    return;
+                }
+
+                // Mark all events has "handled"
+                self::markAsHandled($eventIds);
+
+                // Report status change
+                $report->statusHasChanged(
+                    $first->serviceStatus,
+                    $first->fromStatus,
+                    $last->toStatus,
+                    $last->created_at
+                );
             });
 
         return $report;
+    }
+
+    public static function markAsHandled($eventIds)
+    {
+        self::$handled = self::$handled->concat($eventIds);
+    }
+
+    public static function setEventsAsHandled()
+    {
+        // Set all events as handled using single db query
+        if (self::$handled->isNotEmpty()) {
+            ServiceEvent::whereIn('id', self::$handled)
+                ->update(['is_handled' => true]);
+        }
     }
 
     public static function notify(Report $report)
