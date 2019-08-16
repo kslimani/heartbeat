@@ -10,8 +10,8 @@ After configuration run database migrations, application installation and create
 
 ```shell
 php artisan migrate
-php artisan app:install
-php artisan app:create-admin-user --name <ADMIN_NAME> --email <ADMIN_EMAIL> --password <ADMIN_PASSWORD>
+php artisan hb:install
+php artisan hb:create-admin-user --name <ADMIN_NAME> --email <ADMIN_EMAIL> --password <ADMIN_PASSWORD>
 ```
 
 Configure the [task scheduler](https://laravel.com/docs/5.8/scheduling#introduction).
