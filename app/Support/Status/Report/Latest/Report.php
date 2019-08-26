@@ -44,4 +44,34 @@ class Report
             return $ids->contains($change->id);
         });
     }
+
+    public function userStatuses(User $user)
+    {
+        $statuses = [
+            'INACTIVE' => 0,
+            'DOWN' => 0,
+            'UP' => 0,
+        ];
+
+        // FIXME: find a better way to retrieve counts
+        $user->serviceStatuses()
+            ->with('status')
+            ->each(function ($item) use (&$statuses) {
+                switch ($item->status->name) {
+                    case 'INACTIVE':
+                        ++$statuses['INACTIVE'];
+                        break;
+
+                    case 'DOWN':
+                        ++$statuses['DOWN'];
+                        break;
+
+                    case 'UP':
+                        ++$statuses['UP'];
+                        break;
+                }
+            });
+
+        return $statuses;
+    }
 }
