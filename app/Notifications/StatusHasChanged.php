@@ -58,6 +58,8 @@ class StatusHasChanged extends Notification
                 return $fmtChange;
             });
 
+        $statuses = $this->report->userStatuses($notifiable);
+
         return (new MailMessage)
             ->subject(sprintf(
                 '[%s] %s',
@@ -66,6 +68,8 @@ class StatusHasChanged extends Notification
             ))
             ->markdown('notifications.status-has-changed', [
                 'changes' => $changes,
+                'statuses' => $statuses,
+                'date' => Locale::humanDatetime(),
             ]);
     }
 
