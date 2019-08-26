@@ -73,6 +73,7 @@ return [
     'to' => 'to',
     'date' => 'Date',
     'new_events' => '{1} :value new event|[2,*] :value new events',
+    'generated_on' => 'Generated on',
 
     'service_status' => 'Service status',
     'notifications' => 'Notifications',

@@ -2,7 +2,10 @@
 
 # @lang('app.services_statuses')
 
-* {{ trans_choice('app.new_events', $changes->count(), ['value' => $changes->count()]) }}
+@component('mail::report-statuses', ['statuses' => $statuses])
+@endcomponent
+
+# {{ trans_choice('app.new_events', $changes->count(), ['value' => $changes->count()]) }}
 
 {{-- Service events table --}}
 @component('mail::table')
@@ -16,6 +19,11 @@
 {{-- Button --}}
 @component('mail::button', ['url' => route('home')])
 @lang('app.services_statuses')
+@endcomponent
+
+{{-- Report date --}}
+@component('mail::report-date')
+@lang('app.generated_on') {{ $date }}
 @endcomponent
 
 @endcomponent
