@@ -7,16 +7,6 @@ use App\Device;
 
 class DeviceController extends Controller
 {
-    public function index()
-    {
-        $devices = Device::orderBy('label')
-            ->paginate(config('app.pagination_limit'));
-
-        return view('devices/index', [
-            'devices' => $devices,
-        ]);
-    }
-
     public function edit($id)
     {
         $device = Device::findOrFail($id);
@@ -41,7 +31,7 @@ class DeviceController extends Controller
         $device->update($inputs);
 
         return redirect()
-            ->route('devices.index')
+            ->route('service-statuses.index')
             ->with('alert.success', __('app.devices_updated', [
                 'name' => $device->name,
             ]));

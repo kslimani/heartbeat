@@ -18,6 +18,7 @@ return [
     'status_update_failed' => 'Failed to update service status',
     'unauthorized_service' => 'Unauthorized service',
     'detach_service_confirm' => 'Detach service ?',
+    'msg_destroy' => 'All data will be deleted permanently',
 
     'login' => 'Login',
     'register' => 'Register',
@@ -31,6 +32,7 @@ return [
     'save' => 'Save',
     'delete' => 'Delete',
     'generate' => 'Generate',
+    'search' => 'Search',
 
     'users' => 'Users',
     'users_create' => 'Create user',
@@ -51,6 +53,7 @@ return [
     'services_edit' => 'Edit service',
     'services_updated' => 'Service :name updated',
 
+    'service_status_deleted' => ':label deleted',
     'service_status_detached' => ':label detached',
     'service_status_attached' => ':label attached',
     'all_services_attached' => 'All services attached',
@@ -85,6 +88,8 @@ return [
     'device' => 'Device',
     'can_update' => 'Authorize update',
     'add_all_services' => 'Add all services',
+
+    'services_management' => 'Services management',
 
     'maintenance' => 'Maintenance',
     'all_notifications_enabled' => 'All notifications are enabled',

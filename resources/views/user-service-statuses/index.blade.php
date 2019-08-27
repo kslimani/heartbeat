@@ -15,7 +15,7 @@
 
 @section('main')
 
-    <div class="mb-3"><h3>{{ __('app.services_statuses') }}<small class="text-muted"> :: {{ $user->name }}</small></h3></div>
+    <div class="mb-3"><h3>{{ __('app.services_management') }}<small class="text-muted"> :: {{ $user->name }}</small></h3></div>
 
     <div class="pb-3">
         <!-- Attach service form -->

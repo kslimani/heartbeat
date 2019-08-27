@@ -42,7 +42,7 @@
 
         <div class="form-group row mb-0">
             <div class="col-md-6 offset-md-4">
-                <a href="{{ route('services.index') }}" class="btn btn-secondary" role="button">
+                <a href="{{ route('service-statuses.index') }}" class="btn btn-secondary" role="button">
                     <span class="mdi mdi-arrow-left-bold" aria-hidden="true"></span>{{ __('app.back') }}
                 </a>
                 <button type="submit" class="btn btn-primary">

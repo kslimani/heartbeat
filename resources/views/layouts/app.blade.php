@@ -67,10 +67,7 @@
                                         <a class="dropdown-item" href="{{ route('users.index') }}">
                                             <span class="mdi mdi-account-group" aria-hidden="true"></span>{{ __('app.users') }}
                                         </a>
-                                        <a class="dropdown-item" href="{{ route('devices.index') }}">
-                                            <span class="mdi mdi-server-network" aria-hidden="true"></span>{{ __('app.devices') }}
-                                        </a>
-                                        <a class="dropdown-item" href="{{ route('services.index') }}">
+                                        <a class="dropdown-item" href="{{ route('service-statuses.index') }}">
                                             <span class="mdi mdi-network-outline" aria-hidden="true"></span>{{ __('app.services') }}
                                         </a>
                                         <a class="dropdown-item" href="{{ route('maintenance.show') }}">

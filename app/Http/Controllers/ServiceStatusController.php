@@ -10,6 +10,8 @@ use App\ServiceStatus;
 
 class ServiceStatusController extends Controller
 {
+    const REGEX_RULE = 'regex:/^([a-zA-Z_\.\-\d]+)$/u'; // Alphanumeric, dot, dash & underscore
+
     public function show(Request $request, $serviceStatusId)
     {
         // Get user service status
@@ -72,22 +74,74 @@ class ServiceStatusController extends Controller
             ));
     }
 
-    public function search(Request $request, $param = 'term')
+    public function index(Request $request, $searchParam = 'q')
     {
         $request->validate([
-            $param => ['required', 'string', 'max:50'],
+            $searchParam => ['nullable', 'string', 'max:50', self::REGEX_RULE],
         ]);
 
-        $like = $request->input($param);
+        $query = ServiceHelper::statuses([
+            'device',
+            'service',
+        ]);
+
+        $search = $request->input($searchParam);
+
+        if ($search) {
+            $like = '%'.$search.'%';
+            $query = $query->orWhere('services.label', 'like', $like)
+                ->orWhere('devices.label', 'like', $like)
+                ->orWhere('services.name', 'like', $like)
+                ->orWhere('devices.name', 'like', $like);
+        }
+
+        $serviceStatuses = $query->orderBy('devices.label')
+            ->orderBy('services.label')
+            ->paginate(config('app.pagination_limit'));
+
+        return view('service-statuses/index', [
+            'search' => $search,
+            'serviceStatuses' => $serviceStatuses,
+        ]);
+    }
+
+    public function destroy(Request $request, $id)
+    {
+        $serviceStatus = ServiceStatus::with(['device', 'service'])
+            ->findOrFail($id);
+
+        // Delete service status and events
+        $serviceStatus->delete();
+        $serviceStatus->events()->delete();
+
+        return redirect()
+            ->route('service-statuses.index')
+            ->with('alert.success', __('app.service_status_deleted', [
+                'label' => sprintf(
+                    '%s @ %s',
+                    $serviceStatus->device->name,
+                    $serviceStatus->service->name
+                ),
+            ]));
+    }
+
+    public function search(Request $request, $searchParam = 'term')
+    {
+        $request->validate([
+            $searchParam => ['required', 'string', 'max:50', self::REGEX_RULE],
+        ]);
+
+        $like = $request->input($searchParam);
+        $like = '%'.$like.'%';
 
         $serviceStatuses = ServiceHelper::statuses([
                 'device',
                 'service',
             ])
-            ->orWhere('services.label', 'like', $like.'%')
-            ->orWhere('devices.label', 'like', $like.'%')
-            ->orWhere('services.name', 'like', $like.'%')
-            ->orWhere('devices.name', 'like', $like.'%')
+            ->orWhere('services.label', 'like', $like)
+            ->orWhere('devices.label', 'like', $like)
+            ->orWhere('services.name', 'like', $like)
+            ->orWhere('devices.name', 'like', $like)
             ->orderBy('devices.label')
             ->orderBy('services.label')
             ->limit(config('app.search_limit'))
