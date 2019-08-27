@@ -47,7 +47,12 @@ Route::group(['middleware' => ['auth', 'verified', 'admin', 'settings']], functi
     Route::post('/users/{user}/keys', 'UserKeyController@generate')->name('user-keys.generate');
     Route::delete('/users/{user}/keys/{key}', 'UserKeyController@destroy')->name('user-keys.destroy');
 
+    Route::get('/service-statuses', 'ServiceStatusController@index')->name('service-statuses.index');
     Route::get('/service-statuses/search', 'ServiceStatusController@search')->name('service-statuses.search');
+    Route::delete('/service-statuses/{id}', 'ServiceStatusController@destroy')->name('service-statuses.destroy');
+
+    Route::resource('devices', 'DeviceController')->only(['edit', 'update']);
+    Route::resource('services', 'ServiceController')->only(['edit', 'update']);
 
     Route::get('/users/{user}/service-statuses', 'UserServiceStatusController@index')->name('user-service-statuses.index');
     Route::post('/users/{user}/service-statuses/attach', 'UserServiceStatusController@attach')->name('user-service-statuses.attach');
@@ -55,9 +60,6 @@ Route::group(['middleware' => ['auth', 'verified', 'admin', 'settings']], functi
     Route::put('/users/{user}/service-statuses/{id}', 'UserServiceStatusController@update')->name('user-service-statuses.update');
     Route::post('/users/{user}/service-statuses/sync', 'UserServiceStatusController@syncWith')->name('user-service-statuses.sync');
     Route::delete('/users/{user}/service-statuses/{id}/detach', 'UserServiceStatusController@detach')->name('user-service-statuses.detach');
-
-    Route::resource('devices', 'DeviceController')->only(['index', 'edit', 'update']);
-    Route::resource('services', 'ServiceController')->only(['index', 'edit', 'update']);
 
     Route::get('/maintenance', 'MaintenanceController@show')->name('maintenance.show');
     Route::post('/maintenance', 'MaintenanceController@update')->name('maintenance.update');

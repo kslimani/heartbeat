@@ -18,6 +18,7 @@ return [
     'status_update_failed' => 'La mise à jour du statut du service a échouée',
     'unauthorized_service' => 'Service non autorisé',
     'detach_service_confirm' => 'Détacher le service ?',
+    'msg_destroy' => 'Toutes les données seront définitivement supprimées',
 
     'login' => 'Connexion',
     'register' => 'Inscription',
@@ -31,6 +32,7 @@ return [
     'save' => 'Sauvegarder',
     'delete' => 'Supprimer',
     'generate' => 'Générer',
+    'search' => 'Rechercher',
 
     'users' => 'Utilisateurs',
     'users_create' => 'Créer un utilisateur',
@@ -51,6 +53,7 @@ return [
     'services_edit' => 'Editer un service',
     'services_updated' => 'Service :name mis à jour',
 
+    'service_status_deleted' => ':label supprimé',
     'service_status_detached' => ':label détaché',
     'service_status_attached' => ':label attaché',
     'all_services_attached' => 'Tous les services attachés',
@@ -85,6 +88,8 @@ return [
     'device' => 'Appareil',
     'can_update' => 'Autoriser la mise à jour',
     'add_all_services' => 'Ajouter tous les services',
+
+    'services_management' => 'Gestion des services',
 
     'maintenance' => 'Maintenance',
     'all_notifications_enabled' => 'Toutes les notifications sont activées',
