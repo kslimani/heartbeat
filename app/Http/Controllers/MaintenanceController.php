@@ -30,12 +30,6 @@ class MaintenanceController extends Controller
             Utils::unmuteAllDevices();
         }
 
-        return redirect()
-            ->route('maintenance.show')
-            ->with($muteAll ? 'alert.warning' : 'alert.info', sprintf(
-                '%s %s',
-                __('app.maintenance'),
-                $muteAll ? __('app.enabled') : __('app.disabled')
-            ));
+        return redirect()->route('maintenance.show');
     }
 }

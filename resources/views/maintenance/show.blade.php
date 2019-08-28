@@ -31,17 +31,21 @@
                                 {{ __($allMuted ? 'app.enabled' : 'app.disabled') }}
                             </span>
                         </span>
-                        <a href="javascript:" class="js-Btn btn btn-primary">
-                            <span class="mdi mdi-18px {{ $allMuted ? 'mdi-power-plug' : 'mdi-power-plug-off' }}"></span>{{ __($allMuted ? 'app.disable' : 'app.enable') }}</a>
-                        <form class="js-Form" method="POST" action="{{ route('maintenance.update') }}">
-                            @csrf
-                            <input type="hidden" name="mute_all" value="{{ $allMuted ? '0' : '1' }}">
-                        </form>
                     </div>
                 </div>
             </div>
         </div>
         <div class="card-footer {{ $allMuted ? 'bg-danger' : 'bg-success' }}">{{ __($allMuted ? 'app.all_notifications_disabled' : 'app.all_notifications_enabled') }}</div>
+    </div>
+
+    <div class="text-center pt-3">
+        <a href="javascript:" class="js-Btn btn btn-outline-primary form-control">
+            <span class="mdi mdi-18px {{ $allMuted ? 'mdi-power-plug' : 'mdi-power-plug-off' }}"></span>{{ __($allMuted ? 'app.disable' : 'app.enable') }}
+        </a>
+        <form class="js-Form" method="POST" action="{{ route('maintenance.update') }}">
+            @csrf
+            <input type="hidden" name="mute_all" value="{{ $allMuted ? '0' : '1' }}">
+        </form>
     </div>
 @endsection
 
