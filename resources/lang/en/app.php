@@ -94,6 +94,7 @@ return [
     'maintenance' => 'Maintenance',
     'all_notifications_enabled' => 'All notifications are enabled',
     'all_notifications_disabled' => 'All notifications are disabled',
+    'maintenance_is' => 'Maintenance mode is',
 
     'settings_updated' => 'Settings updated',
     'profile_updated' => 'Profile updated',
@@ -106,5 +107,7 @@ return [
     'timezone' => 'Time zone',
     'profile' => 'Profile',
     'security' => 'Security',
+    'seconds' => 'Seconds',
+    'rtd' => 'Tolerance delay',
 
 ];

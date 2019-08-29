@@ -13,6 +13,7 @@ try {
 
     require('bootstrap');
     require('bootstrap-3-typeahead');
+    require('bootstrap4-toggle');
 } catch (e) {}
 
 /**
