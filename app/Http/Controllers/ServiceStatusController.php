@@ -47,6 +47,23 @@ class ServiceStatusController extends Controller
         ]);
     }
 
+    public function edit(Request $request, $serviceStatusId)
+    {
+        $serviceStatus = $request->user()
+            ->serviceStatuses()
+            ->with([
+                'device',
+                'service',
+            ])
+            ->where('id', $serviceStatusId)
+            ->firstOrFail();
+
+        return view('service-statuses/edit', [
+            'serviceStatus' => $serviceStatus,
+            'defaultRtd' => config('app.report_tolerance_delay'),
+        ]);
+    }
+
     public function update(Request $request, $serviceStatusId)
     {
         $request->validate([
@@ -66,12 +83,9 @@ class ServiceStatusController extends Controller
                 'is_mute' => $isMute,
             ]);
 
-        return back()
-            ->with('alert.info', sprintf(
-                '%s %s',
-                __('app.notifications'),
-                $isMute ? __('app.disabled') : __('app.enabled')
-            ));
+        return redirect()->route('service-statuses.show', [
+            'id' => $serviceStatus->id
+        ]);
     }
 
     public function index(Request $request, $searchParam = 'q')

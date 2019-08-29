@@ -24,6 +24,7 @@ Route::group(['middleware' => ['auth', 'verified', 'settings']], function () {
     Route::get('/service-events', 'ServiceEventController@index')->name('service-events.index');
 
     Route::get('/service-statuses/{id}/show', 'ServiceStatusController@show')->name('service-statuses.show');
+    Route::get('/service-statuses/{id}/edit', 'ServiceStatusController@edit')->name('service-statuses.edit');
     Route::put('/service-statuses/{id}/show', 'ServiceStatusController@update')->name('service-statuses.update');
 
     Route::get('/account/settings', 'AccountController@settings')->name('account-settings');

@@ -109,6 +109,5 @@ return [
     'security' => 'Sécurité',
     'seconds' => 'Secondes',
     'rtd' => 'Délai de tolérance',
-    'rtd_default' => 'Valeur par défaut de :rtd si vide',
 
 ];
