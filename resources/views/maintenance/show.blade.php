@@ -26,7 +26,7 @@
             <div class="container">
                 <div class="row">
                     <div class="col text-nowrap">
-                        <span class="maintenance">{{ __('app.maintenance') }}
+                        <span class="maintenance">{{ __('app.maintenance_is') }}
                             <span class="font-weight-bold {{ $allMuted ? 'text-danger' : 'text-success' }}">
                                 {{ __($allMuted ? 'app.enabled' : 'app.disabled') }}
                             </span>

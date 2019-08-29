@@ -80,8 +80,8 @@ return [
 
     'service_status' => 'État du service',
     'notifications' => 'Notifications',
-    'enabled' => 'activée',
-    'disabled' => 'désactivée',
+    'enabled' => 'activé',
+    'disabled' => 'désactivé',
     'enable' => 'Activer',
     'disable' => 'Désactiver',
     'service' => 'Service',
@@ -94,6 +94,7 @@ return [
     'maintenance' => 'Maintenance',
     'all_notifications_enabled' => 'Toutes les notifications sont activées',
     'all_notifications_disabled' => 'Toutes les notifications sont désactivées',
+    'maintenance_is' => 'Le mode maintenance est',
 
     'settings_updated' => 'Paramètres mis à jour',
     'profile_updated' => 'Profil mis à jour',
@@ -106,5 +107,8 @@ return [
     'timezone' => 'Fuseau horaire',
     'profile' => 'Profil',
     'security' => 'Sécurité',
+    'seconds' => 'Secondes',
+    'rtd' => 'Délai de tolérance',
+    'rtd_default' => 'Valeur par défaut de :rtd si vide',
 
 ];
