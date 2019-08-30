@@ -12,7 +12,7 @@ class ServiceStatusController extends Controller
 {
     const REGEX_RULE = 'regex:/^([a-zA-Z_\.\-\d]+)$/u'; // Alphanumeric, dot, dash & underscore
 
-    public function show(Request $request, $serviceStatusId)
+    public function show(Request $request, $id)
     {
         // Get user service status
         $serviceStatus = $request->user()
@@ -22,7 +22,7 @@ class ServiceStatusController extends Controller
                 'service',
                 'status',
             ])            
-            ->where('id', $serviceStatusId)
+            ->where('id', $id)
             ->firstOrFail();
 
         // Add "current status" formatted label
@@ -47,7 +47,7 @@ class ServiceStatusController extends Controller
         ]);
     }
 
-    public function editSettings(Request $request, $serviceStatusId)
+    public function editSettings(Request $request, $id)
     {
         $serviceStatus = $request->user()
             ->serviceStatuses()
@@ -55,7 +55,7 @@ class ServiceStatusController extends Controller
                 'device',
                 'service',
             ])
-            ->where('id', $serviceStatusId)
+            ->where('id', $id)
             ->firstOrFail();
 
         return view('service-statuses/settings', [
@@ -64,7 +64,7 @@ class ServiceStatusController extends Controller
         ]);
     }
 
-    public function updateSettings(Request $request, $serviceStatusId)
+    public function updateSettings(Request $request, $id)
     {
         $request->validate([
             'is_mute' => ['required', 'boolean'],
@@ -75,7 +75,7 @@ class ServiceStatusController extends Controller
         $user = $request->user();
 
         $serviceStatus = $user->serviceStatuses()
-            ->where('id', $serviceStatusId)
+            ->where('id', $id)
             ->firstOrFail();
 
         $user->serviceStatuses()
@@ -117,6 +117,39 @@ class ServiceStatusController extends Controller
             'search' => $search,
             'serviceStatuses' => $serviceStatuses,
         ]);
+    }
+
+    public function edit(Request $request, $id)
+    {
+        $serviceStatus = ServiceStatus::with(['device', 'service'])
+            ->findOrFail($id);
+
+        return view('service-statuses/edit', [
+            'serviceStatus' => $serviceStatus,
+            'defaultRtd' => config('app.report_tolerance_delay'),
+        ]);
+    }
+
+    public function update(Request $request, $id)
+    {
+        $serviceStatus = ServiceStatus::findOrFail($id);
+
+        $request->validate([
+            'rtd' => ['nullable', 'integer', 'min:60'],
+        ]);
+
+        $inputs = $request->only([
+            'rtd',
+        ]);
+
+        // Status change report is scheduled every minutes
+        if (! is_null($inputs['rtd'])) {
+            $inputs['rtd'] = (int)($inputs['rtd'] / 60) * 60;
+        }
+
+        $serviceStatus->update($inputs);
+
+        return redirect()->route('service-statuses.index');
     }
 
     public function destroy(Request $request, $id)

@@ -32,6 +32,7 @@
                     <th scope="col">{{ __('app.device') }}</th>
                     <th scope="col">{{ __('app.service') }}</th>
                     <th scope="col"></th>
+                    <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
@@ -44,6 +45,11 @@
                     <td class="td-lbl">
                         <a href="{{ route('services.edit', ['service' => $serviceStatus->service->id]) }}">{{ $serviceStatus->service->label }}</a><br />
                         <small class="text-muted">{{ $serviceStatus->service->name }}</small>
+                    </td>
+                    <td class="td-btn">
+                        <a href="{{ route('service-statuses.edit', ['id' => $serviceStatus->id]) }}" class="btn btn-link">
+                            <span class="mdi mdi-18px mdi-square-edit-outline" aria-hidden="true"></span>
+                        </a>
                     </td>
                     <td class="td-btn">
                         <form method="POST" action="{{ route('service-statuses.destroy', ['id' => $serviceStatus->id]) }}">

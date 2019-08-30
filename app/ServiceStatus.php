@@ -12,6 +12,7 @@ class ServiceStatus extends Model
         'service_id',
         'status_id',
         'updated_by', // User id or NULL if scheduled task
+        'rtd',        // Report tolerance delay in seconds or NULL to use default value
         'changed_at',
     ];
 
