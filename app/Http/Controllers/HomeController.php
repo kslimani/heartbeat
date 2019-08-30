@@ -25,8 +25,8 @@ class HomeController extends Controller
         // Get user devices services statuses
         $serviceStatuses = ServiceHelper::statusesFromIdList($serviceStatusIdList)
             ->get()
-            ->sortBy('service.label')
             ->sortBy('device.label')
+            ->sortBy('service.label')
             ->each(function ($item) use (&$statuses) {
                 $item->label_tooltip = sprintf(
                     '%s - %s',
