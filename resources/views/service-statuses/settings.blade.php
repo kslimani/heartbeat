@@ -21,7 +21,7 @@
 
     <div class="mb-3"><h3>{{ __('app.settings') }}<small class="text-muted"> :: {{ $serviceStatus->service->label }} @ {{ $serviceStatus->device->label }}</small></h3></div>
 
-    <form method="POST" action="{{ route('service-statuses.update', ['id' => $serviceStatus->id]) }}">
+    <form method="POST" action="{{ route('service-statuses.update-settings', ['id' => $serviceStatus->id]) }}">
         @method('PUT')
         @csrf
         <input type="hidden" name="is_mute" value="{{ $serviceStatus->pivot->is_mute ? '1' : '0' }}">

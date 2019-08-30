@@ -47,7 +47,7 @@ class ServiceStatusController extends Controller
         ]);
     }
 
-    public function edit(Request $request, $serviceStatusId)
+    public function editSettings(Request $request, $serviceStatusId)
     {
         $serviceStatus = $request->user()
             ->serviceStatuses()
@@ -58,13 +58,13 @@ class ServiceStatusController extends Controller
             ->where('id', $serviceStatusId)
             ->firstOrFail();
 
-        return view('service-statuses/edit', [
+        return view('service-statuses/settings', [
             'serviceStatus' => $serviceStatus,
             'defaultRtd' => config('app.report_tolerance_delay'),
         ]);
     }
 
-    public function update(Request $request, $serviceStatusId)
+    public function updateSettings(Request $request, $serviceStatusId)
     {
         $request->validate([
             'is_mute' => ['required', 'boolean'],

@@ -27,7 +27,7 @@
     </div>
 
     <div class="text-center pt-3">
-        <a href="{{ route('service-statuses.edit', ['id' => $serviceStatus->id]) }}" class="btn btn-outline-primary form-control">
+        <a href="{{ route('service-statuses.edit-settings', ['id' => $serviceStatus->id]) }}" class="btn btn-outline-primary form-control">
             <span class="mdi mdi-settings"></span>{{ __('app.settings') }}
         </a>
     </div>
