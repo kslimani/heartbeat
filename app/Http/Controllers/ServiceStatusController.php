@@ -111,7 +111,8 @@ class ServiceStatusController extends Controller
 
         $serviceStatuses = $query->orderBy('devices.label')
             ->orderBy('services.label')
-            ->paginate(config('app.pagination_limit'));
+            ->paginate(config('app.pagination_limit'))
+            ->appends($request->only($searchParam));
 
         return view('service-statuses/index', [
             'search' => $search,
