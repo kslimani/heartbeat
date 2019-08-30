@@ -33,8 +33,8 @@ class Reporter
     {
         $report = new Report;
 
-        // Get report tolerance delay in seconds
-        $toleranceDelay = config('app.report_tolerance_delay');
+        // Get default report tolerance delay in seconds
+        $defaultRtd = config('app.report_tolerance_delay');
 
         // Get unhandled devices services events
         ServiceEvent::with([
@@ -47,10 +47,15 @@ class Reporter
             ->orderby('created_at', 'asc')
             ->get()
             ->groupBy('service_status_id')
-            ->each(function($serviceStatusHistory) use ($report, $toleranceDelay) {
+            ->each(function($serviceStatusHistory) use ($report, $defaultRtd) {
                 // Get first and last event from history
                 $first = $serviceStatusHistory->first();
                 $last = $serviceStatusHistory->last();
+
+                // Check for custom tolerance delay
+                $toleranceDelay = $first->serviceStatus->rtd
+                    ? $first->serviceStatus->rtd
+                    : $defaultRtd;
 
                 // Get all event id
                 $eventIds = $serviceStatusHistory->pluck('id');

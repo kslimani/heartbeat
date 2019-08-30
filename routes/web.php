@@ -24,8 +24,8 @@ Route::group(['middleware' => ['auth', 'verified', 'settings']], function () {
     Route::get('/service-events', 'ServiceEventController@index')->name('service-events.index');
 
     Route::get('/service-statuses/{id}/show', 'ServiceStatusController@show')->name('service-statuses.show');
-    Route::get('/service-statuses/{id}/edit', 'ServiceStatusController@edit')->name('service-statuses.edit');
-    Route::put('/service-statuses/{id}/show', 'ServiceStatusController@update')->name('service-statuses.update');
+    Route::get('/service-statuses/{id}/settings', 'ServiceStatusController@editSettings')->name('service-statuses.edit-settings');
+    Route::put('/service-statuses/{id}/settings', 'ServiceStatusController@updateSettings')->name('service-statuses.update-settings');
 
     Route::get('/account/settings', 'AccountController@settings')->name('account-settings');
     Route::get('/account/profile', 'AccountController@profile')->name('account-profile');
@@ -49,6 +49,8 @@ Route::group(['middleware' => ['auth', 'verified', 'admin', 'settings']], functi
     Route::delete('/users/{user}/keys/{key}', 'UserKeyController@destroy')->name('user-keys.destroy');
 
     Route::get('/service-statuses', 'ServiceStatusController@index')->name('service-statuses.index');
+    Route::get('/service-statuses/{id}/edit', 'ServiceStatusController@edit')->name('service-statuses.edit');
+    Route::put('/service-statuses/{id}/update', 'ServiceStatusController@update')->name('service-statuses.update');
     Route::get('/service-statuses/search', 'ServiceStatusController@search')->name('service-statuses.search');
     Route::delete('/service-statuses/{id}', 'ServiceStatusController@destroy')->name('service-statuses.destroy');
 
