@@ -25,16 +25,17 @@ class HomeController extends Controller
         // Get user devices services statuses
         $serviceStatuses = ServiceHelper::statusesFromIdList($serviceStatusIdList)
             ->get()
-            ->sortBy('device.label')
-            ->sortBy('service.label')
-            ->each(function ($item) use (&$statuses) {
-                $item->label_tooltip = sprintf(
+            ->sortBy(function($serviceStatus) {
+                return $serviceStatus->device->label.$serviceStatus->service->label;
+            })
+            ->each(function ($serviceStatus) use (&$statuses) {
+                $serviceStatus->label_tooltip = sprintf(
                     '%s - %s',
-                    $item->status->name,
-                    Locale::humanDuration(Utils::elapsed($item->changed_at))
+                    $serviceStatus->status->name,
+                    Locale::humanDuration(Utils::elapsed($serviceStatus->changed_at))
                 );
 
-                switch ($item->status->name) {
+                switch ($serviceStatus->status->name) {
                     case 'INACTIVE':
                         ++$statuses['INACTIVE'];
                         break;
