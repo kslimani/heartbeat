@@ -46,7 +46,7 @@
 
             <div class="col-md-6">
                 <div class="input-group mb-3">
-                    <div class="form-control rtd-control">{{ $defaultRtd }}</div>
+                    <div class="form-control rtd-control">{{ $serviceStatus->rtd ? $serviceStatus->rtd : $defaultRtd }}</div>
 
                     <div class="input-group-append">
                         <span class="input-group-text" id="rtd-unit">{{ __('app.seconds') }}</span>
