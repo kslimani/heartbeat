@@ -1,3 +1,5 @@
+![https://github.com/kslimani/heartbeat/actions](https://github.com/kslimani/heartbeat/workflows/Integration%20tests/badge.svg)
+
 # Heartbeat
 
 A simple "heartbeat" back-end application to keep track of services statuses.
