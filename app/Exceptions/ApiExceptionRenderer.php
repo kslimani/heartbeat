@@ -45,27 +45,22 @@ class ApiExceptionRenderer
     public static function render($request, Exception $exception)
     {
         if ($exception instanceof AuthenticationException) {
-
             return self::errorResponse(403);
         }
 
         if ($exception instanceof AuthorizationException) {
-
             return self::errorResponse(403);
         }
 
         if ($exception instanceof ModelNotFoundException) {
-
             return self::errorResponse(404);
         }
 
         if ($exception instanceof HttpException) {
-
             return self::errorResponse($exception->getStatusCode());
         }
 
         if ($exception instanceof ValidationException) {
-
             // FIXME: expose validation error messages ?
             return self::errorResponse(422);
         }

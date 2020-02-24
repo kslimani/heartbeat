@@ -49,7 +49,7 @@ class ServiceHelper
 
     public static function formatEvents(IteratorAggregate $events)
     {
-        $events->each(function($event) {
+        $events->each(function ($event) {
             $event->label_date = Locale::humanDatetime($event->created_at);
             $event->label_duration = Locale::humanDuration(
                 $event->elapsed ?: Utils::elapsed($event->created_at)

@@ -115,7 +115,7 @@ class UserController extends Controller
             ->orderBy('name')
             ->limit(config('app.search_limit'))
             ->get()
-            ->transform(function($user) {
+            ->transform(function ($user) {
                 // Typeahead javascript plugin expected format
                 return [
                     'id' => $user->id,

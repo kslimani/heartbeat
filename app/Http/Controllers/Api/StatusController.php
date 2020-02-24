@@ -50,13 +50,11 @@ class StatusController extends Controller
                 );
             });
         } catch (StatusException $e) {
-
             return response()->json(
                 ['error' => $e->getMessage()],
                 $e->getCode()
             );
         } catch (\Exception $e) {
-
             return response()->json(
                 ['error' => __('app.status_update_failed')],
                 500

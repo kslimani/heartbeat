@@ -46,7 +46,7 @@ class User extends Authenticatable implements MustVerifyEmail
     public function hasRole($name)
     {
         // Roles loaded once in PHP process lifecycle
-        return $this->roles->first(function($role) use ($name) {
+        return $this->roles->first(function ($role) use ($name) {
             return $role->name === $name;
         }) !== null;
     }

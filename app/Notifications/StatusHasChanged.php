@@ -48,7 +48,7 @@ class StatusHasChanged extends Notification
         $this->customize($notifiable);
 
         $changes = $this->report->userChanges($notifiable)
-            ->map(function($change) {
+            ->map(function ($change) {
                 $fmtChange = clone $change;
                 $fmtChange->date = Locale::humanDatetime(
                     $fmtChange->date,

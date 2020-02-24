@@ -97,7 +97,7 @@ class UserServiceStatusController extends Controller
         $relations = [];
 
         ServiceStatus::pluck('id')
-            ->each(function($serviceStatusId) use (&$relations, $pivots) {
+            ->each(function ($serviceStatusId) use (&$relations, $pivots) {
                 $relations[$serviceStatusId] = $pivots;
             });
 
@@ -130,7 +130,7 @@ class UserServiceStatusController extends Controller
 
             $withUser->serviceStatuses()
                 ->pluck('id')
-                ->each(function($serviceStatusId) use (&$relations, $pivots) {
+                ->each(function ($serviceStatusId) use (&$relations, $pivots) {
                     $relations[$serviceStatusId] = $pivots;
                 });
 

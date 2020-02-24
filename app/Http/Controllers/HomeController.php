@@ -25,7 +25,7 @@ class HomeController extends Controller
         // Get user devices services statuses
         $serviceStatuses = ServiceHelper::statusesFromIdList($serviceStatusIdList)
             ->get()
-            ->sortBy(function($serviceStatus) {
+            ->sortBy(function ($serviceStatus) {
                 return $serviceStatus->device->label.$serviceStatus->service->label;
             })
             ->each(function ($serviceStatus) use (&$statuses) {

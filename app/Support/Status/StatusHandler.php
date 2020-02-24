@@ -164,7 +164,7 @@ class StatusHandler
         // Attach "admin" users
         Role::byName(Role::ADMIN)
             ->users()
-            ->chunk(20, function($users) use ($settings, $serviceStatus) {
+            ->chunk(20, function ($users) use ($settings, $serviceStatus) {
                 $associations = [];
 
                 foreach ($users as $user) {
@@ -179,7 +179,7 @@ class StatusHandler
         // Attach "overseer" users
         Role::byName(Role::OVERSEER)
             ->users()
-            ->chunk(20, function($users) use ($settings, $serviceStatus) {
+            ->chunk(20, function ($users) use ($settings, $serviceStatus) {
                 $associations = [];
 
                 foreach ($users as $user) {
@@ -249,7 +249,8 @@ class StatusHandler
             }
 
             // Check if existing device service status has changed
-            if ($serviceStatus->status_id !== $status->id) {
+            // Typecast to integer because some db like sqlite return the value as string
+            if ((int) $serviceStatus->status_id !== (int) $status->id) {
                 $serviceStatus->status_id = $status->id;
                 $serviceStatus->changed_at = Carbon::now();
                 $statusHasChanged = true;

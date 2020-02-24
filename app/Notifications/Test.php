@@ -18,7 +18,7 @@ class Test extends Notification
      */
     public function __construct()
     {
-        // 
+        //
     }
 
     /**

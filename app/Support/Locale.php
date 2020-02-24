@@ -181,13 +181,13 @@ class Locale
 
         // Custom iso format is undefined
         switch ($type) {
-            case self::TYPE_DATE :
+            case self::TYPE_DATE:
                 return 'LL';
 
-            case self::TYPE_TIME :
+            case self::TYPE_TIME:
                 return 'LTS';
 
-            case self::TYPE_DATETIME_SHORT :
+            case self::TYPE_DATETIME_SHORT:
                 return 'll LT';
 
             // Defaults to DATETIME
