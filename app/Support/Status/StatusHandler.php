@@ -249,7 +249,8 @@ class StatusHandler
             }
 
             // Check if existing device service status has changed
-            if ($serviceStatus->status_id !== $status->id) {
+            // Typecast to integer because some db like sqlite return the value as string
+            if ((int) $serviceStatus->status_id !== (int) $status->id) {
                 $serviceStatus->status_id = $status->id;
                 $serviceStatus->changed_at = Carbon::now();
                 $statusHasChanged = true;
