@@ -164,7 +164,7 @@ class StatusHandler
         // Attach "admin" users
         Role::byName(Role::ADMIN)
             ->users()
-            ->chunk(20, function($users) use ($settings, $serviceStatus) {
+            ->chunk(20, function ($users) use ($settings, $serviceStatus) {
                 $associations = [];
 
                 foreach ($users as $user) {
@@ -179,7 +179,7 @@ class StatusHandler
         // Attach "overseer" users
         Role::byName(Role::OVERSEER)
             ->users()
-            ->chunk(20, function($users) use ($settings, $serviceStatus) {
+            ->chunk(20, function ($users) use ($settings, $serviceStatus) {
                 $associations = [];
 
                 foreach ($users as $user) {

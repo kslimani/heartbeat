@@ -49,7 +49,6 @@ class UserRoleController extends Controller
         // Admin role can be removed only by another admin user
         if ($request->user()->id === $user->id
             && $role->name === Role::ADMIN) {
-
             return redirect()
                 ->route('user-roles.index', ['user' => $user->id])
                 ->with('alert.danger', __('app.not_permitted'));

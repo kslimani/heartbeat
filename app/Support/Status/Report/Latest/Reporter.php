@@ -47,7 +47,7 @@ class Reporter
             ->orderby('created_at', 'asc')
             ->get()
             ->groupBy('service_status_id')
-            ->each(function($serviceStatusHistory) use ($report, $defaultRtd) {
+            ->each(function ($serviceStatusHistory) use ($report, $defaultRtd) {
                 // Get first and last event from history
                 $first = $serviceStatusHistory->first();
                 $last = $serviceStatusHistory->last();
@@ -116,7 +116,6 @@ class Reporter
     {
         // Ensure report has changes
         if ($report->changes()->isEmpty()) {
-
             return;
         }
 
@@ -125,7 +124,7 @@ class Reporter
             ->whereHas('serviceStatuses', function ($query) use ($report) {
                 $query->where('is_mute', false)->whereIn('id', $report->changesById()->keys());
             })
-            ->chunk(50, function($users) use ($report) {
+            ->chunk(50, function ($users) use ($report) {
                 foreach ($users as $user) {
                     $user->notify(new StatusHasChanged($report));
                 }

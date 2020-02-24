@@ -40,7 +40,7 @@ class Report
             ->pluck('id');
 
         // Filters changes
-        return $this->changes()->filter(function($change) use ($ids) {
+        return $this->changes()->filter(function ($change) use ($ids) {
             return $ids->contains($change->id);
         });
     }

@@ -21,7 +21,7 @@ class ServiceStatusController extends Controller
                 'device',
                 'service',
                 'status',
-            ])            
+            ])
             ->where('id', $id)
             ->firstOrFail();
 
@@ -194,7 +194,7 @@ class ServiceStatusController extends Controller
             ->orderBy('services.label')
             ->limit(config('app.search_limit'))
             ->get()
-            ->transform(function($serviceStatus) {
+            ->transform(function ($serviceStatus) {
                 // Typeahead javascript plugin expected format
                 return [
                     'id' => $serviceStatus->id,

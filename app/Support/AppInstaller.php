@@ -22,7 +22,7 @@ class AppInstaller
         collect([
             Role::ADMIN,
             Role::OVERSEER,
-        ])->each(function($name) {
+        ])->each(function ($name) {
             Role::firstOrCreate(['name' => $name]);
         });
 
@@ -82,7 +82,7 @@ class AppInstaller
             Status::INACTIVE,
             'UP',
             'DOWN',
-        ])->each(function($name) {
+        ])->each(function ($name) {
             Status::firstOrCreate(['name' => $name]);
         });
 
