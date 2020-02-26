@@ -19,7 +19,7 @@ class StatusController extends Controller
             return $this->notAuthorized();
         }
 
-        return response()->json([], 200);
+        return response()->json(null, 200);
     }
 
     public function index(Request $request)
@@ -61,6 +61,6 @@ class StatusController extends Controller
             );
         }
 
-        return response()->json([], 200);
+        return response()->json(null, 200);
     }
 }
