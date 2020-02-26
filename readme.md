@@ -2,7 +2,7 @@
 
 # Heartbeat
 
-A simple "heartbeat" back-end application to keep track of services statuses.
+A simple "heartbeat" back-end application to [keep track](docs/about.md#how-it-works) of services statuses.
 
 ## Configuration
 
@@ -17,6 +17,8 @@ php artisan hb:create-admin-user --name <ADMIN_NAME> --email <ADMIN_EMAIL> --pas
 ```
 
 Configure the [task scheduler](https://laravel.com/docs/6.x/scheduling#introduction).
+
+Adjust `.env` file [configuration variables](docs/about.md#configuration) to your needs.
 
 ## Credits
 
