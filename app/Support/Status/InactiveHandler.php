@@ -18,8 +18,8 @@ class InactiveHandler
         $inactive = Status::inactive()->id;
         $duration = config('app.status_inactive_duration');
 
-        ServiceStatus::get()
-            ->each(function ($serviceStatus) use ($inactive, $duration) {
+        ServiceStatus::chunk(200, function ($serviceStatuses) use ($inactive, $duration) {
+            foreach ($serviceStatuses as $serviceStatus) {
                 if ($serviceStatus->status_id !== $inactive) {
                     $elapsed = Utils::elapsed($serviceStatus->updated_at);
 
@@ -33,6 +33,7 @@ class InactiveHandler
                         StatusEvent::dispatch($serviceStatus);
                     }
                 }
-            });
+            }
+        });
     }
 }
