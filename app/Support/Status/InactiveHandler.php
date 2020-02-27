@@ -20,7 +20,7 @@ class InactiveHandler
 
         ServiceStatus::chunk(200, function ($serviceStatuses) use ($inactive, $duration) {
             foreach ($serviceStatuses as $serviceStatus) {
-                if ($serviceStatus->status_id !== $inactive) {
+                if (Utils::intNotEquals($serviceStatus->status_id, $inactive)) {
                     $elapsed = Utils::elapsed($serviceStatus->updated_at);
 
                     // Set service status to "inactive"

@@ -61,7 +61,7 @@ class Reporter
                 $eventIds = $serviceStatusHistory->pluck('id');
 
                 // Check if service status has not changed
-                if ($first->from_status_id === $last->to_status_id) {
+                if (Utils::intEquals($first->from_status_id, $last->to_status_id)) {
                     // Mark all events has "handled"
                     self::markAsHandled($eventIds);
 

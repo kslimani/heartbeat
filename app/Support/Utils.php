@@ -46,4 +46,29 @@ class Utils
     {
         return AppStore::get(self::ALL_DEVICES_MUTED) === true;
     }
+
+    /**
+     * Check if two values does not equals as integer.
+     * (some DB engine may return integer value as string)
+     *
+     * @param  mixed  $intA
+     * @param  mixed  $intB
+     * @return bool
+     */
+    public static function intNotEquals($intA, $intB)
+    {
+        return (int) $intA !== (int) $intB;
+    }
+
+    /**
+     * Check if two values equals as integer.
+     *
+     * @param  mixed  $intA
+     * @param  mixed  $intB
+     * @return bool
+     */
+    public static function intEquals($intA, $intB)
+    {
+        return !self::intNotEquals($intA, $intB);
+    }
 }
