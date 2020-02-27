@@ -17,11 +17,11 @@ External HTTP client role is to [refresh service status](api.md#device-service-s
 
 The default _known_ statuses are "UP", "DOWN" and "INACTIVE". (default is "INACTIVE")
 
-When Heartbeat detect that a service status has changed, it does not notify associated users until elapsed time since change is greater than "report tolerance delay".
+When Heartbeat detect that a service status has changed, it write service event in history and it notify users __only__ if elapsed time since change is greater than _"report tolerance delay"_.
 
-If a service status is set back to previous status before "report tolerance delay" is elapsed, then no notification are send to associated users.
+If a service status is set back to previous status before _"report tolerance delay"_ is elapsed, then no notification are send to associated users.
 
-If a service status in not refreshed since a "status inactive duration" then status is changed to "INACTIVE".
+If a service status is not refreshed since _"status inactive duration"_ then status is changed to "INACTIVE".
 
 
 ## Configuration
@@ -41,6 +41,8 @@ _(APP)_
 * `PAGINATE_LIMIT` : pagination limit (default is 10)
 * `SEARCH_LIMIT` : search result limit (default is 15)
 
+
+Note: setting Laravel `APP_DEBUG` to true enable debug log messages.
 
 ## User roles
 
