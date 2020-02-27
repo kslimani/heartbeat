@@ -8,6 +8,7 @@ use App\ServiceStatus;
 use App\Status;
 use App\Support\Utils;
 use App\User;
+use Illuminate\Support\Facades\Log;
 
 class Reporter
 {
@@ -16,17 +17,23 @@ class Reporter
     public static function report()
     {
         self::$handled = collect();
+        $notified = 0;
 
         // Make report
         $report = self::make();
 
         // Notify users (unless all devices are muted)
         if (! Utils::allDeviceMuted()) {
-            self::notify($report);
+            $notified = self::notify($report);
         }
+
+        // Log notified users count only if debug is enabled
+        config('app.debug') && Log::debug(sprintf('[Reporter] %s user(s) notified', $notified));
 
         // Set all marked events has handled
         self::setEventsAsHandled();
+
+        return $notified;
     }
 
     public static function make()
@@ -61,7 +68,7 @@ class Reporter
                 $eventIds = $serviceStatusHistory->pluck('id');
 
                 // Check if service status has not changed
-                if ($first->from_status_id === $last->to_status_id) {
+                if (Utils::intEquals($first->from_status_id, $last->to_status_id)) {
                     // Mark all events has "handled"
                     self::markAsHandled($eventIds);
 
@@ -114,9 +121,11 @@ class Reporter
 
     public static function notify(Report $report)
     {
+        $notified = 0;
+
         // Ensure report has changes
         if ($report->changes()->isEmpty()) {
-            return;
+            return $notified;
         }
 
         // Notify changes to users
@@ -124,10 +133,13 @@ class Reporter
             ->whereHas('serviceStatuses', function ($query) use ($report) {
                 $query->where('is_mute', false)->whereIn('id', $report->changesById()->keys());
             })
-            ->chunk(50, function ($users) use ($report) {
+            ->chunk(50, function ($users) use ($report, &$notified) {
                 foreach ($users as $user) {
                     $user->notify(new StatusHasChanged($report));
+                    ++$notified;
                 }
             });
+
+        return $notified;
     }
 }

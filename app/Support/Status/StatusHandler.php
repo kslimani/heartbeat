@@ -7,6 +7,7 @@ use App\Role;
 use App\Service;
 use App\ServiceStatus;
 use App\Status;
+use App\Support\Utils;
 use App\User;
 use Illuminate\Support\Carbon;
 
@@ -249,8 +250,7 @@ class StatusHandler
             }
 
             // Check if existing device service status has changed
-            // Typecast to integer because some db like sqlite return the value as string
-            if ((int) $serviceStatus->status_id !== (int) $status->id) {
+            if (Utils::intNotEquals($serviceStatus->status_id, $status->id)) {
                 $serviceStatus->status_id = $status->id;
                 $serviceStatus->changed_at = Carbon::now();
                 $statusHasChanged = true;
@@ -274,7 +274,10 @@ class StatusHandler
         }
 
         if ($statusHasChanged) {
-            StatusEvent::dispatch($serviceStatus);
+            $event = StatusEvent::dispatch($serviceStatus);
+
+            // Log service event only if debug is enabled
+            config('app.debug') && Utils::logServiceEvent($event);
         }
 
         return $serviceStatus;

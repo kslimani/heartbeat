@@ -54,16 +54,18 @@ class ReporterTest extends TestCase
 
         // 13h01 : run report
         Carbon::setTestNow($fakeNow->addMinutes(1));
-        $report = Reporter::report();
+        $notified = Reporter::report();
 
         // No user notified yet because only one minute elapsed since status change
+        $this->assertEquals(0, $notified);
         Notification::assertNothingSent();
 
         // 13h03 : run report
         Carbon::setTestNow($fakeNow->addMinutes(2));
-        $report = Reporter::report();
+        $notified = Reporter::report();
 
         // All users notified
+        $this->assertEquals(4, $notified);
         Notification::assertSentTo([$admin, $overseer, $user1, $user2], StatusHasChanged::class, function ($notification) {
             return $notification->report->changes()->count() === 3;
         });
@@ -86,9 +88,10 @@ class ReporterTest extends TestCase
 
         // 13h05 : run report
         Carbon::setTestNow($fakeNow->addMinute());
-        $report = Reporter::report();
+        $notified = Reporter::report();
 
         // No user notified and event is not handled yet
+        $this->assertEquals(0, $notified);
         Notification::assertNothingSent();
         $this->assertDatabaseHas('service_events', [
             'is_handled' => false,
@@ -104,9 +107,10 @@ class ReporterTest extends TestCase
 
         // 13h07 : run report
         Carbon::setTestNow($fakeNow->addMinutes(1));
-        $report = Reporter::report();
+        $notified = Reporter::report();
 
         // No user notified (service back to UP before tolerance delay)
+        $this->assertEquals(0, $notified);
         Notification::assertNothingSent();
         // Event is handled
         $this->assertDatabaseMissing('service_events', [
@@ -126,9 +130,10 @@ class ReporterTest extends TestCase
 
         // 13h11 : run report
         Carbon::setTestNow($fakeNow->addMinutes(3));
-        $report = Reporter::report();
+        $notified = Reporter::report();
 
         // Admin, Overseer and user2 notified
+        $this->assertEquals(3, $notified);
         Notification::assertSentTo([$admin, $overseer, $user2], StatusHasChanged::class, function ($notification) {
             return $notification->report->changes()->count() === 1;
         });
