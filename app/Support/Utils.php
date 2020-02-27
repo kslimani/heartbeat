@@ -2,7 +2,9 @@
 
 namespace App\Support;
 
+use App\ServiceEvent;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class Utils
 {
@@ -70,5 +72,25 @@ class Utils
     public static function intEquals($intA, $intB)
     {
         return !self::intNotEquals($intA, $intB);
+    }
+
+    /**
+     * Log a service event as a debug message to the logs.
+     *
+     * @param  \App\ServiceEvent  $event
+     * @return void
+     */
+    public static function logServiceEvent(ServiceEvent $event)
+    {
+        Log::debug(sprintf(
+            '[%s @ %s] %s %s %s %s %s',
+            $event->serviceStatus->service->label,
+            $event->serviceStatus->device->label,
+            __('app.status_changed'),
+            __('app.from'),
+            $event->fromStatus->name,
+            __('app.to'),
+            $event->toStatus->name
+        ));
     }
 }

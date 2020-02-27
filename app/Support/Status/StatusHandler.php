@@ -274,7 +274,10 @@ class StatusHandler
         }
 
         if ($statusHasChanged) {
-            StatusEvent::dispatch($serviceStatus);
+            $event = StatusEvent::dispatch($serviceStatus);
+
+            // Log service event only if debug is enabled
+            config('app.debug') && Utils::logServiceEvent($event);
         }
 
         return $serviceStatus;

@@ -17,8 +17,9 @@ class InactiveHandler
     {
         $inactive = Status::inactive()->id;
         $duration = config('app.status_inactive_duration');
+        $debug = config('app.debug');
 
-        ServiceStatus::chunk(200, function ($serviceStatuses) use ($inactive, $duration) {
+        ServiceStatus::chunk(200, function ($serviceStatuses) use ($inactive, $duration, $debug) {
             foreach ($serviceStatuses as $serviceStatus) {
                 if (Utils::intNotEquals($serviceStatus->status_id, $inactive)) {
                     $elapsed = Utils::elapsed($serviceStatus->updated_at);
@@ -30,7 +31,10 @@ class InactiveHandler
                         $serviceStatus->save();
 
                         // Status has changed
-                        StatusEvent::dispatch($serviceStatus);
+                        $event = StatusEvent::dispatch($serviceStatus);
+
+                        // Log service event only if debug is enabled
+                        $debug && Utils::logServiceEvent($event);
                     }
                 }
             }
