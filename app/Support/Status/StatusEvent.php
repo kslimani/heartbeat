@@ -22,11 +22,8 @@ class StatusEvent
             ->first();
 
         if ($latest) {
-            // Expects service status has changed
-            $hasChanged = Utils::intNotEquals($latest->to_status_id, $serviceStatus->status_id);
-
             // Prevents event creation if status has not changed
-            if (! $hasChanged) {
+            if (Utils::intEquals($latest->to_status_id, $serviceStatus->status_id)) {
                 return $latest;
             }
 
