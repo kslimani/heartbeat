@@ -26,14 +26,15 @@
         </whitelist>
     </filter>
     <php>
+        <server name="APP_DEBUG" value="false"/>
         <server name="APP_ENV" value="testing"/>
+        <server name="APP_KEY" value="base64:7MrY2cIPXkD8ROBw/J4iXcsz8IaG9gIz4+ZqxjmX1Xg="/>
         <server name="BCRYPT_ROUNDS" value="4"/>
         <server name="CACHE_DRIVER" value="array"/>
+        <server name="DB_CONNECTION" value="sqlite"/>
+        <server name="DB_DATABASE" value=":memory:"/>
         <server name="MAIL_DRIVER" value="array"/>
         <server name="QUEUE_CONNECTION" value="sync"/>
         <server name="SESSION_DRIVER" value="array"/>
-        <server name="APP_KEY" value="base64:7MrY2cIPXkD8ROBw/J4iXcsz8IaG9gIz4+ZqxjmX1Xg="/>
-        <server name="DB_CONNECTION" value="sqlite"/>
-        <server name="DB_DATABASE" value=":memory:"/>
     </php>
 </phpunit>
