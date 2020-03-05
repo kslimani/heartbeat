@@ -2,6 +2,7 @@
 
 # @lang('app.services_statuses')
 
+
 @component('mail::report-statuses', ['statuses' => $statuses])
 @endcomponent
 
