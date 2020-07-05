@@ -52,7 +52,6 @@ class InactiveHandlerTest extends TestCase
         // Mock inactivity period
         $duration = config('app.status_inactive_duration');
         Carbon::setTestNow($fakeNow->addSeconds($duration));
-
         InactiveHandler::handle();
 
         // Service status set to "inactive"
@@ -60,6 +59,7 @@ class InactiveHandlerTest extends TestCase
             'device_id' => $device->id,
             'service_id' => $service->id,
             'status_id' => $inactive->id,
+            'changed_at' => $fakeNow->toDateTimeString(),
         ]);
 
         // Event added to service history
