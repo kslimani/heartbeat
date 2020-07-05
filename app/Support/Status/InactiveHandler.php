@@ -5,6 +5,7 @@ namespace App\Support\Status;
 use App\ServiceStatus;
 use App\Status;
 use App\Support\Utils;
+use Illuminate\Support\Carbon;
 
 class InactiveHandler
 {
@@ -28,6 +29,7 @@ class InactiveHandler
                     if ($elapsed >= $duration) {
                         $serviceStatus->status_id = $inactive;
                         $serviceStatus->updated_by = null;
+                        $serviceStatus->changed_at = Carbon::now();
                         $serviceStatus->save();
 
                         // Status has changed
