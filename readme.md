@@ -1,4 +1,4 @@
-![](https://github.com/kslimani/heartbeat/workflows/Integration%20tests/badge.svg)
+![](https://github.com/kslimani/heartbeat/workflows/Integration%20tests/badge.svg) [![MIT license](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 # Heartbeat
 
@@ -25,3 +25,7 @@ Finally adjust `.env` file [configuration variables](docs/about.md#configuration
 This project is made with [Laravel](https://laravel.com/) PHP framework, [Bootstrap](https://getbootstrap.com/), [Bootstrap 4 Toggle](https://github.com/gitbrent/bootstrap4-toggle) libraries and [Material Design](https://materialdesignicons.com/) icons.
 
 Heartbeat logo made by [Good Ware](https://www.flaticon.com/authors/good-ware) from [Flaticon](https://www.flaticon.com) is licensed by [CC 3.0 BY](https://creativecommons.org/licenses/by/3.0/).
+
+## License
+
+The MIT License (MIT). Please see [License File](LICENSE) for more information.
