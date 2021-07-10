@@ -80,5 +80,5 @@ Content : `{"error":"Forbidden"}`
 __Example :__
 
 ```shell
-curl -v -X POST -H "Content-Type: application/json" --data '{"XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX"}, "device":"my-host", "service":"my-service", "status":"up"}' "https://hb.example.com/api/status"
+curl -v -X POST -H "Content-Type: application/json" --data '{"XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX-XXXX", "device":"my-host", "service":"my-service", "status":"up"}' "https://hb.example.com/api/status"
 ```
